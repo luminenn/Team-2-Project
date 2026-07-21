@@ -5,7 +5,7 @@ export type PocrSection =
   | 'Section 4' 
   | 'Accessibility Verification';
 
-export type AlignmentStatus = 'Aligned' | 'Approaching' | 'Incomplete';
+export type AlignmentStatus = 'Incomplete' | 'Approaching' | 'Aligned' | 'Exceptional';
 
 export interface CoursePage {
   id: string;
@@ -57,7 +57,8 @@ export interface PocrRubricItem {
   standardCode: string; // e.g., "1.1", "2.1", "A11Y-ALT"
   title: string;
   description: string;
-  officialGuidance: string;
+  alignedCriteria: string;
+  exceptionalCriteria: string;
 }
 
 export interface AffectedItem {
@@ -80,6 +81,7 @@ export interface EvaluationResult {
   remediationText: string;
   remediationCode?: string;
   autoFixAvailable: boolean;
+  exceptionalGuidance?: string;
 }
 
 export interface CourseAuditReport {
@@ -93,5 +95,6 @@ export interface CourseAuditReport {
   alignedCount: number;
   approachingCount: number;
   incompleteCount: number;
+  exceptionalCount: number;
   evaluations: EvaluationResult[];
 }

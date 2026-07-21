@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { EvaluationResult } from '@/types/pocr';
-import { X, Copy, Check, Sparkles, BookOpen, AlertCircle, Wrench, FileCode, CheckCircle2, AlertTriangle, XCircle } from 'lucide-react';
+import { X, Copy, Check, Sparkles, BookOpen, FileCode, CheckCircle2, AlertTriangle, XCircle, Award } from 'lucide-react';
 
 interface InspectorPanelProps {
   evaluation: EvaluationResult | null;
@@ -30,6 +30,12 @@ export const InspectorPanel: React.FC<InspectorPanelProps> = ({
 
   const getStatusBadge = () => {
     switch (evaluation.status) {
+      case 'Exceptional':
+        return (
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-purple-500/15 text-purple-300 border border-purple-500/40">
+            <Award className="w-4 h-4 text-purple-400" /> Exceptional
+          </span>
+        );
       case 'Aligned':
         return (
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
@@ -52,7 +58,7 @@ export const InspectorPanel: React.FC<InspectorPanelProps> = ({
   };
 
   return (
-    <aside className="w-full lg:w-[480px] shrink-0 glass-panel border-l border-slate-800 h-full flex flex-col overflow-hidden animate-in slide-in-from-right duration-200">
+    <aside className="w-full lg:w-[500px] shrink-0 glass-panel border-l border-slate-800 h-full flex flex-col overflow-hidden animate-in slide-in-from-right duration-200">
       
       {/* Header */}
       <div className="p-5 border-b border-slate-800 flex items-center justify-between gap-3 bg-slate-900/60">
@@ -114,10 +120,10 @@ export const InspectorPanel: React.FC<InspectorPanelProps> = ({
         </button>
       </div>
 
-      {/* Main Inspector Scroll Area */}
+      {/* Scrollable Content */}
       <div className="flex-1 overflow-y-auto p-5 space-y-6">
         
-        {/* Status & Summary Card */}
+        {/* Status & Summary */}
         <div className="glass-card rounded-2xl p-4 border border-slate-800 space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-xs font-mono font-semibold uppercase tracking-wider text-slate-400">
@@ -130,7 +136,7 @@ export const InspectorPanel: React.FC<InspectorPanelProps> = ({
           </p>
         </div>
 
-        {/* Tab Content 1: Remediation Text */}
+        {/* Tab 1: AI Remediation */}
         {activeTab === 'remediation' && (
           <div className="space-y-4">
             <div className="flex items-center justify-between">
@@ -157,7 +163,7 @@ export const InspectorPanel: React.FC<InspectorPanelProps> = ({
           </div>
         )}
 
-        {/* Tab Content 2: HTML Code Fix */}
+        {/* Tab 2: HTML Fix */}
         {activeTab === 'code' && evaluation.remediationCode && (
           <div className="space-y-4">
             <div className="flex items-center justify-between">
@@ -184,47 +190,22 @@ export const InspectorPanel: React.FC<InspectorPanelProps> = ({
           </div>
         )}
 
-        {/* Tab Content 3: CVC Guidance */}
+        {/* Tab 3: Official CVC Rubric Guidance */}
         {activeTab === 'guidance' && (
           <div className="space-y-4">
             <h4 className="text-xs font-semibold text-slate-200 flex items-center gap-2">
               <BookOpen className="w-4 h-4 text-blue-400" />
-              Official June 2026 CCC POCR Standard Guidance
-            </h4>
-            <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 text-xs text-slate-300 leading-relaxed">
-              Official CCC CVC rubric requirement: Ensure course materials provide transparent instructional scaffolding, equitable learning access, and full WCAG 2.1 AA accessibility compliance.
-            </div>
-          </div>
-        )}
-
-        {/* Affected Canvas Items Breakdown */}
-        {evaluation.affectedItems.length > 0 && (
-          <div className="space-y-3 pt-2">
-            <h4 className="text-xs font-mono font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-2">
-              <AlertCircle className="w-4 h-4 text-amber-400" />
-              Impacted Canvas Items ({evaluation.affectedItems.length})
+              June 2027 CCC POCR Official Rubric Criteria
             </h4>
 
-            <div className="space-y-2">
-              {evaluation.affectedItems.map((item, idx) => (
-                <div key={idx} className="p-3 rounded-xl bg-slate-900 border border-slate-800 space-y-1.5">
-                  <div className="flex items-center justify-between text-xs font-semibold text-slate-200">
-                    <span>{item.title}</span>
-                    <span className="text-[10px] text-slate-500 font-mono">{item.location}</span>
-                  </div>
-                  {item.issueType && (
-                    <p className="text-xs text-rose-300 font-medium">
-                      • {item.issueType}
-                    </p>
-                  )}
-                  {item.snippet && (
-                    <div className="p-2 rounded bg-slate-950 font-mono text-[11px] text-slate-400 border border-slate-850 overflow-x-auto">
-                      <code>{item.snippet}</code>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
+            {evaluation.exceptionalGuidance && (
+              <div className="p-4 rounded-2xl bg-purple-500/10 border border-purple-500/30 text-xs text-purple-200 space-y-1.5">
+                <span className="font-bold text-purple-300 block flex items-center gap-1.5">
+                  <Award className="w-4 h-4" /> Exceptional Level Standard:
+                </span>
+                <p className="leading-relaxed">{evaluation.exceptionalGuidance}</p>
+              </div>
+            )}
           </div>
         )}
 

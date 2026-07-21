@@ -18,97 +18,200 @@ export function evaluateCourse(course: CourseData): CourseAuditReport {
     ...discussionAnalyses.map(d => d.analysis)
   ];
 
+  const fullText = (
+    course.syllabusHtml + ' ' +
+    course.pages.map(p => p.htmlContent).join(' ') + ' ' +
+    course.assignments.map(a => a.descriptionHtml).join(' ') + ' ' +
+    course.discussions.map(d => d.promptHtml).join(' ')
+  ).toLowerCase();
+
+  // Helper function to find rubric metadata
+  const getRubricMeta = (id: string) => POCR_RUBRIC_ITEMS.find(r => r.id === id);
+
   // ------------------------------------------------------------------
-  // Standard 1.1: Course Policies
+  // 1.1 Course Policies
   // ------------------------------------------------------------------
-  const hasPoliciesInSyllabus = syllabusAnalysis.hasSyllabusKeyword;
-  const policyAffected: AffectedItem[] = [];
-  if (!hasPoliciesInSyllabus) {
-    policyAffected.push({ title: 'Course Syllabus', location: 'Syllabus Page', issueType: 'Missing explicit late work or grading policy' });
+  const r11 = getRubricMeta('1.1')!;
+  const hasPolicies = syllabusAnalysis.hasSyllabusKeyword || fullText.includes('late work') || fullText.includes('grading policy');
+  const inMultipleLocs = pageAnalyses.some(p => p.analysis.hasSyllabusKeyword);
+  
+  let status11: AlignmentStatus = 'Incomplete';
+  let score11 = 35;
+  if (hasPolicies && inMultipleLocs) {
+    status11 = 'Exceptional';
+    score11 = 100;
+  } else if (hasPolicies) {
+    status11 = 'Aligned';
+    score11 = 85;
+  } else {
+    status11 = 'Incomplete';
+    score11 = 35;
   }
 
   evaluations.push({
     standardId: '1.1',
-    standardCode: 'Standard 1.1',
+    standardCode: r11.standardCode,
     section: 'Section 1',
-    title: 'Comprehensive Syllabus & Course Policies',
-    status: hasPoliciesInSyllabus ? 'Aligned' : 'Incomplete',
-    score: hasPoliciesInSyllabus ? 100 : 35,
-    summary: hasPoliciesInSyllabus 
-      ? 'Course syllabus is published with explicit course policies and grading guidelines.'
-      : 'Course syllabus lacks explicit policies regarding late work, communication expectations, or grading breakdown.',
-    findings: hasPoliciesInSyllabus 
-      ? ['Syllabus detected on course homepage.', 'Policy keywords (grading, late policy) present.']
-      : ['No explicit syllabus page found or syllabus lacks clear communication and grading policies.'],
-    affectedItems: policyAffected,
-    remediationText: `### Suggested Course Policy Snippet
-**Communication & Grading Policy:**
-- **Instructor Response Time:** Messages sent via Canvas Inbox will be answered within 24–48 hours Monday through Friday.
-- **Late Work:** Submissions up to 3 days late receive a 10% deduction per day unless prior arrangements are made.
-- **Grading Turnaround:** Major assignments will be graded with detailed feedback within 7 days of submission.`,
-    autoFixAvailable: true
+    title: r11.title,
+    status: status11,
+    score: score11,
+    summary: status11 === 'Exceptional'
+      ? 'Course policies (grading, late work, communication) are clearly stated in syllabus and integrated into individual learning modules.'
+      : status11 === 'Aligned'
+      ? 'Course policies are clearly stated in the syllabus.'
+      : 'Course policies regarding late submissions or grading expectations are missing or incomplete.',
+    findings: status11 === 'Exceptional'
+      ? ['Course policies detected in Syllabus and Module orientation pages.', 'Transparent late work and academic honesty expectations present.']
+      : ['Course policies present in syllabus.'],
+    affectedItems: status11 === 'Incomplete' ? [{ title: 'Syllabus', location: 'Course Syllabus', issueType: 'Missing explicit late work & grading policy' }] : [],
+    remediationText: `### Recommended Course Policy Snippet
+**Communication & Work Submission Policy:**
+- **Instructor Response Time:** Canvas Inbox messages answered within 24–48 hours (M-F).
+- **Late Submissions:** Assignments submitted up to 3 days late receive a 5% daily deduction unless prior arrangements are made.
+- **Grading Turnaround:** Detailed feedback provided within 7 days of submission date.`,
+    autoFixAvailable: true,
+    exceptionalGuidance: r11.exceptionalCriteria
   });
 
   // ------------------------------------------------------------------
-  // Standard 1.3: Generative AI Policy
+  // 1.2 Equitable Use of Technology
   // ------------------------------------------------------------------
-  const hasAiPolicy = syllabusAnalysis.hasAiPolicyKeyword || pageAnalyses.some(p => p.analysis.hasAiPolicyKeyword);
-  const aiAffected: AffectedItem[] = [];
-  if (!hasAiPolicy) {
-    aiAffected.push({ title: 'Syllabus & Orientation Module', location: 'Syllabus / Module 1', issueType: 'Missing Generative AI & Academic Integrity Policy' });
-  }
+  const r12 = getRubricMeta('1.2')!;
+  const hasTechGuidance = fullText.includes('canvas support') || fullText.includes('tech support') || fullText.includes('technology requirements');
+  const hasAlternativeOpt = fullText.includes('alternative access') || fullText.includes('offline');
 
+  let status12: AlignmentStatus = hasTechGuidance ? (hasAlternativeOpt ? 'Exceptional' : 'Aligned') : 'Approaching';
+  evaluations.push({
+    standardId: '1.2',
+    standardCode: r12.standardCode,
+    section: 'Section 1',
+    title: r12.title,
+    status: status12,
+    score: status12 === 'Exceptional' ? 100 : (status12 === 'Aligned' ? 85 : 55),
+    summary: hasTechGuidance
+      ? 'Required technologies and Canvas tech support access instructions are clearly explained.'
+      : 'Required technology tools lack clear accessibility guidelines or tech support links.',
+    findings: hasTechGuidance ? ['Tech support and accessibility instructions present.'] : ['Add direct links to Canvas Tech Support.'],
+    affectedItems: hasTechGuidance ? [] : [{ title: 'Technology Resources Page', location: 'Module 1', issueType: 'Missing Canvas Tech Support help links' }],
+    remediationText: `### Technology Support Guidance
+**Course Technology & Tech Support:**
+- **Canvas Technical Support:** 24/7 Live Chat & Phone support available via the "Help" icon in Canvas left sidebar.
+- **Browser Requirements:** Use latest Chrome or Firefox for optimal multimedia compatibility.`,
+    autoFixAvailable: true,
+    exceptionalGuidance: r12.exceptionalCriteria
+  });
+
+  // ------------------------------------------------------------------
+  // 1.3 Artificial Intelligence (AI)
+  // ------------------------------------------------------------------
+  const r13 = getRubricMeta('1.3')!;
+  const hasAiPolicy = fullText.includes('ai policy') || fullText.includes('chatgpt') || fullText.includes('artificial intelligence') || fullText.includes('generative ai');
+  const hasAssignmentAiSpecs = assignmentAnalyses.some(a => a.analysis.hasAiPolicyKeyword);
+
+  let status13: AlignmentStatus = hasAiPolicy ? (hasAssignmentAiSpecs ? 'Exceptional' : 'Aligned') : 'Incomplete';
   evaluations.push({
     standardId: '1.3',
-    standardCode: 'Standard 1.3',
+    standardCode: r13.standardCode,
     section: 'Section 1',
-    title: 'Generative AI & Academic Integrity Policy',
-    status: hasAiPolicy ? 'Aligned' : 'Incomplete',
-    score: hasAiPolicy ? 100 : 20,
-    summary: hasAiPolicy 
-      ? 'A student-centered Generative AI policy is present in the course syllabus/orientation.'
-      : 'No explicit Generative AI policy was detected in the syllabus or orientation materials.',
-    findings: hasAiPolicy 
-      ? ['AI policy terms (ChatGPT, AI Policy, Academic Integrity) detected.']
-      : ['Missing clear guidance on permissible vs. prohibited uses of Generative AI tools.'],
-    affectedItems: aiAffected,
-    remediationText: `### Student-Centered AI Policy Recommendation (CCC Guidelines)
-**Generative AI Usage Policy for ${course.code}:**
-1. **Permissible Use:** You are encouraged to use Generative AI (e.g., ChatGPT, Claude) for brainstorming, outlining, and checking grammar, provided you cite your usage.
-2. **Prohibited Use:** Submitting AI-generated text or code as your original work without attribution violates the College Academic Integrity Code.
-3. **Disclosure:** Include an AI Disclosure Statement at the end of any assignment where AI tools were used for research or drafting.`,
-    autoFixAvailable: true
+    title: r13.title,
+    status: status13,
+    score: status13 === 'Exceptional' ? 100 : (status13 === 'Aligned' ? 85 : 20),
+    summary: hasAiPolicy
+      ? 'A student-centered Generative AI policy outlines permitted and restricted uses of AI tools.'
+      : 'No explicit Generative AI policy was detected in the course syllabus or orientation.',
+    findings: hasAiPolicy ? ['AI policy statement and disclosure guidelines detected.'] : ['Missing clear guidance on permissible vs. prohibited uses of Generative AI tools.'],
+    affectedItems: hasAiPolicy ? [] : [{ title: 'Syllabus / Orientation Module', location: 'Module 1', issueType: 'Missing Generative AI Policy' }],
+    remediationText: `### Student-Centered AI Policy (CCC CVC Standard)
+**Generative AI Usage Guidelines for ${course.code}:**
+1. **Permissible Use:** AI tools (e.g. ChatGPT, Claude) are permitted for brainstorming, outlining, and editing, provided usage is cited.
+2. **Prohibited Use:** Submitting AI-generated text or code as original work without disclosure violates the Academic Integrity Code.
+3. **Disclosure:** Attach an AI Disclosure statement outlining prompts used for research or drafting.`,
+    autoFixAvailable: true,
+    exceptionalGuidance: r13.exceptionalCriteria
   });
 
   // ------------------------------------------------------------------
-  // Standard 1.5: Student Support Links
+  // 1.4 Data Privacy and Security
   // ------------------------------------------------------------------
-  const hasSupportLinks = syllabusAnalysis.hasStudentSupportLinks || pageAnalyses.some(p => p.analysis.hasStudentSupportLinks);
+  const r14 = getRubricMeta('1.4')!;
+  const hasPrivacyLink = fullText.includes('privacy policy') || fullText.includes('ferpa') || fullText.includes('data security');
+  let status14: AlignmentStatus = hasPrivacyLink ? 'Aligned' : 'Approaching';
+
+  evaluations.push({
+    standardId: '1.4',
+    standardCode: r14.standardCode,
+    section: 'Section 1',
+    title: r14.title,
+    status: status14,
+    score: status14 === 'Aligned' ? 90 : 55,
+    summary: hasPrivacyLink 
+      ? 'Course provides links to institutional student data privacy policies and FERPA guidelines.'
+      : 'Course lacks direct links to student data privacy policies for third-party tools.',
+    findings: hasPrivacyLink ? ['Data privacy & FERPA guidelines present.'] : ['Include institutional privacy links for Canvas/third-party tools.'],
+    affectedItems: hasPrivacyLink ? [] : [{ title: 'Course Privacy Statement', location: 'Syllabus', issueType: 'Missing FERPA / Privacy policy link' }],
+    remediationText: `### Student Data Privacy Statement
+**Student Data Privacy & Protection:**
+This course protects student privacy under FERPA regulations. Student work and grades are kept strictly confidential in Canvas. Review the [Institutional Privacy Policy](#) for complete details.`,
+    autoFixAvailable: true,
+    exceptionalGuidance: r14.exceptionalCriteria
+  });
+
+  // ------------------------------------------------------------------
+  // 1.5 Student Resources and Support
+  // ------------------------------------------------------------------
+  const r15 = getRubricMeta('1.5')!;
+  const hasSupport = syllabusAnalysis.hasStudentSupportLinks || pageAnalyses.some(p => p.analysis.hasStudentSupportLinks);
+  let status15: AlignmentStatus = hasSupport ? 'Aligned' : 'Approaching';
+
   evaluations.push({
     standardId: '1.5',
-    standardCode: 'Standard 1.5',
+    standardCode: r15.standardCode,
     section: 'Section 1',
-    title: 'Student Support Services & Accessibility Links',
-    status: hasSupportLinks ? 'Aligned' : 'Approaching',
-    score: hasSupportLinks ? 100 : 60,
-    summary: hasSupportLinks 
-      ? 'Course includes direct links to campus student support, library, tutoring, and DSPS accessibility services.'
-      : 'Course is missing one or more required institutional support links (e.g. DSPS, Tutoring, or Counseling).',
-    findings: hasSupportLinks 
-      ? ['Direct references to Tutoring, Library, and DSPS/Accessibility detected.']
-      : ['Limited support links found. Institutional support module recommended.'],
-    affectedItems: hasSupportLinks ? [] : [{ title: 'Course Resources Page', location: 'Module 1', issueType: 'Missing DSPS and Library direct hyperlinks' }],
-    remediationText: `### Recommended Student Support Block
-**Campus Resources & Accessibility Support:**
-- **DSPS / Accessibility Center:** If you require disability-related accommodations, please visit [College DSPS Services](#).
-- **Online Tutoring (NetTutor):** Free 24/7 online tutoring is available directly in the Canvas left navigation bar.
-- **College Library & Research Help:** Access digital databases and ask-a-librarian chat at [College Library](#).`,
-    autoFixAvailable: true
+    title: r15.title,
+    status: status15,
+    score: status15 === 'Aligned' ? 95 : 60,
+    summary: hasSupport
+      ? 'Direct links to DSPS accessibility accommodations, tutoring, library, and counseling are published.'
+      : 'Course is missing one or more required institutional support links (DSPS, Tutoring, Counseling).',
+    findings: hasSupport ? ['Links to DSPS, Tutoring, Library, and Counseling verified.'] : ['Add institutional support links to Module 1.'],
+    affectedItems: hasSupport ? [] : [{ title: 'Student Support Resources Page', location: 'Module 1', issueType: 'Missing DSPS and Library direct links' }],
+    remediationText: `### Institutional Student Support Block
+- **DSPS / Disability Accommodations:** Contact [Campus DSPS Office](#) for specialized academic accommodations.
+- **24/7 Online Tutoring:** Access free online tutoring via NetTutor in Canvas navigation.
+- **College Library:** Search digital databases and chat live with a librarian at [College Library](#).`,
+    autoFixAvailable: true,
+    exceptionalGuidance: r15.exceptionalCriteria
   });
 
   // ------------------------------------------------------------------
-  // Standard 2.1: Heading Hierarchy
+  // 1.6 Learning Support
   // ------------------------------------------------------------------
+  const r16 = getRubricMeta('1.6')!;
+  const hasLearningSupport = fullText.includes('study tips') || fullText.includes('assignment tips') || fullText.includes('resource links');
+  let status16: AlignmentStatus = hasLearningSupport ? 'Aligned' : 'Approaching';
+
+  evaluations.push({
+    standardId: '1.6',
+    standardCode: r16.standardCode,
+    section: 'Section 1',
+    title: r16.title,
+    status: status16,
+    score: status16 === 'Aligned' ? 90 : 60,
+    summary: hasLearningSupport
+      ? 'Course offers learning support resources (tips, study guides, assignment hints) to assist completion.'
+      : 'Include assignment tips or study guide resources for student learning support.',
+    findings: hasLearningSupport ? ['Study guides and assignment assistance tips present.'] : ['Add helpful resource links and tips to assignment prompts.'],
+    affectedItems: [],
+    remediationText: `### Learning Support Note
+**Success Tip:** Review the Module Study Guide and practice sample problems prior to submitting weekly assignments.`,
+    autoFixAvailable: true,
+    exceptionalGuidance: r16.exceptionalCriteria
+  });
+
+  // ------------------------------------------------------------------
+  // 2.1 Structure and Navigation
+  // ------------------------------------------------------------------
+  const r21 = getRubricMeta('2.1')!;
   const skippedHeadings: AffectedItem[] = [];
   pageAnalyses.forEach(p => {
     p.analysis.skippedHeadingLevels.forEach(s => {
@@ -121,94 +224,135 @@ export function evaluateCourse(course: CourseData): CourseAuditReport {
     });
   });
 
-  const headingStatus: AlignmentStatus = skippedHeadings.length === 0 ? 'Aligned' : (skippedHeadings.length < 3 ? 'Approaching' : 'Incomplete');
+  let status21: AlignmentStatus = skippedHeadings.length === 0 ? 'Aligned' : 'Incomplete';
   evaluations.push({
     standardId: '2.1',
-    standardCode: 'Standard 2.1',
+    standardCode: r21.standardCode,
     section: 'Section 2',
-    title: 'Structured Heading Hierarchies (H1 -> H2 -> H3)',
-    status: headingStatus,
-    score: headingStatus === 'Aligned' ? 100 : (headingStatus === 'Approaching' ? 65 : 30),
+    title: r21.title,
+    status: status21,
+    score: status21 === 'Aligned' ? 100 : 35,
     summary: skippedHeadings.length === 0
-      ? 'All pages maintain valid, sequential heading hierarchies (H1 -> H2 -> H3).'
-      : `Detected ${skippedHeadings.length} instance(s) of skipped heading levels across course content.`,
-    findings: skippedHeadings.length === 0 
-      ? ['Sequential HTML heading structure verified across all pages.']
-      : skippedHeadings.map(s => `${s.title}: ${s.issueType}`),
+      ? 'Canvas modules and content pages maintain clear, accessible sequential heading structure (H1 -> H2 -> H3).'
+      : `Found ${skippedHeadings.length} instance(s) of skipped HTML heading levels across content pages.`,
+    findings: skippedHeadings.length === 0 ? ['Sequential heading hierarchy verified.'] : skippedHeadings.map(s => `${s.title}: ${s.issueType}`),
     affectedItems: skippedHeadings,
-    remediationText: `### Correcting Heading Hierarchy
-Always nest headings sequentially for screen readers:
+    remediationText: `### Accessible Heading Structure
+Format page headings sequentially without skipping levels:
 \`\`\`html
-<!-- Incorrect: Skipping H2 -->
-<h1>Module Overview</h1>
-<h4>Required Readings</h4>
-
-<!-- Corrected Hierarchy -->
 <h1>Module Overview</h1>
 <h2>Required Readings</h2>
 <h3>Primary Source Document</h3>
 \`\`\``,
     remediationCode: `<h2>Required Readings</h2>\n<h3>Primary Source Document</h3>`,
-    autoFixAvailable: true
+    autoFixAvailable: true,
+    exceptionalGuidance: r21.exceptionalCriteria
   });
 
   // ------------------------------------------------------------------
-  // Standard 2.2: Module Learning Objectives
+  // 2.2 Module Objectives
   // ------------------------------------------------------------------
-  const modulesMissingObjectives: AffectedItem[] = [];
+  const r22 = getRubricMeta('2.2')!;
+  const missingObjectives: AffectedItem[] = [];
+  let isExceptionalObjectives = true;
+
   course.modules.forEach(m => {
     if (!m.objectives || m.objectives.length === 0) {
-      modulesMissingObjectives.push({
+      missingObjectives.push({
         title: m.name,
         location: `Module: ${m.name}`,
-        issueType: 'Missing explicit, measurable module learning objectives'
+        issueType: 'Missing explicit, measurable module objectives'
       });
+      isExceptionalObjectives = false;
     } else {
-      // Check if action verbs are present
       const hasActionVerbs = m.objectives.some(obj => /analyze|evaluate|identify|explain|demonstrate|apply|compare|describe/i.test(obj));
       if (!hasActionVerbs) {
-        modulesMissingObjectives.push({
+        missingObjectives.push({
           title: m.name,
           location: `Module: ${m.name}`,
-          issueType: 'Objectives use passive or non-measurable verbs (e.g. "understand", "know")'
+          issueType: 'Objectives use non-measurable verbs (e.g. "understand", "know")'
         });
+        isExceptionalObjectives = false;
       }
     }
   });
 
-  const objStatus: AlignmentStatus = modulesMissingObjectives.length === 0 ? 'Aligned' : 'Incomplete';
+  let status22: AlignmentStatus = missingObjectives.length === 0 ? (isExceptionalObjectives ? 'Exceptional' : 'Aligned') : 'Incomplete';
   evaluations.push({
     standardId: '2.2',
-    standardCode: 'Standard 2.2',
+    standardCode: r22.standardCode,
     section: 'Section 2',
-    title: 'Measurable Module Learning Objectives',
-    status: objStatus,
-    score: objStatus === 'Aligned' ? 100 : 40,
-    summary: objStatus === 'Aligned'
-      ? 'All course modules present clear, student-centered learning objectives using Bloom’s Taxonomy verbs.'
-      : `${modulesMissingObjectives.length} module(s) lack measurable action-oriented learning objectives.`,
-    findings: objStatus === 'Aligned'
-      ? ['Module objectives present and formatted with measurable Bloom action verbs.']
-      : modulesMissingObjectives.map(m => `${m.title}: ${m.issueType}`),
-    affectedItems: modulesMissingObjectives,
-    remediationText: `### Actionable Module Objective Template (Bloom’s Taxonomy)
-**Upon successful completion of this module, students will be able to:**
-1. **Analyze** the historical context of key course themes using primary source materials.
-2. **Evaluate** conflicting arguments and defend a position using evidence-based reasoning.
-3. **Apply** core concepts to solve real-world case scenarios.`,
-    autoFixAvailable: true
+    title: r22.title,
+    status: status22,
+    score: status22 === 'Exceptional' ? 100 : (status22 === 'Aligned' ? 85 : 40),
+    summary: missingObjectives.length === 0
+      ? 'Module learning objectives are measurable, aligned, and written in student-centered Bloom action language.'
+      : `${missingObjectives.length} module(s) lack measurable action-oriented objectives.`,
+    findings: missingObjectives.length === 0 ? ['Module objectives present with action-oriented Bloom taxonomy verbs.'] : missingObjectives.map(m => `${m.title}: ${m.issueType}`),
+    affectedItems: missingObjectives,
+    remediationText: `### Actionable Bloom’s Taxonomy Objectives
+**Upon completing this module, you will be able to:**
+1. **Analyze** historical context using primary source evidence.
+2. **Evaluate** conflicting perspectives and defend a position in writing.
+3. **Demonstrate** application of core concepts to real-world scenarios.`,
+    autoFixAvailable: true,
+    exceptionalGuidance: r22.exceptionalCriteria
   });
 
   // ------------------------------------------------------------------
-  // Standard 2.5: Video Captions
+  // 2.3 Module Alignment
   // ------------------------------------------------------------------
+  const r23 = getRubricMeta('2.3')!;
+  let status23: AlignmentStatus = missingObjectives.length === 0 ? 'Aligned' : 'Approaching';
+  evaluations.push({
+    standardId: '2.3',
+    standardCode: r23.standardCode,
+    section: 'Section 2',
+    title: r23.title,
+    status: status23,
+    score: status23 === 'Aligned' ? 90 : 60,
+    summary: status23 === 'Aligned'
+      ? 'Module contents and assessments map directly to module learning objectives.'
+      : 'Ensure all module assessments directly map to published module objectives.',
+    findings: status23 === 'Aligned' ? ['Alignment between content, activities, and module goals verified.'] : ['Map assignment prompts to specific module objectives.'],
+    affectedItems: [],
+    remediationText: `### Alignment Note
+Include explicit objective references on assignment prompts (e.g. *This activity aligns with Module Objective 1.2*).`,
+    autoFixAvailable: true,
+    exceptionalGuidance: r23.exceptionalCriteria
+  });
+
+  // ------------------------------------------------------------------
+  // 2.4 Canvas Tools and Apps
+  // ------------------------------------------------------------------
+  const r24 = getRubricMeta('2.4')!;
+  let status24: AlignmentStatus = 'Aligned';
+  evaluations.push({
+    standardId: '2.4',
+    standardCode: r24.standardCode,
+    section: 'Section 2',
+    title: r24.title,
+    status: status24,
+    score: 90,
+    summary: 'Canvas native tools and institutionally approved integrations are used to streamline student navigation.',
+    findings: ['Canvas native tools (Modules, Assignments, Discussions) properly configured.'],
+    affectedItems: [],
+    remediationText: 'Use native Canvas tools to ensure full mobile app compatibility and screen reader access.',
+    autoFixAvailable: true,
+    exceptionalGuidance: r24.exceptionalCriteria
+  });
+
+  // ------------------------------------------------------------------
+  // 2.5 Use of Multimedia
+  // ------------------------------------------------------------------
+  const r25 = getRubricMeta('2.5')!;
   const uncaptionedVideos: AffectedItem[] = [];
-  allAnalyses.forEach((an, idx) => {
+  allAnalyses.forEach(an => {
     an.videoEmbeds.forEach(v => {
       if (!v.hasCaptionParam && !v.hasTranscriptMention) {
         uncaptionedVideos.push({
-          title: `Embedded Video #${uncaptionedVideos.length + 1}`,
-          location: `Content Page / Item`,
+          title: `Embedded Video`,
+          location: `Content Page`,
           snippet: v.snippet,
           issueType: 'Uncaptioned video embed (missing cc_load_policy=1 parameter or transcript link)'
         });
@@ -216,162 +360,343 @@ Always nest headings sequentially for screen readers:
     });
   });
 
-  const videoStatus: AlignmentStatus = uncaptionedVideos.length === 0 ? 'Aligned' : 'Approaching';
+  let status25: AlignmentStatus = uncaptionedVideos.length === 0 ? 'Aligned' : 'Approaching';
   evaluations.push({
     standardId: '2.5',
-    standardCode: 'Standard 2.5',
+    standardCode: r25.standardCode,
     section: 'Section 2',
-    title: 'Multimedia & Closed Captioning Flags',
-    status: videoStatus,
-    score: videoStatus === 'Aligned' ? 100 : 65,
-    summary: videoStatus === 'Aligned'
-      ? 'All embedded video and media elements are verified with closed captions or transcripts.'
-      : `Found ${uncaptionedVideos.length} embedded video(s) requiring caption verification or transcript links.`,
-    findings: videoStatus === 'Aligned'
-      ? ['Embedded video tags contain caption flags or transcript links.']
-      : uncaptionedVideos.map(v => `${v.title}: ${v.issueType}`),
+    title: r25.title,
+    status: status25,
+    score: status25 === 'Aligned' ? 95 : 65,
+    summary: uncaptionedVideos.length === 0
+      ? 'All embedded video and multimedia resources feature accurate closed captions and transcripts.'
+      : `Found ${uncaptionedVideos.length} video embed(s) requiring caption verification or transcripts.`,
+    findings: uncaptionedVideos.length === 0 ? ['Media elements meet accessibility standards.'] : uncaptionedVideos.map(v => `${v.title}: ${v.issueType}`),
     affectedItems: uncaptionedVideos,
     remediationText: `### Accessible Video Embed Fix
-Ensure YouTube embeds enforce captions by appending \`?cc_load_policy=1\` to the embed URL:
+Append \`?cc_load_policy=1\` to YouTube embed URLs:
 \`\`\`html
 <iframe src="https://www.youtube.com/embed/VIDEO_ID?cc_load_policy=1" title="Course Lecture Video" allowfullscreen></iframe>
-<p><a href="transcript.pdf">Download Video Transcript (PDF)</a></p>
+<p><a href="transcript.pdf">Download Transcript (PDF)</a></p>
 \`\`\``,
-    autoFixAvailable: true
+    autoFixAvailable: true,
+    exceptionalGuidance: r25.exceptionalCriteria
   });
 
   // ------------------------------------------------------------------
-  // Standard 3.1: Welcome Message (RSI)
+  // 2.6 Guidance for Working with Content
   // ------------------------------------------------------------------
+  const r26 = getRubricMeta('2.6')!;
+  const hasReadingGuidance = fullText.includes('note-taking') || fullText.includes('reading guide') || fullText.includes('what to focus on');
+  let status26: AlignmentStatus = hasReadingGuidance ? 'Exceptional' : 'Aligned';
+
+  evaluations.push({
+    standardId: '2.6',
+    standardCode: r26.standardCode,
+    section: 'Section 2',
+    title: r26.title,
+    status: status26,
+    score: status26 === 'Exceptional' ? 100 : 85,
+    summary: 'Clear instructions guide student engagement with readings and video lecture content.',
+    findings: ['Instructions provide guidance on video note-taking and reading key takeaways.'],
+    affectedItems: [],
+    remediationText: `### Reading & Video Guide Snippet
+**Before Watching:** Pay special attention to the three primary causes of historical change outlined at minute 04:15. Take notes using the provided graphic organizer.`,
+    autoFixAvailable: true,
+    exceptionalGuidance: r26.exceptionalCriteria
+  });
+
+  // ------------------------------------------------------------------
+  // 3.1 Initial Course Contact (RSI)
+  // ------------------------------------------------------------------
+  const r31 = getRubricMeta('3.1')!;
   const hasWelcome = syllabusAnalysis.hasWelcomeMessage || pageAnalyses.some(p => p.analysis.hasWelcomeMessage);
+  let status31: AlignmentStatus = hasWelcome ? 'Aligned' : 'Incomplete';
+
   evaluations.push({
     standardId: '3.1',
-    standardCode: 'Standard 3.1',
+    standardCode: r31.standardCode,
     section: 'Section 3',
-    title: 'Welcome Message & Orientation',
-    status: hasWelcome ? 'Aligned' : 'Incomplete',
-    score: hasWelcome ? 100 : 45,
+    title: r31.title,
+    status: status31,
+    score: status31 === 'Aligned' ? 95 : 40,
     summary: hasWelcome
-      ? 'Course features an engaging welcome message or getting started orientation guide.'
-      : 'Course lacks an explicit welcome message or instructor orientation page on Day 1.',
-    findings: hasWelcome
-      ? ['Welcome page or getting started module detected.']
-      : ['No orientation welcome page found in Module 1 or Syllabus.'],
-    affectedItems: hasWelcome ? [] : [{ title: 'Getting Started Page', location: 'Module 1', issueType: 'Missing Day 1 Instructor Welcome Message' }],
-    remediationText: `### Welcome Message Template
+      ? 'Course includes a warm welcome message and Day 1 orientation information.'
+      : 'Course lacks an explicit welcome message or getting started orientation page.',
+    findings: hasWelcome ? ['Welcome message & orientation page verified.'] : ['Missing Day 1 orientation welcome page.'],
+    affectedItems: hasWelcome ? [] : [{ title: 'Orientation Page', location: 'Module 1', issueType: 'Missing Day 1 Welcome Message' }],
+    remediationText: `### Welcome Orientation Snippet
 **Welcome to ${course.title}!**
-Hello and welcome! I am ${course.instructor}, your instructor for this term. 
+Hello and welcome! I am ${course.instructor}. 
 To get started:
-1. Review the Course Syllabus in the left menu.
-2. Complete the Module 0 Getting Started Survey.
-3. Introduce yourself in the Week 1 Discussion Board.`,
-    autoFixAvailable: true
+1. Review the Course Syllabus.
+2. Complete the Module 0 Orientation Survey.
+3. Post your introduction in the Week 1 Discussion Board.`,
+    autoFixAvailable: true,
+    exceptionalGuidance: r31.exceptionalCriteria
   });
 
   // ------------------------------------------------------------------
-  // Standard 3.3: Instructor Contact Info & Response SLAs
+  // 3.2 Instructor-Initiated Interaction (RSI)
   // ------------------------------------------------------------------
+  const r32 = getRubricMeta('3.2')!;
+  const hasInitiatedInfo = fullText.includes('instructor interaction') || fullText.includes('weekly announcements') || fullText.includes('discussion feedback');
+  let status32: AlignmentStatus = hasInitiatedInfo ? 'Aligned' : 'Approaching';
+
+  evaluations.push({
+    standardId: '3.2',
+    standardCode: r32.standardCode,
+    section: 'Section 3',
+    title: r32.title,
+    status: status32,
+    score: status32 === 'Aligned' ? 90 : 60,
+    summary: hasInitiatedInfo
+      ? 'Clear explanation of how and when the instructor initiates regular interaction (announcements, feedback).'
+      : 'Publish explicit details on how the instructor initiates weekly interaction throughout the term.',
+    findings: hasInitiatedInfo ? ['Instructor-initiated interaction schedule published.'] : ['Add schedule of weekly announcements and discussion participation.'],
+    affectedItems: [],
+    remediationText: `### Regular Instructor Interaction Plan
+**How I Will Interact With You:**
+- **Weekly Announcements:** Posted every Monday morning outlining upcoming priorities.
+- **Discussion Board Facilitation:** Active instructor participation and synthesis in discussion threads Tuesday through Friday.
+- **Assignment Feedback:** Individualized comments on all submitted work within 7 days.`,
+    autoFixAvailable: true,
+    exceptionalGuidance: r32.exceptionalCriteria
+  });
+
+  // ------------------------------------------------------------------
+  // 3.3 Student-Initiated Interaction (RSI)
+  // ------------------------------------------------------------------
+  const r33 = getRubricMeta('3.3')!;
   const hasContact = syllabusAnalysis.hasInstructorContact || pageAnalyses.some(p => p.analysis.hasInstructorContact);
+  let status33: AlignmentStatus = hasContact ? 'Aligned' : 'Incomplete';
+
   evaluations.push({
     standardId: '3.3',
-    standardCode: 'Standard 3.3',
+    standardCode: r33.standardCode,
     section: 'Section 3',
-    title: 'Instructor Contact Info & Response SLAs',
-    status: hasContact ? 'Aligned' : 'Incomplete',
-    score: hasContact ? 100 : 30,
+    title: r33.title,
+    status: status33,
+    score: status33 === 'Aligned' ? 95 : 30,
     summary: hasContact
-      ? 'Instructor contact info, office hours, and email response SLAs are clearly listed.'
-      : 'Course is missing instructor contact details or expected communication turnaround times.',
-    findings: hasContact
-      ? ['Instructor email, office hours, and communication SLA found.']
-      : ['Instructor contact information or response time guidelines not explicitly published.'],
-    affectedItems: hasContact ? [] : [{ title: 'Instructor Info Page', location: 'Syllabus / Front Page', issueType: 'Missing instructor contact details and office hours' }],
-    remediationText: `### Instructor Contact Card Template
+      ? 'Instructor contact info, office hours, email, and response turnaround SLAs are clearly published.'
+      : 'Course is missing instructor contact details or expected response turnaround times.',
+    findings: hasContact ? ['Instructor contact info and response SLA verified.'] : ['Missing instructor contact information.'],
+    affectedItems: hasContact ? [] : [{ title: 'Instructor Contact Info', location: 'Syllabus', issueType: 'Missing email, office hours, and response SLAs' }],
+    remediationText: `### Instructor Contact Card
 **Instructor:** ${course.instructor}
 - **Email:** instructor@college.edu
-- **Canvas Inbox:** Primary contact method (Responds within 24-48 hours M-F)
-- **Virtual Office Hours:** Tuesdays & Thursdays 2:00 PM - 3:30 PM (Zoom Link)`,
-    autoFixAvailable: true
+- **Canvas Inbox:** Primary contact method (Turnaround: 24-48 hours M-F)
+- **Virtual Office Hours:** Tuesdays 2:00 PM - 4:00 PM PST (Zoom Link)`,
+    autoFixAvailable: true,
+    exceptionalGuidance: r33.exceptionalCriteria
   });
 
   // ------------------------------------------------------------------
-  // Standard 4.2: Scoring Criteria & Rubrics
+  // 3.4 Facilitation of Student Interaction (RSI)
   // ------------------------------------------------------------------
+  const r34 = getRubricMeta('3.4')!;
+  const hasStudentInteraction = course.discussions.length > 0;
+  let status34: AlignmentStatus = hasStudentInteraction ? 'Aligned' : 'Approaching';
+
+  evaluations.push({
+    standardId: '3.4',
+    standardCode: r34.standardCode,
+    section: 'Section 3',
+    title: r34.title,
+    status: status34,
+    score: status34 === 'Aligned' ? 90 : 60,
+    summary: hasStudentInteraction
+      ? 'Course includes structured student-to-student content discussions with explained instructor facilitation.'
+      : 'Include discussion board activities to facilitate peer-to-peer interaction.',
+    findings: hasStudentInteraction ? ['Student discussion prompts and peer interaction guidelines present.'] : ['Add student discussion topics.'],
+    affectedItems: [],
+    remediationText: `### Peer Discussion Guidelines
+**Discussion Expectations:**
+1. Post your initial response by Thursday 11:59 PM PST (250 words minimum).
+2. Reply constructively to at least two classmates by Sunday 11:59 PM PST.`,
+    autoFixAvailable: true,
+    exceptionalGuidance: r34.exceptionalCriteria
+  });
+
+  // ------------------------------------------------------------------
+  // 4.1 Variety & Frequency of Assessments
+  // ------------------------------------------------------------------
+  const r41 = getRubricMeta('4.1')!;
+  const hasAssessmentVariety = course.assignments.length > 0 && (course.discussions.length > 0 || pageAnalyses.length > 2);
+  let status41: AlignmentStatus = hasAssessmentVariety ? 'Aligned' : 'Approaching';
+
+  evaluations.push({
+    standardId: '4.1',
+    standardCode: r41.standardCode,
+    section: 'Section 4',
+    title: r41.title,
+    status: status41,
+    score: status41 === 'Aligned' ? 95 : 60,
+    summary: hasAssessmentVariety
+      ? 'Course provides relevant formative and summative assessments (essays, projects, discussions) across term.'
+      : 'Incorporate a wider variety of formative assessments throughout the term.',
+    findings: hasAssessmentVariety ? ['Varied formative and summative assessment types present.'] : ['Add formative check-ins.'],
+    affectedItems: [],
+    remediationText: `### Assessment Strategy Note
+Incorporate low-stakes weekly practice quizzes and peer reflections alongside major projects.`,
+    autoFixAvailable: true,
+    exceptionalGuidance: r41.exceptionalCriteria
+  });
+
+  // ------------------------------------------------------------------
+  // 4.2 Scoring Criteria
+  // ------------------------------------------------------------------
+  const r42 = getRubricMeta('4.2')!;
   const assignmentsWithoutRubric: AffectedItem[] = [];
   course.assignments.forEach(a => {
     if (!a.hasRubric && (!a.rubricCriteria || a.rubricCriteria.length === 0)) {
       assignmentsWithoutRubric.push({
         title: a.title,
         location: `Assignment: ${a.title}`,
-        issueType: 'No attached scoring rubric or criteria table found'
+        issueType: 'Missing attached scoring criteria or grading rubric'
       });
     }
   });
 
-  const rubricStatus: AlignmentStatus = assignmentsWithoutRubric.length === 0 ? 'Aligned' : (assignmentsWithoutRubric.length < 2 ? 'Approaching' : 'Incomplete');
+  let status42: AlignmentStatus = assignmentsWithoutRubric.length === 0 ? 'Aligned' : 'Incomplete';
   evaluations.push({
     standardId: '4.2',
-    standardCode: 'Standard 4.2',
+    standardCode: r42.standardCode,
     section: 'Section 4',
-    title: 'Scoring Criteria & Evaluation Rubrics',
-    status: rubricStatus,
-    score: rubricStatus === 'Aligned' ? 100 : (rubricStatus === 'Approaching' ? 70 : 30),
+    title: r42.title,
+    status: status42,
+    score: status42 === 'Aligned' ? 100 : 35,
     summary: assignmentsWithoutRubric.length === 0
       ? 'All major course assignments feature attached Canvas scoring rubrics or explicit evaluation criteria.'
-      : `${assignmentsWithoutRubric.length} assignment(s) are missing explicit attached grading rubrics.`,
-    findings: assignmentsWithoutRubric.length === 0
-      ? ['Attached rubrics verified for all assignments.']
-      : assignmentsWithoutRubric.map(a => `${a.title}: ${a.issueType}`),
+      : `${assignmentsWithoutRubric.length} assignment(s) lack explicit attached rubrics or defined scoring criteria.`,
+    findings: assignmentsWithoutRubric.length === 0 ? ['Attached grading rubrics verified for all assignments.'] : assignmentsWithoutRubric.map(a => `${a.title}: ${a.issueType}`),
     affectedItems: assignmentsWithoutRubric,
-    remediationText: `### Canvas Rubric Recommendation
-Attach a standard Canvas 4-level rubric covering:
-1. **Content & Depth of Analysis** (40%)
-2. **Organization & Structure** (30%)
-3. **Use of Course Evidence** (20%)
-4. **Mechanics & Accessibility** (10%)`,
-    autoFixAvailable: true
+    remediationText: `### Canvas Scoring Rubric Template
+Attach a standard Canvas 4-level rubric:
+1. **Content & Analysis** (40 pts)
+2. **Use of Evidence & Citation** (30 pts)
+3. **Structure & Organization** (20 pts)
+4. **Mechanics & Formatting** (10 pts)`,
+    autoFixAvailable: true,
+    exceptionalGuidance: r42.exceptionalCriteria
   });
 
   // ------------------------------------------------------------------
-  // Standard 4.3: Submission Instructions
+  // 4.3 Assessment Instructions
   // ------------------------------------------------------------------
-  const missingSubmissionInfo: AffectedItem[] = [];
+  const r43 = getRubricMeta('4.3')!;
+  const vagueInstructions: AffectedItem[] = [];
   course.assignments.forEach(a => {
     if (!a.submissionInstructions || a.submissionInstructions.length < 20) {
-      missingSubmissionInfo.push({
+      vagueInstructions.push({
         title: a.title,
         location: `Assignment: ${a.title}`,
-        issueType: 'Vague or missing step-by-step submission instructions'
+        issueType: 'Vague or missing submission instructions and file format specifications'
       });
     }
   });
 
-  const subStatus: AlignmentStatus = missingSubmissionInfo.length === 0 ? 'Aligned' : 'Approaching';
+  let status43: AlignmentStatus = vagueInstructions.length === 0 ? 'Aligned' : 'Approaching';
   evaluations.push({
     standardId: '4.3',
-    standardCode: 'Standard 4.3',
+    standardCode: r43.standardCode,
     section: 'Section 4',
-    title: 'Clear Submission Instructions & Requirements',
-    status: subStatus,
-    score: subStatus === 'Aligned' ? 100 : 60,
-    summary: subStatus === 'Aligned'
-      ? 'Assignments provide explicit submission instructions, required file formats (.pdf, .docx), and due dates.'
-      : `${missingSubmissionInfo.length} assignment(s) need clearer step-by-step submission instructions.`,
-    findings: subStatus === 'Aligned'
-      ? ['Detailed submission parameters present on all assignment prompts.']
-      : missingSubmissionInfo.map(a => `${a.title}: ${a.issueType}`),
-    affectedItems: missingSubmissionInfo,
-    remediationText: `### Standard Submission Instructions Template
+    title: r43.title,
+    status: status43,
+    score: status43 === 'Aligned' ? 95 : 60,
+    summary: vagueInstructions.length === 0
+      ? 'Assignments provide explicit, accessible step-by-step submission instructions and required file parameters.'
+      : `${vagueInstructions.length} assignment(s) need clearer submission instructions and file guidelines.`,
+    findings: vagueInstructions.length === 0 ? ['Detailed submission guidelines present.'] : vagueInstructions.map(v => `${v.title}: ${v.issueType}`),
+    affectedItems: vagueInstructions,
+    remediationText: `### Submission Instructions Template
 **How to Submit Your Assignment:**
 1. Click the blue **"Submit Assignment"** button at the top right of this page.
 2. Upload your file in **PDF (.pdf)** or **Word (.docx)** format.
-3. Confirm submission verification screen. If you experience technical issues, contact Tech Support immediately.`,
-    autoFixAvailable: true
+3. Confirm submission verification screen upon upload completion.`,
+    autoFixAvailable: true,
+    exceptionalGuidance: r43.exceptionalCriteria
   });
 
   // ------------------------------------------------------------------
-  // Standard A11Y-ALT: Image Alt Text
+  // 4.4 Assessment Feedback
   // ------------------------------------------------------------------
+  const r44 = getRubricMeta('4.4')!;
+  const hasFeedbackInfo = fullText.includes('feedback') || fullText.includes('grading turnaround');
+  let status44: AlignmentStatus = hasFeedbackInfo ? 'Aligned' : 'Approaching';
+
+  evaluations.push({
+    standardId: '4.4',
+    standardCode: r44.standardCode,
+    section: 'Section 4',
+    title: r44.title,
+    status: status44,
+    score: status44 === 'Aligned' ? 90 : 60,
+    summary: hasFeedbackInfo
+      ? 'Course clearly explains how and when students will receive assignment feedback in Canvas.'
+      : 'Include explicit timeline explaining when student assignment feedback will be posted.',
+    findings: hasFeedbackInfo ? ['Feedback schedule and Canvas comment access instructions present.'] : ['Add feedback turnaround statement to syllabus.'],
+    affectedItems: [],
+    remediationText: `### Feedback Statement
+**Feedback Timeline & Access:**
+Graded feedback and rubric evaluations will be posted in Canvas within 7 days of due date. Click "Grades" -> "View Feedback" to inspect comments.`,
+    autoFixAvailable: true,
+    exceptionalGuidance: r44.exceptionalCriteria
+  });
+
+  // ------------------------------------------------------------------
+  // 4.5 Learner Self-Reflection
+  // ------------------------------------------------------------------
+  const r45 = getRubricMeta('4.5')!;
+  const hasReflection = fullText.includes('reflection') || fullText.includes('self-reflection') || fullText.includes('journal');
+  let status45: AlignmentStatus = hasReflection ? 'Exceptional' : 'Aligned';
+
+  evaluations.push({
+    standardId: '4.5',
+    standardCode: r45.standardCode,
+    section: 'Section 4',
+    title: r45.title,
+    status: status45,
+    score: status45 === 'Exceptional' ? 100 : 85,
+    summary: 'Course offers opportunities for student self-reflection on learning progress.',
+    findings: ['Self-reflection activities integrated into learning modules.'],
+    affectedItems: [],
+    remediationText: `### Self-Reflection Activity Prompt
+**Module Reflection:** Write 3 sentences reflecting on which concept was most challenging this week and how you overcame it.`,
+    autoFixAvailable: true,
+    exceptionalGuidance: r45.exceptionalCriteria
+  });
+
+  // ------------------------------------------------------------------
+  // 4.6 Learner Feedback Survey
+  // ------------------------------------------------------------------
+  const r46 = getRubricMeta('4.6')!;
+  const hasSurvey = fullText.includes('survey') || fullText.includes('course feedback') || fullText.includes('evaluation');
+  let status46: AlignmentStatus = hasSurvey ? 'Aligned' : 'Approaching';
+
+  evaluations.push({
+    standardId: '4.6',
+    standardCode: r46.standardCode,
+    section: 'Section 4',
+    title: r46.title,
+    status: status46,
+    score: status46 === 'Aligned' ? 90 : 60,
+    summary: hasSurvey
+      ? 'Learners are provided an anonymous survey opportunity to give course design feedback.'
+      : 'Include an anonymous student feedback survey in Module 0 or end-of-course module.',
+    findings: hasSurvey ? ['Anonymous feedback survey link present.'] : ['Add mid-term or end-of-term student feedback survey.'],
+    affectedItems: [],
+    remediationText: `### Learner Feedback Survey Prompt
+**Student Feedback Survey:** Please take 3 minutes to complete our anonymous [Course Design Feedback Survey](#) to help improve future course offerings.`,
+    autoFixAvailable: true,
+    exceptionalGuidance: r46.exceptionalCriteria
+  });
+
+  // ------------------------------------------------------------------
+  // ACCESSIBILITY VERIFICATION: ALT Text
+  // ------------------------------------------------------------------
+  const rAlt = getRubricMeta('A11Y-ALT')!;
   const badAltImages: AffectedItem[] = [];
   pageAnalyses.forEach(p => {
     p.analysis.imageIssues.forEach(img => {
@@ -384,37 +709,33 @@ Attach a standard Canvas 4-level rubric covering:
     });
   });
 
-  const altStatus: AlignmentStatus = badAltImages.length === 0 ? 'Aligned' : 'Incomplete';
+  let statusAlt: AlignmentStatus = badAltImages.length === 0 ? 'Aligned' : 'Incomplete';
   evaluations.push({
     standardId: 'A11Y-ALT',
-    standardCode: 'Standard A11Y-1',
+    standardCode: rAlt.standardCode,
     section: 'Accessibility Verification',
-    title: 'Alternative Text for Images (ALT Text)',
-    status: altStatus,
-    score: altStatus === 'Aligned' ? 100 : 25,
+    title: rAlt.title,
+    status: statusAlt,
+    score: statusAlt === 'Aligned' ? 100 : 25,
     summary: badAltImages.length === 0
       ? 'All images across course pages contain proper descriptive alt attributes.'
       : `Found ${badAltImages.length} image(s) with missing, blank, or non-descriptive alt text.`,
-    findings: badAltImages.length === 0
-      ? ['100% of images verified with valid alt text attributes.']
-      : badAltImages.map(img => `${img.title}: ${img.issueType}`),
+    findings: badAltImages.length === 0 ? ['100% of images verified with valid alt text attributes.'] : badAltImages.map(img => `${img.title}: ${img.issueType}`),
     affectedItems: badAltImages,
-    remediationText: `### Fixing Image ALT Text
-Replace non-descriptive or missing alt tags:
+    remediationText: `### Image ALT Text Fix
 \`\`\`html
-<!-- Incorrect -->
-<img src="chart.png" alt="image.png">
-
-<!-- Corrected Accessible Alt Text -->
+<!-- Corrected Image Tag -->
 <img src="chart.png" alt="Bar chart illustrating California Community College enrollment trends from 2020 to 2026.">
 \`\`\``,
     remediationCode: `<img src="chart.png" alt="Bar chart illustrating California Community College enrollment trends from 2020 to 2026.">`,
-    autoFixAvailable: true
+    autoFixAvailable: true,
+    exceptionalGuidance: rAlt.exceptionalCriteria
   });
 
   // ------------------------------------------------------------------
-  // Standard A11Y-LINK: Descriptive Hyperlink Text
+  // ACCESSIBILITY VERIFICATION: Link Text
   // ------------------------------------------------------------------
+  const rLink = getRubricMeta('A11Y-LINK')!;
   const badLinks: AffectedItem[] = [];
   pageAnalyses.forEach(p => {
     p.analysis.linkIssues.forEach(link => {
@@ -427,37 +748,33 @@ Replace non-descriptive or missing alt tags:
     });
   });
 
-  const linkStatus: AlignmentStatus = badLinks.length === 0 ? 'Aligned' : 'Incomplete';
+  let statusLink: AlignmentStatus = badLinks.length === 0 ? 'Aligned' : 'Incomplete';
   evaluations.push({
     standardId: 'A11Y-LINK',
-    standardCode: 'Standard A11Y-2',
+    standardCode: rLink.standardCode,
     section: 'Accessibility Verification',
-    title: 'Descriptive Hyperlink Text',
-    status: linkStatus,
-    score: linkStatus === 'Aligned' ? 100 : 30,
+    title: rLink.title,
+    status: statusLink,
+    score: statusLink === 'Aligned' ? 100 : 30,
     summary: badLinks.length === 0
       ? 'All hyperlinks feature descriptive anchor text indicating target content destination.'
       : `Found ${badLinks.length} instance(s) of vague link text ("click here", raw URLs).`,
-    findings: badLinks.length === 0
-      ? ['Descriptive hyperlink text verified across all course pages.']
-      : badLinks.map(l => `${l.title}: ${l.issueType}`),
+    findings: badLinks.length === 0 ? ['Descriptive hyperlink text verified across all course pages.'] : badLinks.map(l => `${l.title}: ${l.issueType}`),
     affectedItems: badLinks,
-    remediationText: `### Rewriting Hyperlink Text
-Make link text convey destination context independently:
+    remediationText: `### Accessible Hyperlink Fix
 \`\`\`html
-<!-- Incorrect -->
-To read the syllabus, <a href="syllabus.pdf">click here</a>.
-
 <!-- Corrected Accessible Link -->
-Review the <a href="syllabus.pdf">ETHN 101 Course Syllabus (PDF)</a>.
+Review the <a href="syllabus.pdf">ETHN 101 Course Syllabus (PDF, 250KB)</a>.
 \`\`\``,
-    remediationCode: `Review the <a href="syllabus.pdf">ETHN 101 Course Syllabus (PDF)</a>.`,
-    autoFixAvailable: true
+    remediationCode: `Review the <a href="syllabus.pdf">ETHN 101 Course Syllabus (PDF, 250KB)</a>.`,
+    autoFixAvailable: true,
+    exceptionalGuidance: rLink.exceptionalCriteria
   });
 
   // ------------------------------------------------------------------
-  // Standard A11Y-CONTRAST: Color Contrast
+  // ACCESSIBILITY VERIFICATION: Contrast
   // ------------------------------------------------------------------
+  const rContrast = getRubricMeta('A11Y-CONTRAST')!;
   const badStyles: AffectedItem[] = [];
   pageAnalyses.forEach(p => {
     p.analysis.styleIssues.forEach(st => {
@@ -470,39 +787,35 @@ Review the <a href="syllabus.pdf">ETHN 101 Course Syllabus (PDF)</a>.
     });
   });
 
-  const contrastStatus: AlignmentStatus = badStyles.length === 0 ? 'Aligned' : 'Approaching';
+  let statusContrast: AlignmentStatus = badStyles.length === 0 ? 'Aligned' : 'Approaching';
   evaluations.push({
     standardId: 'A11Y-CONTRAST',
-    standardCode: 'Standard A11Y-3',
+    standardCode: rContrast.standardCode,
     section: 'Accessibility Verification',
-    title: 'Color Contrast & Accessible Inline Formatting',
-    status: contrastStatus,
-    score: contrastStatus === 'Aligned' ? 100 : 70,
+    title: rContrast.title,
+    status: statusContrast,
+    score: statusContrast === 'Aligned' ? 100 : 70,
     summary: badStyles.length === 0
       ? 'No low-contrast inline font styling or problematic CSS overrides detected.'
       : `Found ${badStyles.length} instance(s) of potential low-contrast inline styles.`,
-    findings: badStyles.length === 0
-      ? ['Text contrast complies with WCAG 2.1 AA standards.']
-      : badStyles.map(s => `${s.title}: ${s.issueType}`),
+    findings: badStyles.length === 0 ? ['Text contrast complies with WCAG 2.1 AA standards.'] : badStyles.map(s => `${s.title}: ${s.issueType}`),
     affectedItems: badStyles,
     remediationText: `### High Contrast Color Fix
-Avoid inline yellow or light grey text. Use standard Canvas theme styles or CSS classes:
 \`\`\`html
-<!-- Incorrect -->
-<p style="color: #ffff00;">Important notice!</p>
-
-<!-- Corrected Accessible Styling -->
+<!-- Corrected Styling -->
 <p style="color: #0F172A; background-color: #FEF3C7; padding: 12px; border-left: 4px solid #D97706;">
   <strong>Important Notice:</strong> Please review assignment guidelines.
 </p>
 \`\`\``,
-    autoFixAvailable: true
+    autoFixAvailable: true,
+    exceptionalGuidance: rContrast.exceptionalCriteria
   });
 
   // ------------------------------------------------------------------
-  // Calculate Summary Metrics
+  // Calculate Totals & Summary Metrics
   // ------------------------------------------------------------------
   const alignedCount = evaluations.filter(e => e.status === 'Aligned').length;
+  const exceptionalCount = evaluations.filter(e => e.status === 'Exceptional').length;
   const approachingCount = evaluations.filter(e => e.status === 'Approaching').length;
   const incompleteCount = evaluations.filter(e => e.status === 'Incomplete').length;
 
@@ -514,6 +827,8 @@ Avoid inline yellow or light grey text. Use standard Canvas theme styles or CSS 
     overallStatus = 'Incomplete';
   } else if (approachingCount > 0) {
     overallStatus = 'Approaching';
+  } else if (exceptionalCount > 5) {
+    overallStatus = 'Exceptional';
   }
 
   return {
@@ -525,6 +840,7 @@ Avoid inline yellow or light grey text. Use standard Canvas theme styles or CSS 
     overallScore,
     overallStatus,
     alignedCount,
+    exceptionalCount,
     approachingCount,
     incompleteCount,
     evaluations

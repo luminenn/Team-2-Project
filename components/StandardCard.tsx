@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { EvaluationResult } from '@/types/pocr';
-import { CheckCircle2, AlertTriangle, XCircle, ArrowRight, Code, AlertCircle, Wrench } from 'lucide-react';
+import { CheckCircle2, AlertTriangle, XCircle, ArrowRight, Wrench, Sparkles, Award } from 'lucide-react';
 
 interface StandardCardProps {
   evaluation: EvaluationResult;
@@ -17,6 +17,12 @@ export const StandardCard: React.FC<StandardCardProps> = ({
 }) => {
   const getStatusBadge = () => {
     switch (evaluation.status) {
+      case 'Exceptional':
+        return (
+          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-purple-500/15 text-purple-300 border border-purple-500/40">
+            <Award className="w-3.5 h-3.5 text-purple-400" /> Exceptional
+          </span>
+        );
       case 'Aligned':
         return (
           <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
@@ -67,12 +73,11 @@ export const StandardCard: React.FC<StandardCardProps> = ({
         </p>
       </div>
 
-      {/* Affected Canvas Items Summary */}
+      {/* Impacted Canvas Items */}
       {evaluation.affectedItems.length > 0 && (
         <div className="mt-4 space-y-2">
-          <h4 className="text-[11px] font-mono font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-            <AlertCircle className="w-3.5 h-3.5 text-amber-400" />
-            Flagged Items ({evaluation.affectedItems.length})
+          <h4 className="text-[11px] font-mono font-semibold uppercase tracking-wider text-slate-400">
+            Flagged Canvas Items ({evaluation.affectedItems.length})
           </h4>
           <div className="space-y-1.5 max-h-36 overflow-y-auto pr-1">
             {evaluation.affectedItems.map((item, idx) => (

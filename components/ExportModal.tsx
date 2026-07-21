@@ -24,7 +24,8 @@ export const ExportModal: React.FC<ExportModalProps> = ({
     md += `**Instructor:** ${report.instructor}\n`;
     md += `**Audit Date:** ${report.auditTimestamp}\n`;
     md += `**Overall Alignment Score:** ${report.overallScore}% (${report.overallStatus})\n\n`;
-    md += `## Alignment Overview\n`;
+    md += `## Rubric Alignment Overview (June 2027 Standards)\n`;
+    md += `- **Exceptional Standards:** ${report.exceptionalCount}\n`;
     md += `- **Aligned Standards:** ${report.alignedCount}\n`;
     md += `- **Approaching Standards:** ${report.approachingCount}\n`;
     md += `- **Incomplete Standards:** ${report.incompleteCount}\n\n`;
@@ -88,7 +89,7 @@ export const ExportModal: React.FC<ExportModalProps> = ({
                 POCR Audit Report Export
               </h2>
               <p className="text-xs text-slate-400">
-                Official June 2026 CCC POCR Evaluation Document
+                Official June 2027 CCC POCR Evaluation Document (All 19 Standards)
               </p>
             </div>
           </div>
@@ -127,7 +128,7 @@ export const ExportModal: React.FC<ExportModalProps> = ({
           </div>
         </div>
 
-        {/* Formatted Report Preview */}
+        {/* Report Content */}
         <div id="printable-report" className="space-y-6 bg-slate-950/70 p-6 rounded-2xl border border-slate-800 text-slate-200 font-sans max-h-[60vh] overflow-y-auto">
           
           <div className="border-b border-slate-800 pb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -150,26 +151,30 @@ export const ExportModal: React.FC<ExportModalProps> = ({
             </div>
           </div>
 
-          {/* Metrics Row */}
-          <div className="grid grid-cols-3 gap-3">
+          {/* Metric Badges */}
+          <div className="grid grid-cols-4 gap-3">
+            <div className="p-3 rounded-xl bg-purple-500/10 border border-purple-500/20 text-center">
+              <span className="block text-lg font-bold text-purple-400 font-mono">{report.exceptionalCount}</span>
+              <span className="text-[11px] text-purple-300">Exceptional</span>
+            </div>
             <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-center">
               <span className="block text-lg font-bold text-emerald-400 font-mono">{report.alignedCount}</span>
-              <span className="text-[11px] text-emerald-300">Aligned Standards</span>
+              <span className="text-[11px] text-emerald-300">Aligned</span>
             </div>
             <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-center">
               <span className="block text-lg font-bold text-amber-400 font-mono">{report.approachingCount}</span>
-              <span className="text-[11px] text-amber-300">Approaching Standards</span>
+              <span className="text-[11px] text-amber-300">Approaching</span>
             </div>
             <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-center">
               <span className="block text-lg font-bold text-rose-400 font-mono">{report.incompleteCount}</span>
-              <span className="text-[11px] text-rose-300">Incomplete Standards</span>
+              <span className="text-[11px] text-rose-300">Incomplete</span>
             </div>
           </div>
 
-          {/* Detailed Item Breakdown */}
+          {/* Itemized Standards */}
           <div className="space-y-4 pt-2">
             <h2 className="text-sm font-mono font-semibold uppercase tracking-wider text-slate-400">
-              POCR Standards Itemized Audit Details
+              POCR Standards Itemized Audit Details ({report.evaluations.length} Standards)
             </h2>
 
             {report.evaluations.map((evalItem) => (
@@ -177,6 +182,7 @@ export const ExportModal: React.FC<ExportModalProps> = ({
                 <div className="flex items-center justify-between text-xs font-bold">
                   <span className="text-blue-300 font-mono">{evalItem.standardCode}: {evalItem.title}</span>
                   <span className={`px-2 py-0.5 rounded text-[10px] uppercase font-mono ${
+                    evalItem.status === 'Exceptional' ? 'bg-purple-500/20 text-purple-400' :
                     evalItem.status === 'Aligned' ? 'bg-emerald-500/20 text-emerald-400' :
                     evalItem.status === 'Approaching' ? 'bg-amber-500/20 text-amber-400' :
                     'bg-rose-500/20 text-rose-400'
