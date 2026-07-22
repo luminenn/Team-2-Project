@@ -107,7 +107,7 @@ export async function parseImsccToStructuralJson(file: File): Promise<CanvasStru
   const loadedZip = await zip.loadAsync(file);
 
   let courseTitle = file.name.replace(/\.(imscc|zip)$/i, '');
-  let canvasId = `canvas-${Date.now()}`;
+  const canvasId = `canvas-${Date.now()}`;
 
   const pages: CanvasPage[] = [];
   const modules: CanvasModule[] = [];
@@ -136,7 +136,7 @@ export async function parseImsccToStructuralJson(file: File): Promise<CanvasStru
   let pageIdCounter = 1;
   let assignIdCounter = 1;
   let discIdCounter = 1;
-  let quizIdCounter = 1;
+  const quizIdCounter = 1;
   let assetIdCounter = 1;
 
   for (const filename in files) {

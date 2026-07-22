@@ -80,7 +80,7 @@ export function evaluateCourse(course: CourseData): CourseAuditReport {
   const hasTechGuidance = fullText.includes('canvas support') || fullText.includes('tech support') || fullText.includes('technology requirements');
   const hasAlternativeOpt = fullText.includes('alternative access') || fullText.includes('offline');
 
-  let status12: AlignmentStatus = hasTechGuidance ? (hasAlternativeOpt ? 'Exceptional' : 'Aligned') : 'Approaching';
+  const status12: AlignmentStatus = hasTechGuidance ? (hasAlternativeOpt ? 'Exceptional' : 'Aligned') : 'Approaching';
   evaluations.push({
     standardId: '1.2',
     standardCode: r12.standardCode,
@@ -108,7 +108,7 @@ export function evaluateCourse(course: CourseData): CourseAuditReport {
   const hasAiPolicy = fullText.includes('ai policy') || fullText.includes('chatgpt') || fullText.includes('artificial intelligence') || fullText.includes('generative ai');
   const hasAssignmentAiSpecs = assignmentAnalyses.some(a => a.analysis.hasAiPolicyKeyword);
 
-  let status13: AlignmentStatus = hasAiPolicy ? (hasAssignmentAiSpecs ? 'Exceptional' : 'Aligned') : 'Incomplete';
+  const status13: AlignmentStatus = hasAiPolicy ? (hasAssignmentAiSpecs ? 'Exceptional' : 'Aligned') : 'Incomplete';
   evaluations.push({
     standardId: '1.3',
     standardCode: r13.standardCode,
@@ -135,7 +135,7 @@ export function evaluateCourse(course: CourseData): CourseAuditReport {
   // ------------------------------------------------------------------
   const r14 = getRubricMeta('1.4')!;
   const hasPrivacyLink = fullText.includes('privacy policy') || fullText.includes('ferpa') || fullText.includes('data security');
-  let status14: AlignmentStatus = hasPrivacyLink ? 'Aligned' : 'Approaching';
+  const status14: AlignmentStatus = hasPrivacyLink ? 'Aligned' : 'Approaching';
 
   evaluations.push({
     standardId: '1.4',
@@ -161,7 +161,7 @@ This course protects student privacy under FERPA regulations. Student work and g
   // ------------------------------------------------------------------
   const r15 = getRubricMeta('1.5')!;
   const hasSupport = syllabusAnalysis.hasStudentSupportLinks || pageAnalyses.some(p => p.analysis.hasStudentSupportLinks);
-  let status15: AlignmentStatus = hasSupport ? 'Aligned' : 'Approaching';
+  const status15: AlignmentStatus = hasSupport ? 'Aligned' : 'Approaching';
 
   evaluations.push({
     standardId: '1.5',
@@ -188,7 +188,7 @@ This course protects student privacy under FERPA regulations. Student work and g
   // ------------------------------------------------------------------
   const r16 = getRubricMeta('1.6')!;
   const hasLearningSupport = fullText.includes('study tips') || fullText.includes('assignment tips') || fullText.includes('resource links');
-  let status16: AlignmentStatus = hasLearningSupport ? 'Aligned' : 'Approaching';
+  const status16: AlignmentStatus = hasLearningSupport ? 'Aligned' : 'Approaching';
 
   evaluations.push({
     standardId: '1.6',
@@ -224,7 +224,7 @@ This course protects student privacy under FERPA regulations. Student work and g
     });
   });
 
-  let status21: AlignmentStatus = skippedHeadings.length === 0 ? 'Aligned' : 'Incomplete';
+  const status21: AlignmentStatus = skippedHeadings.length === 0 ? 'Aligned' : 'Incomplete';
   evaluations.push({
     standardId: '2.1',
     standardCode: r21.standardCode,
@@ -277,7 +277,7 @@ Format page headings sequentially without skipping levels:
     }
   });
 
-  let status22: AlignmentStatus = missingObjectives.length === 0 ? (isExceptionalObjectives ? 'Exceptional' : 'Aligned') : 'Incomplete';
+  const status22: AlignmentStatus = missingObjectives.length === 0 ? (isExceptionalObjectives ? 'Exceptional' : 'Aligned') : 'Incomplete';
   evaluations.push({
     standardId: '2.2',
     standardCode: r22.standardCode,
@@ -303,7 +303,7 @@ Format page headings sequentially without skipping levels:
   // 2.3 Module Alignment
   // ------------------------------------------------------------------
   const r23 = getRubricMeta('2.3')!;
-  let status23: AlignmentStatus = missingObjectives.length === 0 ? 'Aligned' : 'Approaching';
+  const status23: AlignmentStatus = missingObjectives.length === 0 ? 'Aligned' : 'Approaching';
   evaluations.push({
     standardId: '2.3',
     standardCode: r23.standardCode,
@@ -326,7 +326,7 @@ Include explicit objective references on assignment prompts (e.g. *This activity
   // 2.4 Canvas Tools and Apps
   // ------------------------------------------------------------------
   const r24 = getRubricMeta('2.4')!;
-  let status24: AlignmentStatus = 'Aligned';
+  const status24: AlignmentStatus = 'Aligned';
   evaluations.push({
     standardId: '2.4',
     standardCode: r24.standardCode,
@@ -360,7 +360,7 @@ Include explicit objective references on assignment prompts (e.g. *This activity
     });
   });
 
-  let status25: AlignmentStatus = uncaptionedVideos.length === 0 ? 'Aligned' : 'Approaching';
+  const status25: AlignmentStatus = uncaptionedVideos.length === 0 ? 'Aligned' : 'Approaching';
   evaluations.push({
     standardId: '2.5',
     standardCode: r25.standardCode,
@@ -388,7 +388,7 @@ Append \`?cc_load_policy=1\` to YouTube embed URLs:
   // ------------------------------------------------------------------
   const r26 = getRubricMeta('2.6')!;
   const hasReadingGuidance = fullText.includes('note-taking') || fullText.includes('reading guide') || fullText.includes('what to focus on');
-  let status26: AlignmentStatus = hasReadingGuidance ? 'Exceptional' : 'Aligned';
+  const status26: AlignmentStatus = hasReadingGuidance ? 'Exceptional' : 'Aligned';
 
   evaluations.push({
     standardId: '2.6',
@@ -411,7 +411,7 @@ Append \`?cc_load_policy=1\` to YouTube embed URLs:
   // ------------------------------------------------------------------
   const r31 = getRubricMeta('3.1')!;
   const hasWelcome = syllabusAnalysis.hasWelcomeMessage || pageAnalyses.some(p => p.analysis.hasWelcomeMessage);
-  let status31: AlignmentStatus = hasWelcome ? 'Aligned' : 'Incomplete';
+  const status31: AlignmentStatus = hasWelcome ? 'Aligned' : 'Incomplete';
 
   evaluations.push({
     standardId: '3.1',
@@ -441,7 +441,7 @@ To get started:
   // ------------------------------------------------------------------
   const r32 = getRubricMeta('3.2')!;
   const hasInitiatedInfo = fullText.includes('instructor interaction') || fullText.includes('weekly announcements') || fullText.includes('discussion feedback');
-  let status32: AlignmentStatus = hasInitiatedInfo ? 'Aligned' : 'Approaching';
+  const status32: AlignmentStatus = hasInitiatedInfo ? 'Aligned' : 'Approaching';
 
   evaluations.push({
     standardId: '3.2',
@@ -469,7 +469,7 @@ To get started:
   // ------------------------------------------------------------------
   const r33 = getRubricMeta('3.3')!;
   const hasContact = syllabusAnalysis.hasInstructorContact || pageAnalyses.some(p => p.analysis.hasInstructorContact);
-  let status33: AlignmentStatus = hasContact ? 'Aligned' : 'Incomplete';
+  const status33: AlignmentStatus = hasContact ? 'Aligned' : 'Incomplete';
 
   evaluations.push({
     standardId: '3.3',
@@ -497,7 +497,7 @@ To get started:
   // ------------------------------------------------------------------
   const r34 = getRubricMeta('3.4')!;
   const hasStudentInteraction = course.discussions.length > 0;
-  let status34: AlignmentStatus = hasStudentInteraction ? 'Aligned' : 'Approaching';
+  const status34: AlignmentStatus = hasStudentInteraction ? 'Aligned' : 'Approaching';
 
   evaluations.push({
     standardId: '3.4',
@@ -524,7 +524,7 @@ To get started:
   // ------------------------------------------------------------------
   const r41 = getRubricMeta('4.1')!;
   const hasAssessmentVariety = course.assignments.length > 0 && (course.discussions.length > 0 || pageAnalyses.length > 2);
-  let status41: AlignmentStatus = hasAssessmentVariety ? 'Aligned' : 'Approaching';
+  const status41: AlignmentStatus = hasAssessmentVariety ? 'Aligned' : 'Approaching';
 
   evaluations.push({
     standardId: '4.1',
@@ -559,7 +559,7 @@ Incorporate low-stakes weekly practice quizzes and peer reflections alongside ma
     }
   });
 
-  let status42: AlignmentStatus = assignmentsWithoutRubric.length === 0 ? 'Aligned' : 'Incomplete';
+  const status42: AlignmentStatus = assignmentsWithoutRubric.length === 0 ? 'Aligned' : 'Incomplete';
   evaluations.push({
     standardId: '4.2',
     standardCode: r42.standardCode,
@@ -597,7 +597,7 @@ Attach a standard Canvas 4-level rubric:
     }
   });
 
-  let status43: AlignmentStatus = vagueInstructions.length === 0 ? 'Aligned' : 'Approaching';
+  const status43: AlignmentStatus = vagueInstructions.length === 0 ? 'Aligned' : 'Approaching';
   evaluations.push({
     standardId: '4.3',
     standardCode: r43.standardCode,
@@ -624,7 +624,7 @@ Attach a standard Canvas 4-level rubric:
   // ------------------------------------------------------------------
   const r44 = getRubricMeta('4.4')!;
   const hasFeedbackInfo = fullText.includes('feedback') || fullText.includes('grading turnaround');
-  let status44: AlignmentStatus = hasFeedbackInfo ? 'Aligned' : 'Approaching';
+  const status44: AlignmentStatus = hasFeedbackInfo ? 'Aligned' : 'Approaching';
 
   evaluations.push({
     standardId: '4.4',
@@ -650,7 +650,7 @@ Graded feedback and rubric evaluations will be posted in Canvas within 7 days of
   // ------------------------------------------------------------------
   const r45 = getRubricMeta('4.5')!;
   const hasReflection = fullText.includes('reflection') || fullText.includes('self-reflection') || fullText.includes('journal');
-  let status45: AlignmentStatus = hasReflection ? 'Exceptional' : 'Aligned';
+  const status45: AlignmentStatus = hasReflection ? 'Exceptional' : 'Aligned';
 
   evaluations.push({
     standardId: '4.5',
@@ -673,7 +673,7 @@ Graded feedback and rubric evaluations will be posted in Canvas within 7 days of
   // ------------------------------------------------------------------
   const r46 = getRubricMeta('4.6')!;
   const hasSurvey = fullText.includes('survey') || fullText.includes('course feedback') || fullText.includes('evaluation');
-  let status46: AlignmentStatus = hasSurvey ? 'Aligned' : 'Approaching';
+  const status46: AlignmentStatus = hasSurvey ? 'Aligned' : 'Approaching';
 
   evaluations.push({
     standardId: '4.6',
@@ -709,7 +709,7 @@ Graded feedback and rubric evaluations will be posted in Canvas within 7 days of
     });
   });
 
-  let statusAlt: AlignmentStatus = badAltImages.length === 0 ? 'Aligned' : 'Incomplete';
+  const statusAlt: AlignmentStatus = badAltImages.length === 0 ? 'Aligned' : 'Incomplete';
   evaluations.push({
     standardId: 'A11Y-ALT',
     standardCode: rAlt.standardCode,
@@ -748,7 +748,7 @@ Graded feedback and rubric evaluations will be posted in Canvas within 7 days of
     });
   });
 
-  let statusLink: AlignmentStatus = badLinks.length === 0 ? 'Aligned' : 'Incomplete';
+  const statusLink: AlignmentStatus = badLinks.length === 0 ? 'Aligned' : 'Incomplete';
   evaluations.push({
     standardId: 'A11Y-LINK',
     standardCode: rLink.standardCode,
@@ -787,7 +787,7 @@ Review the <a href="syllabus.pdf">ETHN 101 Course Syllabus (PDF, 250KB)</a>.
     });
   });
 
-  let statusContrast: AlignmentStatus = badStyles.length === 0 ? 'Aligned' : 'Approaching';
+  const statusContrast: AlignmentStatus = badStyles.length === 0 ? 'Aligned' : 'Approaching';
   evaluations.push({
     standardId: 'A11Y-CONTRAST',
     standardCode: rContrast.standardCode,
