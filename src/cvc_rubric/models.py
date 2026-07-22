@@ -157,6 +157,10 @@ class AccessibilityFinding(BaseModel):
     message: str
     remediation: str
     status: FindingStatus = "ai_suggested"
+    # Grouping fields (populated by dedup post-processing; backward-compatible)
+    # UI can surface these for grouped findings — e.g. "47 occurrences across 12 pages"
+    occurrences: Optional[int] = None
+    affected_pages: Optional[list[dict]] = None  # [{"page_id": str, "page_title": str, "count": int}]
 
 
 # ---------------------------------------------------------------------------

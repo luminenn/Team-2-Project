@@ -52,8 +52,17 @@ _FILENAME_RE = re.compile(
     re.IGNORECASE,
 )
 _PLACEHOLDER_RE = re.compile(
-    r"\$IMS-CC-FILEBASE\$|\$CANVAS_OBJECT_REFERENCE\$|\$WIKI_REFERENCE\$"
+    r"\$IMS-CC-FILEBASE\$|\$CANVAS_OBJECT_REFERENCE\$|\$WIKI_REFERENCE\$|\$CANVAS_COURSE_REFERENCE\$"
 )
+
+# Placeholders that are Canvas's standard resolvable reference tokens.
+# These are expected in .imscc exports and resolve on import into a live course.
+_EXPECTED_PLACEHOLDERS = frozenset({
+    "$IMS-CC-FILEBASE$",
+    "$CANVAS_OBJECT_REFERENCE$",
+    "$WIKI_REFERENCE$",
+    "$CANVAS_COURSE_REFERENCE$",
+})
 _NON_DESCRIPTIVE = frozenset({
     "click here", "here", "read more", "link", "click", "more", "this",
     "more info", "more information", "learn more", "view more",
@@ -667,13 +676,61 @@ def check_page_structure(
         ))
 
     # str-003: unresolved IMS-CC or Canvas placeholders
-    for m in _PLACEHOLDER_RE.finditer(html):
+    # Distinguish expected cartridge syntax (in href/src attributes) from
+    # genuinely broken placeholders (in visible body text).
+    _placeholder_in_attr = set()
+    _placeholder_in_text = set()
+
+    # Check attributes (href, src) — these are expected cartridge syntax
+    for tag in soup.find_all(True):
+        if not isinstance(tag, Tag):
+            continue
+        for attr in ("href", "src", "data-api-endpoint"):
+            val = tag.get(attr, "")
+            if val:
+                for m in _PLACEHOLDER_RE.finditer(val):
+                    token = m.group(0)
+                    _placeholder_in_attr.add(token)
+
+    # Check visible text — placeholders here are real defects
+    visible = soup.get_text(separator="\n")
+    for m in _PLACEHOLDER_RE.finditer(visible):
+        token = m.group(0)
+        _placeholder_in_text.add(token)
+
+    # Count total occurrences for grouping metadata
+    all_matches = list(_PLACEHOLDER_RE.finditer(html))
+    attr_count = 0
+    text_count = 0
+    for m in all_matches:
+        token = m.group(0)
+        if token in _placeholder_in_text and token not in _placeholder_in_attr:
+            text_count += 1
+        else:
+            attr_count += 1
+
+    # Emit findings: visible-text placeholders are errors (real defects)
+    for token in _placeholder_in_text:
+        if token not in _placeholder_in_attr:
+            # This token appears ONLY in visible text — genuine defect
+            findings.append(_finding(
+                "str-003", "error", page_id, page_title, None,
+                f"Placeholder \"{token}\" appears in visible page text (not inside a link/src). "
+                "This will display as raw placeholder text to students.",
+                "Replace with the intended content or a proper link.",
+                snippet_override=f"(visible text contains: {token})",
+            ))
+
+    # Emit findings: attribute-context placeholders are info (expected in cartridge)
+    if _placeholder_in_attr:
+        tokens_list = sorted(_placeholder_in_attr)
         findings.append(_finding(
-            "str-003", "error", page_id, page_title, None,
-            f"Unresolved content placeholder found: \"{m.group(0)}\".",
-            "This placeholder was not substituted during import. "
-            "Replace it with the intended link or content in Canvas.",
-            snippet_override=html[max(0, m.start() - 40): m.end() + 40][:200],
+            "str-003", "info", page_id, page_title, None,
+            f"Expected Canvas file-reference placeholder(s) ({', '.join(tokens_list)}) "
+            "found in link/src attributes — resolves on import into a live Canvas course.",
+            "No action needed unless this course is being viewed outside Canvas. "
+            "These placeholders are standard IMS Common Cartridge syntax.",
+            snippet_override=f"({attr_count} occurrence(s) in href/src attributes)",
         ))
 
     # str-004: broken internal anchor links (#id references that don't exist on the page)
@@ -757,6 +814,10 @@ def run_all(course: CourseObject) -> list[AccessibilityFinding]:
         "documents", None,
         lambda: check_documents(course.files or [])
     )
+
+    # Post-processing: deduplicate repetitive findings
+    from cvc_rubric.checks.dedup import deduplicate_findings
+    findings = deduplicate_findings(findings)
 
     return findings
 
