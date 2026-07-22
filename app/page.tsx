@@ -180,34 +180,34 @@ export default function Home() {
 
   if (currentView === 'pocr') {
     return (
-      <div className="min-h-screen bg-slate-950 flex flex-col font-sans">
+      <div className="min-h-screen bg-[#F4F4F6] text-slate-950 flex flex-col font-sans">
         
-        <div className="bg-slate-900 border-b border-slate-800 px-6 py-2 flex items-center justify-between text-xs text-slate-400">
+        <div className="bg-[#18181B] text-slate-300 px-6 py-2.5 flex items-center justify-between text-xs font-semibold shadow-md">
           <button
             onClick={() => setCurrentView('dashboard')}
-            className="inline-flex items-center gap-1.5 text-blue-400 hover:underline font-semibold"
+            className="inline-flex items-center gap-2 text-white hover:text-[#F8E14B] font-bold transition"
           >
-            <ArrowLeft className="w-3.5 h-3.5" /> Return to Student Dashboard
+            <ArrowLeft className="w-4 h-4" /> Return to Student Dashboard
           </button>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-5">
             <button
               onClick={() => setIsVideoModalOpen(true)}
-              className="text-rose-400 hover:underline inline-flex items-center gap-1 font-mono font-semibold"
+              className="text-[#FF6B35] hover:underline inline-flex items-center gap-1.5 font-bold"
             >
-              <Youtube className="w-3.5 h-3.5" /> Video Captions Report
+              <Youtube className="w-4 h-4" /> Video Captions Report
             </button>
 
             <button
               onClick={() => setIsJsonModalOpen(true)}
-              className="text-blue-300 hover:underline inline-flex items-center gap-1 font-mono font-semibold"
+              className="text-slate-200 hover:text-white inline-flex items-center gap-1.5 font-bold"
             >
-              <Code className="w-3.5 h-3.5" /> Structural JSON
+              <Code className="w-4 h-4 text-blue-400" /> Structural JSON
             </button>
 
             <button
               onClick={() => setCurrentView('login')}
-              className="hover:text-slate-200 inline-flex items-center gap-1"
+              className="text-slate-400 hover:text-white inline-flex items-center gap-1 font-medium"
             >
               <LogIn className="w-3.5 h-3.5" /> Login Screen
             </button>
@@ -237,37 +237,37 @@ export default function Home() {
           />
 
           <main className="flex-1 space-y-6">
-            <div className="glass-card rounded-2xl p-6 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-gradient-to-r from-slate-900 via-slate-900/90 to-blue-950/40">
+            <div className="bg-[#6320EE] rounded-[32px] p-7 text-white flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xl shadow-purple-600/20">
               <div>
-                <div className="flex items-center gap-2 text-xs font-mono text-blue-400 font-semibold mb-1">
-                  <Sparkles className="w-4 h-4 text-blue-400" />
+                <div className="flex items-center gap-2 text-xs font-black text-[#F8E14B] uppercase tracking-wider mb-1">
+                  <Sparkles className="w-4 h-4 text-[#F8E14B]" />
                   <span>POCR AUDIT REPORT • {selectedCourse.code}</span>
                 </div>
-                <h2 className="text-xl font-bold text-slate-100">
+                <h2 className="text-2xl font-black tracking-tight text-white">
                   {selectedCourse.title}
                 </h2>
-                <p className="text-xs text-slate-400 mt-1">
-                  Instructor: <strong className="text-slate-200">{selectedCourse.instructor}</strong> • Term: {selectedCourse.term}
+                <p className="text-xs text-white/90 mt-1 font-medium">
+                  Instructor: <strong className="text-white font-bold">{selectedCourse.instructor}</strong> • Term: {selectedCourse.term}
                 </p>
               </div>
 
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => setActiveStatusFilter('ALL')}
-                  className={`px-3 py-1.5 rounded-xl text-xs font-semibold border transition ${
+                  className={`px-4 py-2 rounded-full text-xs font-bold transition shadow-sm ${
                     activeStatusFilter === 'ALL'
-                      ? 'bg-blue-600/20 border-blue-500/50 text-blue-300'
-                      : 'bg-slate-900/80 border-slate-800 text-slate-400 hover:text-slate-200'
+                      ? 'bg-white text-slate-950'
+                      : 'bg-white/20 text-white hover:bg-white/30 backdrop-blur-md'
                   }`}
                 >
                   All ({report.evaluations.length})
                 </button>
                 <button
                   onClick={() => setActiveStatusFilter('Incomplete')}
-                  className={`px-3 py-1.5 rounded-xl text-xs font-semibold border transition ${
+                  className={`px-4 py-2 rounded-full text-xs font-bold transition shadow-sm ${
                     activeStatusFilter === 'Incomplete'
-                      ? 'bg-rose-500/20 border-rose-500/50 text-rose-300'
-                      : 'bg-slate-900/80 border-slate-800 text-slate-400 hover:text-slate-200'
+                      ? 'bg-[#FF6B35] text-white shadow-md'
+                      : 'bg-white/20 text-white hover:bg-white/30 backdrop-blur-md'
                   }`}
                 >
                   Action Required ({report.incompleteCount})
@@ -277,7 +277,7 @@ export default function Home() {
 
             <div className="space-y-4">
               <div className="flex items-center justify-between px-1">
-                <h3 className="text-xs font-mono font-semibold uppercase tracking-wider text-slate-400">
+                <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500">
                   Evaluated Rubric Standards ({filteredEvaluations.length})
                 </h3>
                 {activeStatusFilter !== 'ALL' || activeSection !== 'ALL' || searchQuery ? (
@@ -287,9 +287,9 @@ export default function Home() {
                       setActiveStatusFilter('ALL');
                       setSearchQuery('');
                     }}
-                    className="text-xs text-blue-400 hover:underline inline-flex items-center gap-1"
+                    className="text-xs text-[#6320EE] hover:underline font-bold inline-flex items-center gap-1"
                   >
-                    <RefreshCw className="w-3 h-3" /> Clear Filters
+                    <RefreshCw className="w-3.5 h-3.5" /> Clear Filters
                   </button>
                 ) : null}
               </div>

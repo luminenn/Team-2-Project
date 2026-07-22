@@ -1,9 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+export interface CaptionTrackInput {
+  kind?: string; // 'asr' for auto-generated, or ''/null/'standard' for manual
+  language?: string;
+  name?: string;
+}
+
 export interface VideoInputItem {
   url: string;
   embed_code?: string;
   location?: string;
+  tracks?: CaptionTrackInput[];
 }
 
 export interface VideoComplianceRequest {
@@ -26,13 +33,69 @@ function detectProvider(url: string): string {
   return 'other';
 }
 
+/**
+ * YouTube Caption Truth Table Evaluator:
+ * 1. PASS (LIKELY_COMPLIANT): Has AT LEAST ONE manual caption track (`track.kind !== 'asr'`). Auto captions alongside manual track are allowed and pass.
+ * 2. FAIL (NON_COMPLIANT_AUTO_CAPTIONS): ONLY has auto-generated captions (`track.kind === 'asr'`) and no manual captions exist.
+ * 3. FAIL (NON_COMPLIANT_MISSING_CAPTIONS): NO captions exist at all.
+ */
+function evaluateCaptionTracks(tracks?: CaptionTrackInput[], hasApiCaptionParam?: boolean, titleText?: string) {
+  if (tracks && tracks.length > 0) {
+    const hasManualTrack = tracks.some(t => t.kind && t.kind.toLowerCase() !== 'asr');
+    const hasAutoOnly = tracks.every(t => t.kind && t.kind.toLowerCase() === 'asr');
+
+    if (hasManualTrack) {
+      return {
+        status: 'LIKELY_COMPLIANT',
+        flag_level: 'INFO',
+        caption_details: { has_captions: true, is_auto_generated: false, language: 'en' },
+        recommendation: 'Manually verified human caption track detected.'
+      };
+    } else if (hasAutoOnly) {
+      return {
+        status: 'NON_COMPLIANT_AUTO_CAPTIONS',
+        flag_level: 'WARNING',
+        caption_details: { has_captions: true, is_auto_generated: true, language: 'en' },
+        recommendation: 'Replace or edit automatic speech recognition (ASR) captions with a verified human caption track.'
+      };
+    }
+  }
+
+  // Fallback heuristic if tracks array not explicitly provided
+  const lowerTitle = (titleText || '').toLowerCase();
+  const isAutoInTitle = lowerTitle.includes('auto-generated') || lowerTitle.includes('asr captions');
+
+  if (hasApiCaptionParam && !isAutoInTitle) {
+    return {
+      status: 'LIKELY_COMPLIANT',
+      flag_level: 'INFO',
+      caption_details: { has_captions: true, is_auto_generated: false, language: 'en' },
+      recommendation: 'Manually verified human caption track detected.'
+    };
+  } else if (hasApiCaptionParam && isAutoInTitle) {
+    return {
+      status: 'NON_COMPLIANT_AUTO_CAPTIONS',
+      flag_level: 'WARNING',
+      caption_details: { has_captions: true, is_auto_generated: true, language: 'en' },
+      recommendation: 'Replace or edit automatic speech recognition (ASR) captions with a verified human caption track.'
+    };
+  }
+
+  return {
+    status: 'NON_COMPLIANT_MISSING_CAPTIONS',
+    flag_level: 'CRITICAL',
+    caption_details: { has_captions: false, is_auto_generated: false, language: 'unknown' },
+    recommendation: 'No closed captions detected. Add accurate human-edited closed captions or a transcript.'
+  };
+}
+
 export async function POST(req: NextRequest) {
   try {
     const body: VideoComplianceRequest = await req.json();
     const videos = body.videos || [];
     const apiKey = body.api_key || process.env.YOUTUBE_API_KEY;
 
-    const ytMap: Record<string, { id: string; url: string; locations: string[] }> = {};
+    const ytMap: Record<string, { id: string; url: string; locations: string[]; tracks?: CaptionTrackInput[] }> = {};
     const nonYtList: { provider: string; url: string; locations: string[] }[] = [];
 
     // 1. Extract & Deduplicate
@@ -41,9 +104,14 @@ export async function POST(req: NextRequest) {
       const loc = v.location || 'course_content';
       if (ytId) {
         if (!ytMap[ytId]) {
-          ytMap[ytId] = { id: ytId, url: v.url, locations: [loc] };
-        } else if (!ytMap[ytId].locations.includes(loc)) {
-          ytMap[ytId].locations.push(loc);
+          ytMap[ytId] = { id: ytId, url: v.url, locations: [loc], tracks: v.tracks };
+        } else {
+          if (!ytMap[ytId].locations.includes(loc)) {
+            ytMap[ytId].locations.push(loc);
+          }
+          if (v.tracks && v.tracks.length > 0) {
+            ytMap[ytId].tracks = [...(ytMap[ytId].tracks || []), ...v.tracks];
+          }
         }
       } else {
         nonYtList.push({
@@ -74,7 +142,8 @@ export async function POST(req: NextRequest) {
 
             chunk.forEach(yid => {
               const itemData = itemsById[yid];
-              if (!itemData) {
+              const inputTracks = ytMap[yid].tracks;
+              if (!itemData && (!inputTracks || inputTracks.length === 0)) {
                 results.push({
                   youtube_video_id: yid,
                   original_url: ytMap[yid].url,
@@ -85,31 +154,15 @@ export async function POST(req: NextRequest) {
                   recommendation: 'Video unavailable or private. Replace with accessible video.'
                 });
               } else {
-                const hasCaptions = itemData.contentDetails?.caption === 'true';
-                const isAuto = !hasCaptions ? false : (itemData.snippet?.title?.toLowerCase().includes('auto') || false);
-
-                let status = 'LIKELY_COMPLIANT';
-                let flag_level = 'INFO';
-                let rec = 'Manually verified human caption track detected.';
-
-                if (!hasCaptions) {
-                  status = 'NON_COMPLIANT_MISSING_CAPTIONS';
-                  flag_level = 'CRITICAL';
-                  rec = 'No closed captions detected. Add accurate human-edited closed captions or a transcript.';
-                } else if (isAuto) {
-                  status = 'NON_COMPLIANT_AUTO_CAPTIONS';
-                  flag_level = 'WARNING';
-                  rec = 'Replace or edit automatic speech recognition (ASR) captions with a verified human caption track.';
-                }
+                const hasCaptions = itemData?.contentDetails?.caption === 'true';
+                const title = itemData?.snippet?.title || '';
+                const evalRes = evaluateCaptionTracks(inputTracks, hasCaptions, title);
 
                 results.push({
                   youtube_video_id: yid,
                   original_url: ytMap[yid].url,
                   found_in_locations: ytMap[yid].locations,
-                  status,
-                  flag_level,
-                  caption_details: { has_captions: hasCaptions, is_auto_generated: isAuto, language: 'en' },
-                  recommendation: rec
+                  ...evalRes
                 });
               }
             });
@@ -124,17 +177,28 @@ export async function POST(req: NextRequest) {
     ytIds.forEach(yid => {
       if (!results.some(r => r.youtube_video_id === yid)) {
         const rawUrl = ytMap[yid].url;
+        const inputTracks = ytMap[yid].tracks;
         const hasCC = rawUrl.includes('cc_load_policy=1');
+
+        let evalRes;
+        if (inputTracks && inputTracks.length > 0) {
+          evalRes = evaluateCaptionTracks(inputTracks, hasCC, rawUrl);
+        } else {
+          evalRes = {
+            status: hasCC ? 'LIKELY_COMPLIANT' : 'NON_COMPLIANT_AUTO_CAPTIONS',
+            flag_level: hasCC ? 'INFO' : 'WARNING',
+            caption_details: { has_captions: true, is_auto_generated: !hasCC, language: 'en' },
+            recommendation: hasCC 
+              ? 'Closed caption parameter detected on embed tag.'
+              : 'Replace or edit automatic speech recognition (ASR) captions with a verified human caption track.'
+          };
+        }
+
         results.push({
           youtube_video_id: yid,
           original_url: rawUrl,
           found_in_locations: ytMap[yid].locations,
-          status: hasCC ? 'LIKELY_COMPLIANT' : 'NON_COMPLIANT_AUTO_CAPTIONS',
-          flag_level: hasCC ? 'INFO' : 'WARNING',
-          caption_details: { has_captions: true, is_auto_generated: !hasCC, language: 'en' },
-          recommendation: hasCC 
-            ? 'Closed caption parameter detected on embed tag.'
-            : 'Replace or edit automatic speech recognition (ASR) captions with a verified human caption track.'
+          ...evalRes
         });
       }
     });

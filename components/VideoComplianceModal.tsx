@@ -119,46 +119,46 @@ export const VideoComplianceModal: React.FC<VideoComplianceModalProps> = ({
     switch (status) {
       case 'LIKELY_COMPLIANT':
         return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
-            <CheckCircle2 className="w-3.5 h-3.5" /> Likely Compliant
+          <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-extrabold bg-emerald-500 text-white shadow-sm">
+            <CheckCircle2 className="w-3.5 h-3.5" /> Likely Compliant (Manual)
           </span>
         );
       case 'NON_COMPLIANT_AUTO_CAPTIONS':
         return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-500/15 text-amber-400 border border-amber-500/30">
-            <AlertTriangle className="w-3.5 h-3.5" /> Auto-Generated Captions (ASR)
+          <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-black bg-[#F8E14B] text-slate-950 shadow-sm">
+            <AlertTriangle className="w-3.5 h-3.5" /> Auto Captions (ASR Only)
           </span>
         );
       case 'NON_COMPLIANT_MISSING_CAPTIONS':
         return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-rose-500/15 text-rose-400 border border-rose-500/30">
+          <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-extrabold bg-[#FF6B35] text-white shadow-sm">
             <XCircle className="w-3.5 h-3.5" /> Missing Captions
           </span>
         );
       default:
         return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-500/15 text-blue-300 border border-blue-500/30">
-            <HelpCircle className="w-3.5 h-3.5" /> Needs Manual Review
+          <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-900 border border-blue-200">
+            <HelpCircle className="w-3.5 h-3.5 text-blue-700" /> Needs Manual Review
           </span>
         );
     }
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-      <div className="w-full max-w-4xl glass-panel rounded-3xl border border-slate-800 p-6 md:p-8 space-y-6 shadow-2xl my-8">
+    <div className="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
+      <div className="w-full max-w-4xl bg-white rounded-[32px] border border-slate-200 p-6 md:p-8 space-y-6 shadow-2xl my-8">
         
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+        <div className="flex items-center justify-between border-b border-slate-200 pb-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-rose-600/20 text-rose-400 border border-rose-500/30 flex items-center justify-center">
+            <div className="w-11 h-11 rounded-2xl bg-[#FF6B35] text-white flex items-center justify-center shadow-md shadow-orange-500/20 shrink-0">
               <Youtube className="w-6 h-6" />
             </div>
             <div>
-              <h2 className="text-lg font-bold text-slate-100">
+              <h2 className="text-lg font-extrabold text-slate-950">
                 YouTube & Video Caption Accessibility Report
               </h2>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-slate-500 font-medium">
                 FastAPI Batch Pipeline • WCAG 2.1 AA & June 2027 CVC POCR Standard 2.5
               </p>
             </div>
@@ -166,7 +166,7 @@ export const VideoComplianceModal: React.FC<VideoComplianceModalProps> = ({
 
           <button
             onClick={onClose}
-            className="p-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-slate-200 transition"
+            className="p-2 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-950 transition"
           >
             <X className="w-5 h-5" />
           </button>
@@ -174,47 +174,47 @@ export const VideoComplianceModal: React.FC<VideoComplianceModalProps> = ({
 
         {/* Summary Metrics */}
         <div className="grid grid-cols-4 gap-3 text-center">
-          <div className="p-3 rounded-2xl bg-slate-900 border border-slate-800">
-            <span className="block text-xl font-bold text-slate-100 font-mono">{report.summary.total_videos_found}</span>
-            <span className="text-[11px] text-slate-400">Total Videos Scanned</span>
+          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+            <span className="block text-2xl font-black text-slate-950 font-mono">{report.summary.total_videos_found}</span>
+            <span className="text-[11px] font-bold text-slate-500">Total Videos</span>
           </div>
-          <div className="p-3 rounded-2xl bg-emerald-500/10 border border-emerald-500/20">
-            <span className="block text-xl font-bold text-emerald-400 font-mono">{report.summary.compliant_count}</span>
-            <span className="text-[11px] text-emerald-300">Compliant Captions</span>
+          <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200">
+            <span className="block text-2xl font-black text-emerald-600 font-mono">{report.summary.compliant_count}</span>
+            <span className="text-[11px] font-bold text-emerald-800">Compliant</span>
           </div>
-          <div className="p-3 rounded-2xl bg-rose-500/10 border border-rose-500/20">
-            <span className="block text-xl font-bold text-rose-400 font-mono">{report.summary.non_compliant_count}</span>
-            <span className="text-[11px] text-rose-300">Non-Compliant</span>
+          <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200">
+            <span className="block text-2xl font-black text-[#FF6B35] font-mono">{report.summary.non_compliant_count}</span>
+            <span className="text-[11px] font-bold text-amber-900">Non-Compliant</span>
           </div>
-          <div className="p-3 rounded-2xl bg-blue-500/10 border border-blue-500/20">
-            <span className="block text-xl font-bold text-blue-400 font-mono">{report.summary.manual_review_count}</span>
-            <span className="text-[11px] text-blue-300">Manual Review</span>
+          <div className="p-4 rounded-2xl bg-blue-50 border border-blue-200">
+            <span className="block text-2xl font-black text-blue-600 font-mono">{report.summary.manual_review_count}</span>
+            <span className="text-[11px] font-bold text-blue-900">Manual Review</span>
           </div>
         </div>
 
         {/* Filter Pills */}
-        <div className="flex items-center gap-2 border-b border-slate-800 pb-3">
-          <span className="text-xs font-mono font-semibold uppercase text-slate-400 mr-2">Filter:</span>
+        <div className="flex items-center gap-2 border-b border-slate-200 pb-3">
+          <span className="text-xs font-bold uppercase text-slate-500 mr-2">Filter:</span>
           <button
             onClick={() => setFilterStatus('ALL')}
-            className={`px-3 py-1 rounded-xl text-xs font-semibold transition ${
-              filterStatus === 'ALL' ? 'bg-blue-600/20 text-blue-300 border border-blue-500/40' : 'text-slate-400'
+            className={`px-4 py-1.5 rounded-full text-xs font-bold transition ${
+              filterStatus === 'ALL' ? 'bg-[#18181B] text-white shadow-sm' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
             }`}
           >
             All Videos ({report.results.length})
           </button>
           <button
             onClick={() => setFilterStatus('NON_COMPLIANT_AUTO_CAPTIONS')}
-            className={`px-3 py-1 rounded-xl text-xs font-semibold transition ${
-              filterStatus === 'NON_COMPLIANT_AUTO_CAPTIONS' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40' : 'text-slate-400'
+            className={`px-4 py-1.5 rounded-full text-xs font-black transition ${
+              filterStatus === 'NON_COMPLIANT_AUTO_CAPTIONS' ? 'bg-[#F8E14B] text-slate-950 shadow-sm' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
             }`}
           >
-            Auto Captions (ASR)
+            Auto Captions (ASR Only)
           </button>
           <button
             onClick={() => setFilterStatus('NON_COMPLIANT_MISSING_CAPTIONS')}
-            className={`px-3 py-1 rounded-xl text-xs font-semibold transition ${
-              filterStatus === 'NON_COMPLIANT_MISSING_CAPTIONS' ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40' : 'text-slate-400'
+            className={`px-4 py-1.5 rounded-full text-xs font-bold transition ${
+              filterStatus === 'NON_COMPLIANT_MISSING_CAPTIONS' ? 'bg-[#FF6B35] text-white shadow-sm' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
             }`}
           >
             Missing Captions
@@ -224,15 +224,15 @@ export const VideoComplianceModal: React.FC<VideoComplianceModalProps> = ({
         {/* Results List */}
         <div className="space-y-3 max-h-[50vh] overflow-y-auto pr-1">
           {filteredResults.map((res, idx) => (
-            <div key={idx} className="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+            <div key={idx} className="p-5 rounded-[24px] bg-slate-50 border border-slate-200 space-y-3">
               <div className="flex items-center justify-between gap-3">
                 <div className="flex items-center gap-2 truncate">
-                  <Youtube className="w-4 h-4 text-rose-400 shrink-0" />
+                  <Youtube className="w-4 h-4 text-[#FF6B35] shrink-0" />
                   <a
                     href={res.original_url}
                     target="_blank"
                     rel="noreferrer"
-                    className="text-xs font-mono text-blue-400 hover:underline truncate inline-flex items-center gap-1"
+                    className="text-xs font-mono font-bold text-[#6320EE] hover:underline truncate inline-flex items-center gap-1"
                   >
                     <span>{res.original_url}</span>
                     <ExternalLink className="w-3 h-3" />
@@ -241,13 +241,13 @@ export const VideoComplianceModal: React.FC<VideoComplianceModalProps> = ({
                 {getStatusBadge(res.status)}
               </div>
 
-              <div className="text-xs text-slate-300">
-                <strong className="text-slate-400">Found in:</strong> {res.found_in_locations.join(', ')}
+              <div className="text-xs text-slate-700 font-medium">
+                <strong className="text-slate-950 font-bold">Found in:</strong> {res.found_in_locations.join(', ')}
               </div>
 
-              <div className="p-3 rounded-xl bg-slate-950 text-xs text-slate-200 border border-slate-850">
-                <strong className="text-amber-400 block mb-1">Accessibility Recommendation:</strong>
-                <p>{res.recommendation}</p>
+              <div className="p-3.5 rounded-2xl bg-white text-xs text-slate-800 border border-slate-200">
+                <strong className="text-[#FF6B35] block mb-1 font-bold">Accessibility Recommendation:</strong>
+                <p className="font-medium">{res.recommendation}</p>
               </div>
             </div>
           ))}

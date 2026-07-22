@@ -19,10 +19,15 @@ CACHE_TTL_SECONDS = 60 * 24 * 60 * 60 # 60 days
 # ------------------------------------------------------------------
 # Pydantic Schemas
 # ------------------------------------------------------------------
+class CaptionTrackItem(BaseModel):
+  kind: Optional[str] = "" # 'asr' for auto-generated or ''/'manual' for human
+  language: Optional[str] = "en"
+
 class VideoItemInput(BaseModel):
   url: str
   embed_code: Optional[str] = ""
   location: Optional[str] = "content_page"
+  tracks: Optional[List[CaptionTrackItem]] = []
 
 class VideoCheckRequest(BaseModel):
   videos: List[VideoItemInput]
@@ -32,6 +37,33 @@ class CaptionDetails(BaseModel):
   has_captions: bool
   is_auto_generated: bool
   language: str = "en"
+
+def evaluate_tracks_rule_matrix(tracks: Optional[List[CaptionTrackItem]] = None, has_api_captions: bool = False, title: str = ""):
+  """
+  YouTube Caption Logic Matrix:
+  1. PASS (LIKELY_COMPLIANT): Video has AT LEAST ONE manual caption track (`track.kind != 'asr'`).
+     Auto captions alongside manual track are allowed and pass.
+  2. FAIL (NON_COMPLIANT_AUTO_CAPTIONS): ONLY has auto-generated captions (`track.kind == 'asr'`) and no manual captions exist.
+  3. FAIL (NON_COMPLIANT_MISSING_CAPTIONS): NO captions exist at all.
+  """
+  if tracks:
+    has_manual = any(t.kind and t.kind.lower() != "asr" for t.kind in [t.kind for t in tracks if t.kind])
+    has_auto_only = len(tracks) > 0 and all(t.kind and t.kind.lower() == "asr" for t in tracks)
+
+    if has_manual:
+      return "LIKELY_COMPLIANT", "INFO", CaptionDetails(has_captions=True, is_auto_generated=False, language="en"), "Manually verified human caption track detected."
+    elif has_auto_only:
+      return "NON_COMPLIANT_AUTO_CAPTIONS", "WARNING", CaptionDetails(has_captions=True, is_auto_generated=True, language="en"), "Replace or edit automatic speech recognition (ASR) captions with a verified human caption track."
+
+  lower_title = title.lower()
+  is_auto_in_title = "auto-generated" in lower_title or "asr" in lower_title
+
+  if has_api_captions and not is_auto_in_title:
+    return "LIKELY_COMPLIANT", "INFO", CaptionDetails(has_captions=True, is_auto_generated=False, language="en"), "Manually verified human caption track detected."
+  elif has_api_captions and is_auto_in_title:
+    return "NON_COMPLIANT_AUTO_CAPTIONS", "WARNING", CaptionDetails(has_captions=True, is_auto_generated=True, language="en"), "Replace or edit automatic speech recognition (ASR) captions with a verified human caption track."
+  else:
+    return "NON_COMPLIANT_MISSING_CAPTIONS", "CRITICAL", CaptionDetails(has_captions=False, is_auto_generated=False, language="unknown"), "No closed captions detected. Add accurate human-edited closed captions or a transcript."
 
 class ComplianceResultItem(BaseModel):
   youtube_video_id: Optional[str] = None
@@ -179,28 +211,11 @@ async def check_video_compliance(payload: VideoCheckRequest):
               else:
                 c_details = v_data.get("contentDetails", {})
                 has_captions = c_details.get("caption") == "true"
-
-                # Check if captions are automatic or human
-                # Heuristic: inspect snippet / caption track metadata
                 snippet = v_data.get("snippet", {})
-                title = snippet.get("title", "").lower()
-                is_auto = False
-                if has_captions:
-                  if "auto-generated" in title or "asr" in title:
-                    is_auto = True
+                title = snippet.get("title", "")
+                input_tracks = yt_map[yid].get("tracks", [])
 
-                if not has_captions:
-                  status = "NON_COMPLIANT_MISSING_CAPTIONS"
-                  flag_level = "CRITICAL"
-                  rec = "No closed captions detected. Add accurate human-edited closed captions or a transcript."
-                elif is_auto:
-                  status = "NON_COMPLIANT_AUTO_CAPTIONS"
-                  flag_level = "WARNING"
-                  rec = "Replace or edit automatic speech recognition (ASR) captions with a verified human caption track."
-                else:
-                  status = "LIKELY_COMPLIANT"
-                  flag_level = "INFO"
-                  rec = "Manually verified human caption track detected."
+                status, flag_level, cap_details, rec = evaluate_tracks_rule_matrix(input_tracks, has_captions, title)
 
                 item_res = ComplianceResultItem(
                     youtube_video_id=yid,
@@ -209,7 +224,7 @@ async def check_video_compliance(payload: VideoCheckRequest):
                     found_in_locations=yt_map[yid]["locations"],
                     status=status,
                     flag_level=flag_level,
-                    caption_details=CaptionDetails(has_captions=has_captions, is_auto_generated=is_auto, language="en"),
+                    caption_details=cap_details,
                     recommendation=rec
                 )
 

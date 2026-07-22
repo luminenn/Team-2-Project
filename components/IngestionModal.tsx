@@ -59,40 +59,40 @@ export const IngestionModal: React.FC<IngestionModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="w-full max-w-xl glass-panel rounded-3xl border border-slate-800 p-6 space-y-6 shadow-2xl animate-in zoom-in-95 duration-200">
+    <div className="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-md flex items-center justify-center p-4">
+      <div className="w-full max-w-xl bg-white rounded-[32px] border border-slate-200 p-6 sm:p-8 space-y-6 shadow-2xl animate-in zoom-in-95 duration-200">
         
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-blue-600/20 text-blue-400 border border-blue-500/30 flex items-center justify-center">
+            <div className="w-11 h-11 rounded-2xl bg-[#6320EE] text-white flex items-center justify-center shadow-md shadow-purple-600/20 shrink-0">
               <Upload className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-base font-bold text-slate-100">
+              <h2 className="text-base font-extrabold text-slate-950">
                 Ingest Canvas LMS Course Content
               </h2>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-slate-500 font-medium">
                 Upload a Canvas `.imscc` export cartridge or paste Canvas API JSON
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-slate-200 transition"
+            className="p-2 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-950 transition"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Tabs */}
-        <div className="flex items-center gap-2 border-b border-slate-800 pb-2">
+        <div className="flex items-center gap-2 border-b border-slate-200 pb-3">
           <button
             onClick={() => setActiveTab('cartridge')}
-            className={`px-4 py-2 rounded-xl text-xs font-semibold transition ${
+            className={`px-4 py-2 rounded-full text-xs font-bold transition ${
               activeTab === 'cartridge'
-                ? 'bg-blue-600/20 text-blue-300 border border-blue-500/40'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-[#18181B] text-white shadow-sm'
+                : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
             }`}
           >
             <Upload className="w-3.5 h-3.5 inline mr-1.5" />
@@ -101,10 +101,10 @@ export const IngestionModal: React.FC<IngestionModalProps> = ({
 
           <button
             onClick={() => setActiveTab('json')}
-            className={`px-4 py-2 rounded-xl text-xs font-semibold transition ${
+            className={`px-4 py-2 rounded-full text-xs font-bold transition ${
               activeTab === 'json'
-                ? 'bg-blue-600/20 text-blue-300 border border-blue-500/40'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-[#18181B] text-white shadow-sm'
+                : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
             }`}
           >
             <FileCode className="w-3.5 h-3.5 inline mr-1.5" />
@@ -113,30 +113,30 @@ export const IngestionModal: React.FC<IngestionModalProps> = ({
         </div>
 
         {errorMessage && (
-          <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-xs text-rose-300 flex items-center gap-2">
-            <AlertCircle className="w-4 h-4 shrink-0" />
+          <div className="p-3.5 rounded-2xl bg-rose-50 border border-rose-200 text-xs text-rose-700 font-semibold flex items-center gap-2">
+            <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
             <span>{errorMessage}</span>
           </div>
         )}
 
         {/* Tab 1: Drag and Drop Upload */}
         {activeTab === 'cartridge' && (
-          <div className="border-2 border-dashed border-slate-800 hover:border-blue-500/50 rounded-2xl p-8 text-center bg-slate-900/40 transition">
+          <div className="border-2 border-dashed border-slate-300 hover:border-[#6320EE] rounded-[24px] p-8 text-center bg-slate-50 hover:bg-purple-50/30 transition">
             {isProcessing ? (
               <div className="py-6 space-y-3">
-                <Loader2 className="w-8 h-8 text-blue-400 animate-spin mx-auto" />
-                <p className="text-xs font-semibold text-slate-200">
+                <Loader2 className="w-8 h-8 text-[#6320EE] animate-spin mx-auto" />
+                <p className="text-xs font-bold text-slate-900">
                   Parsing Canvas Cartridge & Analyzing HTML DOM...
                 </p>
               </div>
             ) : (
               <label className="cursor-pointer space-y-3 block">
-                <Upload className="w-10 h-10 text-blue-400 mx-auto" />
+                <Upload className="w-10 h-10 text-[#6320EE] mx-auto" />
                 <div>
-                  <p className="text-sm font-semibold text-slate-200">
+                  <p className="text-sm font-extrabold text-slate-950">
                     Click to select or drag `.imscc` file here
                   </p>
-                  <p className="text-xs text-slate-400 mt-1">
+                  <p className="text-xs text-slate-500 mt-1 font-medium">
                     Extracts pages, module objectives, headings, images & links for evaluation
                   </p>
                 </div>
@@ -159,12 +159,12 @@ export const IngestionModal: React.FC<IngestionModalProps> = ({
               onChange={(e) => setJsonText(e.target.value)}
               placeholder='{"code": "SOC 101", "title": "Intro to Sociology", "modules": [...]}'
               rows={6}
-              className="w-full bg-slate-950 font-mono text-xs text-slate-200 border border-slate-800 rounded-2xl p-3 focus:outline-none focus:border-blue-500"
+              className="w-full bg-slate-950 font-mono text-xs text-slate-200 border border-slate-800 rounded-[20px] p-4 focus:outline-none focus:ring-2 focus:ring-[#6320EE]"
             />
             <button
               onClick={handleJsonSubmit}
               disabled={isProcessing || !jsonText.trim()}
-              className="w-full py-2.5 rounded-xl font-semibold text-xs bg-blue-600 hover:bg-blue-500 disabled:opacity-50 text-white transition shadow-md shadow-blue-600/20"
+              className="w-full py-3 rounded-full font-bold text-xs bg-[#18181B] hover:bg-slate-800 disabled:opacity-50 text-white transition shadow-md"
             >
               {isProcessing ? 'Ingesting JSON...' : 'Ingest Canvas JSON & Run Audit'}
             </button>

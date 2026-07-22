@@ -19,25 +19,25 @@ export const StandardCard: React.FC<StandardCardProps> = ({
     switch (evaluation.status) {
       case 'Exceptional':
         return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-purple-500/15 text-purple-300 border border-purple-500/40">
-            <Award className="w-3.5 h-3.5 text-purple-400" /> Exceptional
+          <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-extrabold bg-[#6320EE] text-white shadow-sm">
+            <Award className="w-3.5 h-3.5" /> Exceptional
           </span>
         );
       case 'Aligned':
         return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+          <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-extrabold bg-emerald-500 text-white shadow-sm">
             <CheckCircle2 className="w-3.5 h-3.5" /> Aligned
           </span>
         );
       case 'Approaching':
         return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-500/15 text-amber-400 border border-amber-500/30">
-            <AlertTriangle className="w-3.5 h-3.5" /> Approaching
+          <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-black bg-[#F8E14B] text-slate-950 shadow-sm">
+            <AlertTriangle className="w-3.5 h-3.5 text-slate-950" /> Approaching
           </span>
         );
       default:
         return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-rose-500/15 text-rose-400 border border-rose-500/30">
+          <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-extrabold bg-[#FF6B35] text-white shadow-sm">
             <XCircle className="w-3.5 h-3.5" /> Incomplete
           </span>
         );
@@ -46,18 +46,18 @@ export const StandardCard: React.FC<StandardCardProps> = ({
 
   return (
     <div
-      className={`group glass-card rounded-2xl p-5 border transition-all duration-200 ${
+      className={`group rounded-[28px] p-6 border transition-all duration-200 bg-white ${
         isSelected
-          ? 'border-blue-500/80 bg-slate-900/90 shadow-lg shadow-blue-500/10 ring-1 ring-blue-500/40'
-          : 'border-slate-800/80 hover:border-slate-700 bg-slate-900/40 hover:bg-slate-900/60'
+          ? 'border-[#6320EE] ring-2 ring-[#6320EE]/40 shadow-xl'
+          : 'border-slate-200 hover:border-slate-300 shadow-sm hover:shadow-md'
       }`}
     >
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800/80">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
         <div className="flex items-center gap-2.5">
-          <span className="font-mono text-xs font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">
+          <span className="font-mono text-xs font-black px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-800 border border-slate-300">
             {evaluation.standardCode}
           </span>
-          <span className="text-xs font-medium text-slate-400">
+          <span className="text-xs font-bold text-slate-500">
             {evaluation.section}
           </span>
         </div>
@@ -65,10 +65,10 @@ export const StandardCard: React.FC<StandardCardProps> = ({
       </div>
 
       <div className="mt-3 space-y-2">
-        <h3 className="text-base font-semibold text-slate-100 group-hover:text-blue-300 transition">
+        <h3 className="text-base font-extrabold text-slate-950 group-hover:text-[#6320EE] transition">
           {evaluation.title}
         </h3>
-        <p className="text-xs text-slate-300 leading-relaxed">
+        <p className="text-xs text-slate-600 leading-relaxed font-medium">
           {evaluation.summary}
         </p>
       </div>
@@ -76,26 +76,26 @@ export const StandardCard: React.FC<StandardCardProps> = ({
       {/* Impacted Canvas Items */}
       {evaluation.affectedItems.length > 0 && (
         <div className="mt-4 space-y-2">
-          <h4 className="text-[11px] font-mono font-semibold uppercase tracking-wider text-slate-400">
+          <h4 className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
             Flagged Canvas Items ({evaluation.affectedItems.length})
           </h4>
-          <div className="space-y-1.5 max-h-36 overflow-y-auto pr-1">
+          <div className="space-y-2 max-h-36 overflow-y-auto pr-1">
             {evaluation.affectedItems.map((item, idx) => (
               <div
                 key={idx}
-                className="p-2.5 rounded-xl bg-slate-950/70 border border-slate-800 text-xs flex flex-col gap-1"
+                className="p-3 rounded-2xl bg-slate-50 border border-slate-200 text-xs flex flex-col gap-1"
               >
-                <div className="flex items-center justify-between font-medium text-slate-200">
+                <div className="flex items-center justify-between font-bold text-slate-900">
                   <span>{item.title}</span>
-                  <span className="text-[10px] text-slate-500 font-mono">{item.location}</span>
+                  <span className="text-[10px] text-slate-500 font-mono font-medium">{item.location}</span>
                 </div>
                 {item.issueType && (
-                  <p className="text-[11px] text-rose-300/90 font-medium">
+                  <p className="text-[11px] text-[#FF6B35] font-bold">
                     • {item.issueType}
                   </p>
                 )}
                 {item.snippet && (
-                  <div className="mt-1 p-1.5 rounded bg-slate-900 font-mono text-[11px] text-slate-400 truncate border border-slate-800">
+                  <div className="mt-1 p-2 rounded-xl bg-white font-mono text-[11px] text-slate-700 truncate border border-slate-200">
                     <code>{item.snippet}</code>
                   </div>
                 )}
@@ -106,18 +106,18 @@ export const StandardCard: React.FC<StandardCardProps> = ({
       )}
 
       {/* Footer / Remediate Action */}
-      <div className="mt-4 pt-3 border-t border-slate-800/60 flex items-center justify-between">
-        <div className="flex items-center gap-2 text-xs text-slate-400">
+      <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+        <div className="flex items-center gap-2 text-xs text-slate-500">
           {evaluation.autoFixAvailable && (
-            <span className="inline-flex items-center gap-1 text-[11px] font-medium text-blue-400">
-              <Wrench className="w-3 h-3" /> AI Remediation Ready
+            <span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#6320EE]">
+              <Wrench className="w-3.5 h-3.5" /> AI Remediation Ready
             </span>
           )}
         </div>
 
         <button
           onClick={() => onSelect(evaluation)}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 border border-blue-500/40 transition duration-150"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold bg-[#18181B] hover:bg-slate-800 text-white transition duration-150 shadow-sm"
         >
           <span>Inspect & Remediate</span>
           <ArrowRight className="w-3.5 h-3.5" />

@@ -34,25 +34,25 @@ export const RubricNav: React.FC<RubricNavProps> = ({
   ];
 
   return (
-    <aside className="w-full lg:w-80 shrink-0 flex flex-col gap-6">
+    <aside className="w-full lg:w-80 shrink-0 flex flex-col gap-5">
       
       {/* Metrics Summary Widget */}
-      <div className="glass-card rounded-2xl p-4 border border-slate-800 space-y-4">
+      <div className="bg-white rounded-[28px] p-5 border border-slate-200 shadow-sm space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-sm font-semibold text-slate-200 uppercase tracking-wider text-[11px] font-mono">
+          <h2 className="text-xs font-bold text-slate-950 uppercase tracking-wider">
             CCC June 2027 Rubric Metrics
           </h2>
-          <span className="text-xs px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 font-semibold border border-blue-500/20">
+          <span className="text-xs px-2.5 py-0.5 rounded-full bg-[#6320EE] text-white font-extrabold shadow-sm">
             {report.overallScore}% Score
           </span>
         </div>
 
         {/* Progress Bar */}
-        <div className="space-y-1.5">
-          <div className="w-full h-2.5 rounded-full bg-slate-900 overflow-hidden flex">
+        <div className="space-y-2">
+          <div className="w-full h-3 rounded-full bg-slate-100 overflow-hidden flex shadow-inner p-0.5">
             <div 
               style={{ width: `${(report.exceptionalCount / report.evaluations.length) * 100}%` }} 
-              className="h-full bg-purple-500 transition-all duration-500" 
+              className="h-full bg-[#6320EE] rounded-l-full transition-all duration-500" 
               title={`${report.exceptionalCount} Exceptional`}
             />
             <div 
@@ -62,19 +62,19 @@ export const RubricNav: React.FC<RubricNavProps> = ({
             />
             <div 
               style={{ width: `${(report.approachingCount / report.evaluations.length) * 100}%` }} 
-              className="h-full bg-amber-500 transition-all duration-500" 
+              className="h-full bg-[#F8E14B] transition-all duration-500" 
               title={`${report.approachingCount} Approaching`}
             />
             <div 
               style={{ width: `${(report.incompleteCount / report.evaluations.length) * 100}%` }} 
-              className="h-full bg-rose-500 transition-all duration-500" 
+              className="h-full bg-[#FF6B35] rounded-r-full transition-all duration-500" 
               title={`${report.incompleteCount} Incomplete`}
             />
           </div>
-          <div className="flex items-center justify-between text-[10px] text-slate-400">
-            <span>{report.exceptionalCount} Exceptional</span>
-            <span>{report.alignedCount} Aligned</span>
-            <span>{report.incompleteCount} Incomplete</span>
+          <div className="flex items-center justify-between text-[11px] font-semibold text-slate-500">
+            <span className="text-[#6320EE] font-bold">{report.exceptionalCount} Exceptional</span>
+            <span className="text-emerald-600 font-bold">{report.alignedCount} Aligned</span>
+            <span className="text-[#FF6B35] font-bold">{report.incompleteCount} Action Req</span>
           </div>
         </div>
 
@@ -82,81 +82,81 @@ export const RubricNav: React.FC<RubricNavProps> = ({
         <div className="grid grid-cols-4 gap-1.5 pt-1">
           <button
             onClick={() => onSelectStatusFilter(activeStatusFilter === 'Exceptional' ? 'ALL' : 'Exceptional')}
-            className={`p-2 rounded-xl border text-center transition-all ${
+            className={`p-2 rounded-2xl border text-center transition-all ${
               activeStatusFilter === 'Exceptional' 
-                ? 'bg-purple-500/20 border-purple-500/50 text-purple-300' 
-                : 'bg-slate-900/60 border-slate-800 text-slate-400 hover:border-slate-700'
+                ? 'bg-[#6320EE] text-white border-[#6320EE] shadow-sm font-bold' 
+                : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
             }`}
           >
-            <div className="flex items-center justify-center gap-1 text-purple-400 text-xs font-semibold">
+            <div className="flex items-center justify-center gap-1 text-xs font-bold">
               <Award className="w-3.5 h-3.5" />
               <span>{report.exceptionalCount}</span>
             </div>
-            <div className="text-[9px] mt-0.5 font-medium truncate">Exceptional</div>
+            <div className="text-[9px] mt-0.5 font-bold truncate uppercase">Exceptional</div>
           </button>
 
           <button
             onClick={() => onSelectStatusFilter(activeStatusFilter === 'Aligned' ? 'ALL' : 'Aligned')}
-            className={`p-2 rounded-xl border text-center transition-all ${
+            className={`p-2 rounded-2xl border text-center transition-all ${
               activeStatusFilter === 'Aligned' 
-                ? 'bg-emerald-500/15 border-emerald-500/50 text-emerald-300' 
-                : 'bg-slate-900/60 border-slate-800 text-slate-400 hover:border-slate-700'
+                ? 'bg-emerald-600 text-white border-emerald-600 shadow-sm font-bold' 
+                : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
             }`}
           >
-            <div className="flex items-center justify-center gap-1 text-emerald-400 text-xs font-semibold">
+            <div className="flex items-center justify-center gap-1 text-xs font-bold">
               <CheckCircle2 className="w-3.5 h-3.5" />
               <span>{report.alignedCount}</span>
             </div>
-            <div className="text-[9px] mt-0.5 font-medium truncate">Aligned</div>
+            <div className="text-[9px] mt-0.5 font-bold truncate uppercase">Aligned</div>
           </button>
 
           <button
             onClick={() => onSelectStatusFilter(activeStatusFilter === 'Approaching' ? 'ALL' : 'Approaching')}
-            className={`p-2 rounded-xl border text-center transition-all ${
+            className={`p-2 rounded-2xl border text-center transition-all ${
               activeStatusFilter === 'Approaching' 
-                ? 'bg-amber-500/15 border-amber-500/50 text-amber-300' 
-                : 'bg-slate-900/60 border-slate-800 text-slate-400 hover:border-slate-700'
+                ? 'bg-[#F8E14B] text-slate-950 border-yellow-400 shadow-sm font-black' 
+                : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
             }`}
           >
-            <div className="flex items-center justify-center gap-1 text-amber-400 text-xs font-semibold">
+            <div className="flex items-center justify-center gap-1 text-xs font-bold">
               <AlertTriangle className="w-3.5 h-3.5" />
               <span>{report.approachingCount}</span>
             </div>
-            <div className="text-[9px] mt-0.5 font-medium truncate">Approaching</div>
+            <div className="text-[9px] mt-0.5 font-bold truncate uppercase">Approach</div>
           </button>
 
           <button
             onClick={() => onSelectStatusFilter(activeStatusFilter === 'Incomplete' ? 'ALL' : 'Incomplete')}
-            className={`p-2 rounded-xl border text-center transition-all ${
+            className={`p-2 rounded-2xl border text-center transition-all ${
               activeStatusFilter === 'Incomplete' 
-                ? 'bg-rose-500/15 border-rose-500/50 text-rose-300' 
-                : 'bg-slate-900/60 border-slate-800 text-slate-400 hover:border-slate-700'
+                ? 'bg-[#FF6B35] text-white border-[#FF6B35] shadow-sm font-bold' 
+                : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
             }`}
           >
-            <div className="flex items-center justify-center gap-1 text-rose-400 text-xs font-semibold">
+            <div className="flex items-center justify-center gap-1 text-xs font-bold">
               <XCircle className="w-3.5 h-3.5" />
               <span>{report.incompleteCount}</span>
             </div>
-            <div className="text-[9px] mt-0.5 font-medium truncate">Incomplete</div>
+            <div className="text-[9px] mt-0.5 font-bold truncate uppercase">Action</div>
           </button>
         </div>
       </div>
 
       {/* Search Input */}
       <div className="relative">
-        <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+        <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
         <input
           type="text"
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
           placeholder="Filter 19 standards or keywords..."
-          className="w-full bg-slate-900/90 border border-slate-800 rounded-xl pl-9 pr-4 py-2 text-xs text-slate-200 placeholder:text-slate-500 focus:outline-none focus:border-blue-500/60 transition"
+          className="w-full bg-[#EBEBEF] text-slate-950 placeholder:text-slate-400 rounded-full pl-10 pr-4 py-2.5 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#6320EE]/40 transition border border-slate-300/80"
         />
       </div>
 
       {/* Section Navigation List */}
-      <div className="space-y-1">
-        <h3 className="px-3 text-[11px] font-mono font-semibold uppercase tracking-wider text-slate-400 mb-2">
+      <div className="space-y-1.5">
+        <h3 className="px-3 text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-2">
           POCR Rubric Sections
         </h3>
         
@@ -167,18 +167,18 @@ export const RubricNav: React.FC<RubricNavProps> = ({
             <button
               key={sec.id}
               onClick={() => onSelectSection(sec.id)}
-              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium transition-all ${
+              className={`w-full flex items-center justify-between px-3.5 py-3 rounded-2xl text-xs font-bold transition-all ${
                 isActive
-                  ? 'bg-blue-600/20 text-blue-300 border border-blue-500/30 shadow-sm'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/60'
+                  ? 'bg-[#18181B] text-white shadow-md'
+                  : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'
               }`}
             >
               <div className="flex items-center gap-2.5 truncate">
-                <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-blue-400' : 'text-slate-500'}`} />
+                <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-[#F8E14B]' : 'text-slate-400'}`} />
                 <span className="truncate">{sec.name}</span>
               </div>
-              <span className={`text-[10px] px-2 py-0.5 rounded-full font-mono font-semibold ${
-                isActive ? 'bg-blue-500/30 text-blue-200' : 'bg-slate-800 text-slate-400'
+              <span className={`text-[10px] px-2.5 py-0.5 rounded-full font-black ${
+                isActive ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-800'
               }`}>
                 {sec.count}
               </span>
