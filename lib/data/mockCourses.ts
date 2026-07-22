@@ -87,7 +87,7 @@ export const MOCK_COURSES: CourseData[] = [
         htmlContent: `
           <h1>Native Land & Oral Traditions Video Lecture</h1>
           <h2>Video Overview</h2>
-          <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?cc_load_policy=1" title="Native Land Stewardship Video Lecture" allowfullscreen></iframe>
+          <iframe src="https://www.youtube.com/embed/3Z2R8k0wG_E?cc_load_policy=1" title="Native Land Stewardship Video Lecture" allowfullscreen></iframe>
           <p><a href="/transcripts/native-land.pdf">Download Video Transcript (Accessible PDF)</a></p>
         `
       }
@@ -195,7 +195,7 @@ export const MOCK_COURSES: CourseData[] = [
   },
 
   // ------------------------------------------------------------------
-  // COURSE 3: HIST 107 (UNALIGNED - ACCESSIBILITY & STRUCTURE VIOLATIONS)
+  // COURSE 3: HIST 107 (UNALIGNED - ACCESSIBILITY & UNCAPTIONED VIDEO VIOLATION)
   // ------------------------------------------------------------------
   {
     id: 'course-hist-107',
@@ -206,17 +206,16 @@ export const MOCK_COURSES: CourseData[] = [
     syllabusHtml: `
       <h1>HIST 107: U.S. History Since 1877</h1>
       <p>Course overview and reading list for history students.</p>
-      <!-- NOTE: Missing AI Policy, Missing Contact Info SLAs, Missing Support Links -->
       <p>Read the textbook and complete the quizzes weekly.</p>
     `,
     modules: [
       {
         id: 'mod-h1',
         name: 'Module 1: Industrialization & The Gilded Age',
-        objectives: [], // Missing objectives!
+        objectives: [],
         items: [
           { id: 'page-h1', title: 'The Gilded Age & Urbanization', type: 'page' },
-          { id: 'page-h2', title: 'Labor Unions & Strikes', type: 'page' }
+          { id: 'page-h2', title: 'Labor Unions & Strikes Video', type: 'page' }
         ]
       }
     ],
@@ -226,30 +225,21 @@ export const MOCK_COURSES: CourseData[] = [
         title: 'The Gilded Age & Urbanization',
         htmlContent: `
           <h1>The Gilded Age & Urbanization</h1>
-          <!-- VIOLATION: Skipped heading level from H1 directly to H4! -->
           <h4>Rise of Big Business & Monopoly</h4>
           <p>During the late 19th century, rapid industrial growth transformed American society.</p>
-
-          <!-- VIOLATION: Missing alt attribute! -->
           <img src="/images/gilded-age-factory.jpg" />
-
-          <!-- VIOLATION: Vague link text "click here" and raw URL -->
           <p>To read the Andrew Carnegie essay, <a href="http://history.org/carnegie.pdf">click here</a>.</p>
-          <p>Or visit the article directly at https://www.archives.gov/historical-docs/gilded-age.</p>
         `
       },
       {
         id: 'page-h2',
-        title: 'Labor Unions & Strikes',
+        title: 'Labor Unions & Strikes Video',
         htmlContent: `
-          <h1>Labor Unions & Strikes</h1>
-          <!-- VIOLATION: Non-descriptive filename alt text -->
-          <img src="/images/strike.jpg" alt="strike.jpg" />
-          
-          <!-- VIOLATION: Poor contrast inline style -->
+          <h1>Labor Unions & Strikes Video</h1>
+          <p>Watch the lecture video on the Gilded Age Labor Movement:</p>
+          <!-- UNCAPTIONED YOUTUBE VIDEO EMBED -->
+          <iframe src="https://www.youtube.com/embed/j22O-aJ0zSg" title="Gilded Age Factory Video" allowfullscreen></iframe>
           <p style="color: #999999; background-color: #ffffff;">Note: Exam questions will cover the Pullman Strike of 1894.</p>
-
-          <!-- VIOLATION: Vague link text "here" -->
           <p>For primary source labor documents, look <a href="/docs/labor.pdf">here</a>.</p>
         `
       }
@@ -261,7 +251,6 @@ export const MOCK_COURSES: CourseData[] = [
         descriptionHtml: `
           <h1>Essay 1: Industrialization Impact</h1>
           <p>Write an essay about the Gilded Age.</p>
-          <!-- VIOLATION: No rubric and no clear submission instructions! -->
         `,
         hasRubric: false,
         rubricCriteria: [],
@@ -272,7 +261,7 @@ export const MOCK_COURSES: CourseData[] = [
   },
 
   // ------------------------------------------------------------------
-  // COURSE 4: CS 110 (UNALIGNED - MISSING POLICIES, UNCAPTIONED VIDEOS)
+  // COURSE 4: CS 110 (UNALIGNED - AUTO CAPTION ASR VIDEO VIOLATION)
   // ------------------------------------------------------------------
   {
     id: 'course-cs-110',
@@ -283,13 +272,12 @@ export const MOCK_COURSES: CourseData[] = [
     syllabusHtml: `
       <h1>CS 110: Intro to Computer Science</h1>
       <p>Learn Python programming fundamentals.</p>
-      <!-- VIOLATION: Missing AI Policy, Missing Instructor Contact, Missing DSPS links -->
     `,
     modules: [
       {
         id: 'mod-c1',
         name: 'Module 1: Variables & Control Flow',
-        objectives: ['Understand variables.'], // Passive verb "understand"
+        objectives: ['Understand variables.'],
         items: [{ id: 'page-c1', title: 'Python Syntax & Variables Video', type: 'page' }]
       }
     ],
@@ -300,10 +288,8 @@ export const MOCK_COURSES: CourseData[] = [
         htmlContent: `
           <h1>Python Syntax & Variables Video</h1>
           <p>Watch the lecture video below:</p>
-          <!-- VIOLATION: Uncaptioned YouTube embed without cc_load_policy or transcript -->
-          <iframe src="https://www.youtube.com/embed/dummy_python_video" title="Python Lecture"></iframe>
-
-          <!-- VIOLATION: Skipped heading level from H1 directly to H5 -->
+          <!-- YOUTUBE VIDEO RELYING ON AUTO-GENERATED ASR CAPTIONS -->
+          <iframe src="https://www.youtube.com/embed/rfscVS0vtbw" title="Python Lecture Video"></iframe>
           <h5>Conditionals and Loops</h5>
           <p>Review the loop examples below.</p>
         `

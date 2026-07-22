@@ -1,12 +1,13 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { StudentDashboard } from '@/components/StudentDashboard';
 import { LoginPage } from '@/components/LoginPage';
 import { MOCK_COURSES } from '@/lib/data/mockCourses';
 import { evaluateCourse } from '@/lib/pocr/evaluator';
 import { CourseData, EvaluationResult } from '@/types/pocr';
 import { CanvasStructuralCourse } from '@/types/imsccSchema';
+import { extractCourseVideosFromCourse, groupHarvestedVideosForApi } from '@/lib/parser/extractCourseVideos';
 import { Header } from '@/components/Header';
 import { RubricNav } from '@/components/RubricNav';
 import { StandardCard } from '@/components/StandardCard';
@@ -32,10 +33,44 @@ export default function Home() {
   const [isExportModalOpen, setIsExportModalOpen] = useState<boolean>(false);
   const [isJsonModalOpen, setIsJsonModalOpen] = useState<boolean>(false);
   const [isVideoModalOpen, setIsVideoModalOpen] = useState<boolean>(false);
-  const [currentStructuralJson, setCurrentStructuralJson] = useState<CanvasStructuralCourse | null>(null);
+
+  // Dynamic Video Compliance Report State
+  const [dynamicVideoReport, setDynamicVideoReport] = useState<any | null>(null);
 
   const report = useMemo(() => {
     return evaluateCourse(selectedCourse);
+  }, [selectedCourse]);
+
+  // Dynamically harvest videos whenever selectedCourse changes
+  useEffect(() => {
+    const harvested = extractCourseVideosFromCourse(selectedCourse);
+    const { videos, locationMap } = groupHarvestedVideosForApi(harvested);
+
+    fetch('/api/video-compliance', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ videos })
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.results) {
+          // Attach exact location display strings to results
+          const enhancedResults = data.results.map((r: any) => {
+            const key = r.youtube_video_id || r.original_url;
+            return {
+              ...r,
+              found_in_locations: locationMap[key] || r.found_in_locations || ['Course Content']
+            };
+          });
+          setDynamicVideoReport({
+            summary: data.summary,
+            results: enhancedResults
+          });
+        }
+      })
+      .catch(() => {
+        // Fallback calculation on network error
+      });
   }, [selectedCourse]);
 
   const filteredEvaluations = useMemo(() => {
@@ -61,7 +96,7 @@ export default function Home() {
   };
 
   const activeStructuralJson: CanvasStructuralCourse = useMemo(() => {
-    if (currentStructuralJson) return currentStructuralJson;
+    const harvested = extractCourseVideosFromCourse(selectedCourse);
     return {
       course_metadata: {
         title: selectedCourse.title,
@@ -88,15 +123,15 @@ export default function Home() {
         is_front_page: false,
         content_html: p.htmlContent,
         content_text: p.htmlContent.replace(/<[^>]+>/g, ' '),
-        embedded_media: [
-          {
+        embedded_media: harvested
+          .filter(h => h.location_type === 'page' && h.item_title === p.title)
+          .map(h => ({
             type: 'youtube',
-            url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-            embed_code: '<iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ"></iframe>',
-            alt_text: 'Lecture video',
-            has_caption_track_detected: false
-          }
-        ]
+            url: h.url,
+            embed_code: h.embed_code,
+            alt_text: 'Embedded video lecture frame',
+            has_caption_track_detected: h.url.includes('cc_load_policy=1')
+          }))
       })),
       assignments: selectedCourse.assignments.map(a => ({
         assignment_id: a.id,
@@ -119,7 +154,7 @@ export default function Home() {
       quizzes: [],
       file_assets: []
     };
-  }, [selectedCourse, currentStructuralJson]);
+  }, [selectedCourse]);
 
   if (currentView === 'login') {
     return (
@@ -300,6 +335,7 @@ export default function Home() {
 
         <VideoComplianceModal
           isOpen={isVideoModalOpen}
+          reportData={dynamicVideoReport}
           onClose={() => setIsVideoModalOpen(false)}
         />
       </div>
