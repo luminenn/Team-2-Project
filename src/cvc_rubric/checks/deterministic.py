@@ -815,6 +815,13 @@ def run_all(course: CourseObject) -> list[AccessibilityFinding]:
         lambda: check_documents(course.files or [])
     )
 
+    # Video caption presence check (course-level, deduplicated by URL)
+    from cvc_rubric.checks.captions import check_video_captions
+    findings += _safe_check(
+        "captions", None,
+        lambda: check_video_captions(course)
+    )
+
     # Post-processing: deduplicate repetitive findings
     from cvc_rubric.checks.dedup import deduplicate_findings
     findings = deduplicate_findings(findings)
