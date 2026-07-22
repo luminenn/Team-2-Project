@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { CourseAuditReport, CourseData } from '@/types/pocr';
-import { ShieldCheck, Upload, FileDown, BookOpen, AlertTriangle, CheckCircle2, XCircle, Code } from 'lucide-react';
+import { ShieldCheck, Upload, FileDown, BookOpen, AlertTriangle, CheckCircle2, XCircle, Code, Youtube } from 'lucide-react';
 
 interface HeaderProps {
   courses: CourseData[];
@@ -12,6 +12,7 @@ interface HeaderProps {
   onOpenIngestModal: () => void;
   onOpenExportModal: () => void;
   onOpenJsonModal?: () => void;
+  onOpenVideoModal?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -21,7 +22,8 @@ export const Header: React.FC<HeaderProps> = ({
   onSelectCourse,
   onOpenIngestModal,
   onOpenExportModal,
-  onOpenJsonModal
+  onOpenJsonModal,
+  onOpenVideoModal
 }) => {
   const getStatusBadge = (status: string) => {
     switch (status) {
@@ -64,14 +66,14 @@ export const Header: React.FC<HeaderProps> = ({
           <div>
             <div className="flex items-center gap-2">
               <h1 className="text-lg font-bold tracking-tight text-white flex items-center gap-2">
-                POCR-Bot <span className="text-xs px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 font-mono font-medium border border-blue-500/30">v2.0 Structural</span>
+                POCR-Bot <span className="text-xs px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 font-mono font-medium border border-blue-500/30">v2.5 Video Pipeline</span>
               </h1>
               <span className="hidden sm:inline-block text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-400 font-medium">
                 June 2027 CCC Standard
               </span>
             </div>
             <p className="text-xs text-slate-400">
-              Peer Online Course Review AI Assistant • Full-Spec Canvas Parser Engine
+              Peer Online Course Review AI Assistant • FastAPI YouTube Caption Batch Pipeline
             </p>
           </div>
         </div>
@@ -100,6 +102,17 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Status Badge */}
           {getStatusBadge(report.overallStatus)}
+
+          {/* Video Compliance Modal Button */}
+          {onOpenVideoModal && (
+            <button
+              onClick={onOpenVideoModal}
+              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-xl bg-rose-500/15 text-rose-300 border border-rose-500/30 hover:bg-rose-500/25 transition duration-150"
+            >
+              <Youtube className="w-3.5 h-3.5 text-rose-400" />
+              Video Captions Report
+            </button>
+          )}
 
           {/* View Structural JSON */}
           {onOpenJsonModal && (

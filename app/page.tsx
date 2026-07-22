@@ -14,7 +14,8 @@ import { InspectorPanel } from '@/components/InspectorPanel';
 import { IngestionModal } from '@/components/IngestionModal';
 import { ExportModal } from '@/components/ExportModal';
 import { JsonViewerModal } from '@/components/JsonViewerModal';
-import { Sparkles, RefreshCw, LayoutDashboard, LogIn, ShieldCheck, ArrowLeft, Code } from 'lucide-react';
+import { VideoComplianceModal } from '@/components/VideoComplianceModal';
+import { Sparkles, RefreshCw, LayoutDashboard, LogIn, ShieldCheck, ArrowLeft, Code, Youtube } from 'lucide-react';
 
 export default function Home() {
   const [currentView, setCurrentView] = useState<'dashboard' | 'login' | 'pocr'>('dashboard');
@@ -30,6 +31,7 @@ export default function Home() {
   const [isIngestModalOpen, setIsIngestModalOpen] = useState<boolean>(false);
   const [isExportModalOpen, setIsExportModalOpen] = useState<boolean>(false);
   const [isJsonModalOpen, setIsJsonModalOpen] = useState<boolean>(false);
+  const [isVideoModalOpen, setIsVideoModalOpen] = useState<boolean>(false);
   const [currentStructuralJson, setCurrentStructuralJson] = useState<CanvasStructuralCourse | null>(null);
 
   const report = useMemo(() => {
@@ -58,7 +60,6 @@ export default function Home() {
     setSelectedCourse(newCourse);
   };
 
-  // Mock Structural JSON generator for selected course
   const activeStructuralJson: CanvasStructuralCourse = useMemo(() => {
     if (currentStructuralJson) return currentStructuralJson;
     return {
@@ -89,10 +90,10 @@ export default function Home() {
         content_text: p.htmlContent.replace(/<[^>]+>/g, ' '),
         embedded_media: [
           {
-            type: 'image',
-            url: '/images/mural.jpg',
-            embed_code: '<img src="/images/mural.jpg" alt="Diverse mural" />',
-            alt_text: 'Diverse mural depiction',
+            type: 'youtube',
+            url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+            embed_code: '<iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ"></iframe>',
+            alt_text: 'Lecture video',
             has_caption_track_detected: false
           }
         ]
@@ -116,19 +117,7 @@ export default function Home() {
         allow_rating: false
       })),
       quizzes: [],
-      file_assets: [
-        {
-          asset_id: 'asset-1',
-          file_name: 'ETHN_Syllabus.pdf',
-          file_type: 'pdf',
-          file_path: '/documents/ETHN_Syllabus.pdf',
-          extracted_text: 'Course Policies and Learning Objectives...',
-          document_structure: {
-            has_heading_tags: true,
-            detected_headings: ['H1: Syllabus Overview', 'H2: Course Policies']
-          }
-        }
-      ]
+      file_assets: []
     };
   }, [selectedCourse, currentStructuralJson]);
 
@@ -166,13 +155,21 @@ export default function Home() {
             <ArrowLeft className="w-3.5 h-3.5" /> Return to Student Dashboard
           </button>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => setIsVideoModalOpen(true)}
+              className="text-rose-400 hover:underline inline-flex items-center gap-1 font-mono font-semibold"
+            >
+              <Youtube className="w-3.5 h-3.5" /> Video Captions Report
+            </button>
+
             <button
               onClick={() => setIsJsonModalOpen(true)}
               className="text-blue-300 hover:underline inline-flex items-center gap-1 font-mono font-semibold"
             >
-              <Code className="w-3.5 h-3.5" /> View Structural JSON Output
+              <Code className="w-3.5 h-3.5" /> Structural JSON
             </button>
+
             <button
               onClick={() => setCurrentView('login')}
               className="hover:text-slate-200 inline-flex items-center gap-1"
@@ -190,6 +187,7 @@ export default function Home() {
           onOpenIngestModal={() => setIsIngestModalOpen(true)}
           onOpenExportModal={() => setIsExportModalOpen(true)}
           onOpenJsonModal={() => setIsJsonModalOpen(true)}
+          onOpenVideoModal={() => setIsVideoModalOpen(true)}
         />
 
         <div className="flex-1 flex flex-col lg:flex-row p-4 lg:p-8 gap-6 max-w-[1750px] mx-auto w-full">
@@ -298,6 +296,11 @@ export default function Home() {
           isOpen={isJsonModalOpen}
           structuralJson={activeStructuralJson}
           onClose={() => setIsJsonModalOpen(false)}
+        />
+
+        <VideoComplianceModal
+          isOpen={isVideoModalOpen}
+          onClose={() => setIsVideoModalOpen(false)}
         />
       </div>
     );
