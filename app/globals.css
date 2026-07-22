@@ -1,0 +1,267 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --background: oklch(0.986 0 0);
+  --foreground: oklch(0.2435 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.2435 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.2435 0 0);
+  --primary: oklch(0.3765 0.0261 40.3447);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.9551 0 0);
+  --secondary-foreground: oklch(0.2435 0 0);
+  --muted: oklch(0.9521 0 0);
+  --muted-foreground: oklch(0.5032 0 0);
+  --accent: oklch(0.931 0 0);
+  --accent-foreground: oklch(0.2435 0 0);
+  --destructive: oklch(0.6271 0.1936 33.339);
+  --destructive-foreground: oklch(1 0 0);
+  --destructive-ink: oklch(0.48 0.19 33);
+  --success: oklch(0.5738 0.1194 156);
+  --success-foreground: oklch(1 0 0);
+  --border: oklch(0.932 0 0);
+  --input: oklch(0.8822 0 0);
+  --ring: oklch(0.4341 0.0392 42);
+  --status-exceptional: oklch(0.53 0.2 293);
+  --status-aligned: oklch(0.5738 0.1194 156);
+  --status-approaching: oklch(0.6 0.13 80);
+  --status-incomplete: oklch(0.55 0.19 29);
+  --scrim: oklch(0 0 0 / 0.55);
+  --radius: 0.7rem;
+  --shadow-card: 0 1px 2px oklch(0 0 0 / 0.05), 0 3px 8px oklch(0 0 0 / 0.03);
+  --shadow-card-hover: 0 2px 4px oklch(0 0 0 / 0.05), 0 12px 28px oklch(0 0 0 / 0.09);
+
+  /* Aurora backdrop palette (referenced directly by aurora-background.tsx,
+     inherited from the login design system). */
+  --white: #ffffff;
+  --black: #000000;
+  --transparent: transparent;
+  --blue-300: #93c5fd;
+  --blue-400: #60a5fa;
+  --blue-500: #3b82f6;
+  --indigo-300: #a5b4fc;
+  --violet-200: #ddd6fe;
+}
+
+.dark {
+  --background: oklch(0.1776 0 0);
+  --foreground: oklch(0.9491 0 0);
+  --card: oklch(0.2134 0 0);
+  --card-foreground: oklch(0.9491 0 0);
+  --popover: oklch(0.2134 0 0);
+  --popover-foreground: oklch(0.9491 0 0);
+  --primary: oklch(0.9911 0 0);
+  --primary-foreground: oklch(0.2029 0.024 200);
+  --secondary: oklch(0.2354 0.004 84.55);
+  --secondary-foreground: oklch(0.9491 0 0);
+  --muted: oklch(0.252 0 0);
+  --muted-foreground: oklch(0.7699 0 0);
+  --accent: oklch(0.285 0 0);
+  --accent-foreground: oklch(0.9491 0 0);
+  --destructive: oklch(0.6271 0.1936 33.339);
+  --destructive-foreground: oklch(1 0 0);
+  --destructive-ink: oklch(0.72 0.16 33);
+  --success: oklch(0.6959 0.1385 162);
+  --success-foreground: oklch(0.2029 0.02 162);
+  --border: oklch(0.2351 0.0115 91.7);
+  --input: oklch(0.2972 0 0);
+  --ring: oklch(0.9247 0.0524 66);
+  --status-exceptional: oklch(0.62 0.17 293);
+  --status-aligned: oklch(0.62 0.13 160);
+  --status-approaching: oklch(0.67 0.12 88);
+  --status-incomplete: oklch(0.6 0.19 28);
+  --scrim: oklch(0 0 0 / 0.65);
+  --shadow-card:
+    inset 0 1px 0 0 oklch(1 0 0 / 0.05), 0 1px 2px oklch(0 0 0 / 0.35),
+    0 5px 16px oklch(0 0 0 / 0.3);
+  --shadow-card-hover:
+    inset 0 1px 0 0 oklch(1 0 0 / 0.07), 0 2px 4px oklch(0 0 0 / 0.4),
+    0 14px 32px oklch(0 0 0 / 0.45);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-destructive-ink: var(--destructive-ink);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-status-exceptional: var(--status-exceptional);
+  --color-status-aligned: var(--status-aligned);
+  --color-status-approaching: var(--status-approaching);
+  --color-status-incomplete: var(--status-incomplete);
+  --color-scrim: var(--scrim);
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 10px);
+  --animate-aurora: aurora 60s linear infinite;
+}
+
+@keyframes aurora {
+  from {
+    background-position:
+      50% 50%,
+      50% 50%;
+  }
+  to {
+    background-position:
+      350% 50%,
+      350% 50%;
+  }
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+/* Theme switch cross-fade: one composited fade between page snapshots. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.35s;
+  animation-timing-function: ease;
+}
+
+/* Fallback cross-fade for browsers without View Transitions: color
+   properties only, class removed after ~500ms. */
+.theme-transition *,
+.theme-transition *::before,
+.theme-transition *::after {
+  transition:
+    background-color 0.35s ease,
+    border-color 0.35s ease,
+    color 0.35s ease,
+    fill 0.35s ease,
+    stroke 0.35s ease !important;
+}
+
+.theme-transition [data-theme-static],
+.theme-transition [data-theme-static] *,
+.theme-transition [data-theme-static] *::before,
+.theme-transition [data-theme-static] *::after {
+  transition: none !important;
+}
+
+.skeleton-shimmer {
+  background-image: linear-gradient(
+    100deg,
+    transparent 30%,
+    color-mix(in oklab, var(--foreground) 7%, transparent) 50%,
+    transparent 70%
+  );
+  background-size: 220% 100%;
+  animation: shimmer 1.8s linear infinite;
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 180% 0;
+  }
+  to {
+    background-position: -180% 0;
+  }
+}
+
+.pulse-dot {
+  animation: pulse-dot 2.4s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+/* Modal backdrops fade in; GSAP can't reach the ::backdrop pseudo-element,
+   so this is the one CSS-keyframe entrance in the system. */
+dialog[open]::backdrop {
+  animation: backdrop-in 0.25s ease;
+}
+
+@keyframes backdrop-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Print: the filed report is a light-theme document regardless of the
+   on-screen theme. Values mirror the :root light block above; keep in sync. */
+@media print {
+  @page {
+    margin: 14mm;
+  }
+
+  /* Chromium honors only the -webkit- prefixed form; without it, with
+     "Background graphics" off, tinted code blocks and background-only
+     bullet dots drop out of the filed report. */
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  :root,
+  .dark {
+    --background: oklch(1 0 0);
+    --foreground: oklch(0.2435 0 0);
+    --card: oklch(1 0 0);
+    --card-foreground: oklch(0.2435 0 0);
+    --primary: oklch(0.3765 0.0261 40.3447);
+    --primary-foreground: oklch(1 0 0);
+    --muted: oklch(0.9521 0 0);
+    --muted-foreground: oklch(0.5032 0 0);
+    --destructive: oklch(0.6271 0.1936 33.339);
+    --success: oklch(0.5738 0.1194 156);
+    --border: oklch(0.86 0 0);
+    --status-exceptional: oklch(0.53 0.2 293);
+    --status-aligned: oklch(0.5738 0.1194 156);
+    --status-approaching: oklch(0.6 0.13 80);
+    --status-incomplete: oklch(0.55 0.19 29);
+  }
+
+  body {
+    background: white;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-shimmer,
+  .pulse-dot,
+  dialog[open]::backdrop {
+    animation: none;
+  }
+
+  .skeleton-shimmer {
+    background-image: none;
+  }
+
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
