@@ -1,0 +1,2 @@
+[console_scripts]
+analyze = cvc_rubric.cli:cli

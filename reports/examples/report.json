@@ -1,0 +1,78 @@
+{
+  "meta": {
+    "course_title": "Introduction to Psychology",
+    "analyzed_at": "2026-07-21T22:56:59.235465+00:00",
+    "rubric_version": "2027.06",
+    "prompt_version": "2027.06.1",
+    "duration_seconds": 0.18
+  },
+  "summary": {
+    "exceptional_count": 0,
+    "aligned_count": 0,
+    "approaching_count": 0,
+    "incomplete_count": 0,
+    "not_evaluable_count": 0,
+    "accessibility_errors": 1,
+    "accessibility_warnings": 4,
+    "accessibility_info": 0
+  },
+  "rubric_findings": [],
+  "accessibility_findings": [
+    {
+      "check_id": "img-001",
+      "severity": "error",
+      "page_id": "page-mod1-overview",
+      "page_title": "Module 1 Overview",
+      "element_snippet": "<img src=\"brain-diagram.png\"/>",
+      "line_hint": null,
+      "message": "Image missing alt attribute.",
+      "remediation": "Add an alt attribute describing the image content, or alt=\"\" if purely decorative.",
+      "status": "ai_suggested"
+    },
+    {
+      "check_id": "med-003",
+      "severity": "warning",
+      "page_id": "page-mod1-overview",
+      "page_title": "Module 1 Overview",
+      "element_snippet": "<iframe height=\"315\" src=\"https://www.youtube.com/embed/vo4pMVb0R6M\" width=\"560\"></iframe>",
+      "line_hint": null,
+      "message": "Embedded video from https://www.youtube.com/embed/vo4pMVb0R6M has unconfirmed captions (captions_declared=False).",
+      "remediation": "Verify that the video has accurate captions enabled. For YouTube, open the video and confirm closed captions are available and are not auto-generated without review.",
+      "status": "ai_suggested"
+    },
+    {
+      "check_id": "lnk-004",
+      "severity": "warning",
+      "page_id": "page-reading-1",
+      "page_title": "Week 1 Reading",
+      "element_snippet": "<a href=\"https://forms.example.com\" target=\"_blank\">Reading Reflection form</a>",
+      "line_hint": null,
+      "message": "Link opens in a new tab/window without warning: \"Reading Reflection form\".",
+      "remediation": "Add an aria-label that includes \"(opens in new tab)\" or add a visually-hidden span with that text so screen reader users are informed.",
+      "status": "ai_suggested"
+    },
+    {
+      "check_id": "doc-001",
+      "severity": "warning",
+      "page_id": "",
+      "page_title": "Files",
+      "element_snippet": "syllabus.pdf (/files/syllabus.pdf)",
+      "line_hint": null,
+      "message": "PDF file \"syllabus.pdf\" requires manual accessibility verification.",
+      "remediation": "Run the file through Adobe Acrobat's Accessibility Checker or PAC 2024. Ensure the PDF is tagged, has a logical reading order, alt text on images, and an accessible form structure if applicable.",
+      "status": "ai_suggested"
+    },
+    {
+      "check_id": "doc-002",
+      "severity": "warning",
+      "page_id": "",
+      "page_title": "Files",
+      "element_snippet": "cornell-note-template.docx (/files/cornell-note-template.docx)",
+      "line_hint": null,
+      "message": "Word document \"cornell-note-template.docx\" requires manual accessibility verification.",
+      "remediation": "Use Word's built-in Accessibility Checker (Review → Check Accessibility). Ensure headings, alt text, table headers, and reading order are correct before uploading.",
+      "status": "ai_suggested"
+    }
+  ],
+  "errors": []
+}

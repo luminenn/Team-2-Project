@@ -1,0 +1,106 @@
+{
+  "course": {
+    "title": "Introduction to Psychology",
+    "code": "PSYCH-101",
+    "term": "Fall 2027"
+  },
+  "modules": [
+    {
+      "id": "mod-0",
+      "title": "Start Here",
+      "position": 0,
+      "items": [
+        {"id": "item-1", "title": "Welcome Message", "type": "Page", "resource_id": "page-welcome"},
+        {"id": "item-2", "title": "Syllabus", "type": "Page", "resource_id": "page-syllabus"}
+      ]
+    },
+    {
+      "id": "mod-1",
+      "title": "Module 1: Introduction to Psychology",
+      "position": 1,
+      "items": [
+        {"id": "item-3", "title": "Module Overview", "type": "Page", "resource_id": "page-mod1-overview"},
+        {"id": "item-4", "title": "Week 1 Reading", "type": "Page", "resource_id": "page-reading-1"},
+        {"id": "item-5", "title": "Discussion: Who Studies Psychology?", "type": "Discussion", "resource_id": "disc-1"},
+        {"id": "item-6", "title": "Quiz 1", "type": "Quiz", "resource_id": "quiz-1"}
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "id": "page-welcome",
+      "title": "Welcome to PSYCH-101",
+      "module_id": "mod-0",
+      "html": "<h2>Welcome!</h2><p>Hello and welcome to Introduction to Psychology. I am Dr. Rivera and I am excited to guide you through this journey. Please read the syllabus carefully and reach out if you have any questions via Canvas Inbox. Office hours are Tuesdays 2–4 PM via Zoom.</p>",
+      "text": "Welcome! Hello and welcome to Introduction to Psychology. I am Dr. Rivera and I am excited to guide you through this journey. Please read the syllabus carefully and reach out if you have any questions via Canvas Inbox. Office hours are Tuesdays 2–4 PM via Zoom.",
+      "path": "wiki_content/welcome.html"
+    },
+    {
+      "id": "page-mod1-overview",
+      "title": "Module 1 Overview",
+      "module_id": "mod-1",
+      "html": "<h2>Module 1: Introduction to Psychology</h2><p>By the end of this module you will be able to: (1) define psychology and describe its major subfields, (2) explain the scientific method as applied to psychological research, (3) identify key historical figures in the development of psychology.</p><img src='brain-diagram.png'><p>Watch the lecture video below and take notes using the Cornell Note template provided.</p><iframe src='https://www.youtube.com/embed/vo4pMVb0R6M' width='560' height='315'></iframe>",
+      "text": "Module 1: Introduction to Psychology. By the end of this module you will be able to: (1) define psychology and describe its major subfields, (2) explain the scientific method as applied to psychological research, (3) identify key historical figures in the development of psychology. Watch the lecture video below and take notes using the Cornell Note template provided.",
+      "path": "wiki_content/mod1-overview.html"
+    },
+    {
+      "id": "page-reading-1",
+      "title": "Week 1 Reading",
+      "module_id": "mod-1",
+      "html": "<h2>Week 1 Reading</h2><p>Read Chapter 1 of your textbook. As you read, pay attention to the definitions highlighted in yellow and consider how each perspective would explain a common behavior like procrastination.</p><p>After reading, complete the <a href='https://forms.example.com' target='_blank'>Reading Reflection form</a>.</p>",
+      "text": "Week 1 Reading. Read Chapter 1 of your textbook. As you read, pay attention to the definitions highlighted in yellow and consider how each perspective would explain a common behavior like procrastination. After reading, complete the Reading Reflection form.",
+      "path": "wiki_content/reading1.html"
+    }
+  ],
+  "assignments": [
+    {
+      "id": "assign-1",
+      "title": "Week 1 Reflection Essay",
+      "html": "<h3>Week 1 Reflection Essay</h3><p>Write a 300–500 word reflection on how you have experienced psychology in your daily life. Submit as a PDF or Word document by Sunday at 11:59 PM.</p><p>Grading: This assignment is worth 50 points. You will be evaluated using the attached rubric covering content (30 pts), clarity (10 pts), and formatting (10 pts).</p><p>Feedback will be provided within 5 business days via Canvas SpeedGrader comments.</p>",
+      "text": "Week 1 Reflection Essay. Write a 300–500 word reflection on how you have experienced psychology in your daily life. Submit as a PDF or Word document by Sunday at 11:59 PM. Grading: This assignment is worth 50 points. You will be evaluated using the attached rubric covering content (30 pts), clarity (10 pts), and formatting (10 pts). Feedback will be provided within 5 business days via Canvas SpeedGrader comments.",
+      "rubric_present": true,
+      "due_date": "2027-09-07"
+    }
+  ],
+  "quizzes": [
+    {
+      "id": "quiz-1",
+      "title": "Quiz 1: Key Terms",
+      "question_count": 10
+    }
+  ],
+  "discussions": [
+    {
+      "id": "disc-1",
+      "title": "Discussion: Who Studies Psychology?",
+      "html": "<h3>Discussion Prompt</h3><p>Introduce yourself and share one reason you are interested in psychology. Then respond to at least two classmates with a substantive comment connecting their interest to a psychological concept you have encountered.</p><p>Guidelines: Be respectful and curious. Posts are due Wednesday; responses by Sunday.</p>",
+      "text": "Discussion Prompt. Introduce yourself and share one reason you are interested in psychology. Then respond to at least two classmates with a substantive comment connecting their interest to a psychological concept you have encountered. Guidelines: Be respectful and curious. Posts are due Wednesday; responses by Sunday."
+    }
+  ],
+  "files": [
+    {
+      "name": "syllabus.pdf",
+      "path": "/files/syllabus.pdf",
+      "mime": "application/pdf",
+      "size": 204800
+    },
+    {
+      "name": "cornell-note-template.docx",
+      "path": "/files/cornell-note-template.docx",
+      "mime": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "size": 32768
+    }
+  ],
+  "videos": [
+    {
+      "url": "https://www.youtube.com/embed/vo4pMVb0R6M",
+      "source": "youtube",
+      "page_id": "page-mod1-overview",
+      "captions_declared": false
+    }
+  ],
+  "syllabus": {
+    "html": "<h1>PSYCH-101 Syllabus</h1><p>Welcome to Introduction to Psychology. This course surveys the major areas of psychology including biological bases, learning, cognition, development, personality, and social behavior.</p><h2>Course Policies</h2><p>Academic Honesty: All submitted work must be your own. AI use: You may use AI tools for brainstorming but all final writing must be your own words. Any AI use must be disclosed in your submission. Plagiarism will result in a zero and may be reported to the Dean of Students.</p><h2>Technology</h2><p>This course uses Canvas, Zoom, and Google Forms. All tools are accessible and meet institutional requirements. If you encounter technical difficulties, contact the Help Desk at helpdesk@college.edu or call (555) 123-4567.</p><h2>Student Support</h2><p>Disability Services: Contact the DSP office at dsp@college.edu. Tutoring: Free tutoring available at the Learning Center (Building A, Room 101). Library: library.college.edu. Counseling: counseling@college.edu. Basic Needs: basicneeds@college.edu.</p><h2>Communication</h2><p>I will respond to Canvas Inbox messages within 48 hours (Monday–Friday). I initiate weekly announcements every Monday morning to guide your week.</p><h2>Feedback</h2><p>At the end of the course, please complete the anonymous Course Evaluation survey to help me improve this class.</p>",
+    "text": "PSYCH-101 Syllabus. Welcome to Introduction to Psychology. This course surveys the major areas of psychology including biological bases, learning, cognition, development, personality, and social behavior. Course Policies: Academic Honesty: All submitted work must be your own. AI use: You may use AI tools for brainstorming but all final writing must be your own words. Any AI use must be disclosed in your submission. Plagiarism will result in a zero and may be reported to the Dean of Students. Technology: This course uses Canvas, Zoom, and Google Forms. All tools are accessible and meet institutional requirements. If you encounter technical difficulties, contact the Help Desk at helpdesk@college.edu or call (555) 123-4567. Student Support: Disability Services: Contact the DSP office at dsp@college.edu. Tutoring: Free tutoring available at the Learning Center (Building A, Room 101). Library: library.college.edu. Counseling: counseling@college.edu. Basic Needs: basicneeds@college.edu. Communication: I will respond to Canvas Inbox messages within 48 hours (Monday-Friday). I initiate weekly announcements every Monday morning to guide your week. Feedback: At the end of the course, please complete the anonymous Course Evaluation survey to help me improve this class."
+  }
+}
