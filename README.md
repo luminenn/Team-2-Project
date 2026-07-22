@@ -5,6 +5,68 @@ Combines deterministic HTML accessibility checks with LLM-based semantic rubric 
 
 ---
 
+## Web App (Frontend + Backend)
+
+A browser-based interface for uploading `.imscc` files and viewing audit results.
+
+### Prerequisites
+
+- Python 3.11+
+- Node.js 18+
+- pip dependencies installed: `pip install -e ".[dev]"` (from repo root)
+
+### Running locally
+
+**1. Start the backend** (from repo root):
+
+```bash
+pip install -r backend/requirements.txt
+uvicorn backend.main:app --reload --port 8000
+```
+
+The API will be available at `http://localhost:8000`. Endpoints:
+- `POST /audit` — upload `.imscc`, returns `{ run_id, status: "processing" }`
+- `GET /history` — list all past runs
+- `GET /history/{run_id}` — get full report or current status for one run
+
+**2. Start the frontend** (in a second terminal):
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Open `http://localhost:5173`. The Vite dev server proxies `/audit` and `/history` to the backend automatically.
+
+### How it works
+
+1. Upload a `.imscc` file via the big circular button on the Home page
+2. The backend saves the file, starts the audit pipeline in a background thread, and returns immediately
+3. The frontend polls `GET /history/{run_id}` every 2 seconds until the run completes
+4. Results display: summary cards at top, then collapsible sections for rubric findings and accessibility issues
+
+### Where the pipeline is called
+
+The single integration point is **`backend/audit_runner.py`** — the `run_audit(imscc_path)` function. It calls:
+
+```python
+from cvc_rubric.parser import parse_imscc        # Step 1: parse .imscc → dict
+from cvc_rubric.loader import load_course_object  # Step 2: validate as CourseObject
+from cvc_rubric.checks.deterministic import run_all  # Step 3: accessibility checks
+from cvc_rubric.report_builder import build_report   # Step 4: build report
+```
+
+To enable LLM-based semantic rubric checks, uncomment the relevant block in `audit_runner.py` and ensure `config.json` has valid AWS credentials.
+
+### Data persistence
+
+Runs are stored in `backend/runs.db` (SQLite). The database is created automatically on first startup. Delete the file to reset history.
+
+---
+
+---
+
 ## Quick start
 
 ```bash
