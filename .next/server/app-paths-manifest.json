@@ -1,4 +1,4 @@
 {
-  "/api/video-compliance/route": "app/api/video-compliance/route.js",
-  "/page": "app/page.js"
+  "/page": "app/page.js",
+  "/api/video-compliance/route": "app/api/video-compliance/route.js"
 }
