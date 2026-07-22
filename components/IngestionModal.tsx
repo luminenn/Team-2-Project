@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react';
 import { CourseData } from '@/types/pocr';
-import { parseImsccCartridge, parseCanvasJsonPayload } from '@/lib/parser/imsccParser';
+import { usePocr } from '@/lib/context/PocrContext';
+import { parseCanvasJsonPayload } from '@/lib/parser/imsccParser';
 import { X, Upload, FileCode, Sparkles, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
 
 interface IngestionModalProps {
@@ -16,6 +17,7 @@ export const IngestionModal: React.FC<IngestionModalProps> = ({
   onClose,
   onCourseIngested
 }) => {
+  const { uploadCourse, setSelectedCourse } = usePocr();
   const [activeTab, setActiveTab] = useState<'cartridge' | 'json'>('cartridge');
   const [isProcessing, setIsProcessing] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -31,7 +33,7 @@ export const IngestionModal: React.FC<IngestionModalProps> = ({
     setErrorMessage(null);
 
     try {
-      const courseData = await parseImsccCartridge(file);
+      const courseData = await uploadCourse(file);
       onCourseIngested(courseData);
       setIsProcessing(false);
       onClose();
@@ -50,6 +52,7 @@ export const IngestionModal: React.FC<IngestionModalProps> = ({
     try {
       const courseData = parseCanvasJsonPayload(jsonText);
       onCourseIngested(courseData);
+      setSelectedCourse(courseData);
       setIsProcessing(false);
       onClose();
     } catch (err: any) {
@@ -69,105 +72,90 @@ export const IngestionModal: React.FC<IngestionModalProps> = ({
               <Upload className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-base font-extrabold text-slate-950">
-                Ingest Canvas LMS Course Content
-              </h2>
-              <p className="text-xs text-slate-500 font-medium">
-                Upload a Canvas `.imscc` export cartridge or paste Canvas API JSON
-              </p>
+              <h3 className="text-xl font-black text-slate-950">Ingest Canvas Course Package</h3>
+              <p className="text-xs text-slate-500 font-medium">Extract IMSCC cartridge file or Canvas Structural JSON</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-2 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-950 transition"
+            className="p-2 rounded-full bg-slate-100 text-slate-500 hover:text-slate-950 transition"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Tabs */}
-        <div className="flex items-center gap-2 border-b border-slate-200 pb-3">
+        {/* Tab Switcher */}
+        <div className="flex items-center gap-2 p-1 bg-[#F4F4F6] rounded-2xl border border-slate-200">
           <button
             onClick={() => setActiveTab('cartridge')}
-            className={`px-4 py-2 rounded-full text-xs font-bold transition ${
-              activeTab === 'cartridge'
-                ? 'bg-[#18181B] text-white shadow-sm'
-                : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+            className={`flex-1 py-2.5 rounded-xl text-xs font-extrabold transition flex items-center justify-center gap-2 ${
+              activeTab === 'cartridge' ? 'bg-white text-slate-950 shadow-sm' : 'text-slate-500 hover:text-slate-950'
             }`}
           >
-            <Upload className="w-3.5 h-3.5 inline mr-1.5" />
-            Canvas Cartridge (.imscc / .zip)
+            <Upload className="w-4 h-4 text-[#6320EE]" /> .IMSCC Cartridge Package
           </button>
-
           <button
             onClick={() => setActiveTab('json')}
-            className={`px-4 py-2 rounded-full text-xs font-bold transition ${
-              activeTab === 'json'
-                ? 'bg-[#18181B] text-white shadow-sm'
-                : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+            className={`flex-1 py-2.5 rounded-xl text-xs font-extrabold transition flex items-center justify-center gap-2 ${
+              activeTab === 'json' ? 'bg-white text-slate-950 shadow-sm' : 'text-slate-500 hover:text-slate-950'
             }`}
           >
-            <FileCode className="w-3.5 h-3.5 inline mr-1.5" />
-            Canvas API JSON Payload
+            <FileCode className="w-4 h-4 text-blue-500" /> Canvas API JSON Payload
           </button>
         </div>
 
-        {errorMessage && (
-          <div className="p-3.5 rounded-2xl bg-rose-50 border border-rose-200 text-xs text-rose-700 font-semibold flex items-center gap-2">
-            <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
-            <span>{errorMessage}</span>
-          </div>
-        )}
-
-        {/* Tab 1: Drag and Drop Upload */}
-        {activeTab === 'cartridge' && (
-          <div className="border-2 border-dashed border-slate-300 hover:border-[#6320EE] rounded-[24px] p-8 text-center bg-slate-50 hover:bg-purple-50/30 transition">
-            {isProcessing ? (
-              <div className="py-6 space-y-3">
-                <Loader2 className="w-8 h-8 text-[#6320EE] animate-spin mx-auto" />
-                <p className="text-xs font-bold text-slate-900">
-                  Parsing Canvas Cartridge & Analyzing HTML DOM...
-                </p>
+        {/* Content Area */}
+        {activeTab === 'cartridge' ? (
+          <div className="space-y-4">
+            <div className="border-2 border-dashed border-slate-300 hover:border-[#6320EE] rounded-3xl p-8 text-center space-y-4 transition bg-slate-50/50">
+              <div className="w-14 h-14 rounded-2xl bg-purple-50 text-[#6320EE] flex items-center justify-center mx-auto shadow-inner">
+                {isProcessing ? <Loader2 className="w-7 h-7 animate-spin" /> : <Upload className="w-7 h-7" />}
               </div>
-            ) : (
-              <label className="cursor-pointer space-y-3 block">
-                <Upload className="w-10 h-10 text-[#6320EE] mx-auto" />
-                <div>
-                  <p className="text-sm font-extrabold text-slate-950">
-                    Click to select or drag `.imscc` file here
-                  </p>
-                  <p className="text-xs text-slate-500 mt-1 font-medium">
-                    Extracts pages, module objectives, headings, images & links for evaluation
-                  </p>
-                </div>
+              <div className="space-y-1">
+                <p className="text-sm font-bold text-slate-950">
+                  {isProcessing ? 'Parsing IMSCC Manifest...' : 'Drop your Canvas .imscc file here'}
+                </p>
+                <p className="text-xs text-slate-500 font-medium">Supports Canvas exported ZIP / IMSCC cartridges up to 500MB</p>
+              </div>
+
+              <label className="inline-block cursor-pointer px-5 py-2.5 rounded-full bg-[#6320EE] hover:bg-[#5218cc] text-white font-bold text-xs shadow-md transition">
+                Browse Files
                 <input
                   type="file"
-                  accept=".imscc,.zip"
+                  accept=".imscc,.zip,.xml"
                   onChange={handleFileUpload}
+                  disabled={isProcessing}
                   className="hidden"
                 />
               </label>
-            )}
+            </div>
           </div>
-        )}
-
-        {/* Tab 2: Canvas JSON Paste */}
-        {activeTab === 'json' && (
+        ) : (
           <div className="space-y-4">
-            <textarea
-              value={jsonText}
-              onChange={(e) => setJsonText(e.target.value)}
-              placeholder='{"code": "SOC 101", "title": "Intro to Sociology", "modules": [...]}'
-              rows={6}
-              className="w-full bg-slate-950 font-mono text-xs text-slate-200 border border-slate-800 rounded-[20px] p-4 focus:outline-none focus:ring-2 focus:ring-[#6320EE]"
-            />
+            <div className="space-y-2">
+              <label className="block text-xs font-bold text-slate-700">Paste Canvas Structural JSON Payload</label>
+              <textarea
+                rows={6}
+                value={jsonText}
+                onChange={(e) => setJsonText(e.target.value)}
+                placeholder='{ "course_metadata": { "title": "History 101" }, "modules": [...] }'
+                className="w-full bg-[#F4F4F6] text-xs font-mono p-4 rounded-2xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#6320EE]/20"
+              />
+            </div>
+
             <button
               onClick={handleJsonSubmit}
               disabled={isProcessing || !jsonText.trim()}
-              className="w-full py-3 rounded-full font-bold text-xs bg-[#18181B] hover:bg-slate-800 disabled:opacity-50 text-white transition shadow-md"
+              className="w-full py-3 rounded-full bg-[#6320EE] hover:bg-[#5218cc] text-white font-bold text-xs shadow-md transition disabled:opacity-50"
             >
-              {isProcessing ? 'Ingesting JSON...' : 'Ingest Canvas JSON & Run Audit'}
+              Parse Structural JSON
             </button>
+          </div>
+        )}
+
+        {errorMessage && (
+          <div className="p-3.5 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-bold flex items-center gap-2">
+            <AlertCircle className="w-4 h-4 shrink-0" /> {errorMessage}
           </div>
         )}
 

@@ -1,4 +1,10 @@
 {
   "/page": "app/page.js",
-  "/api/video-compliance/route": "app/api/video-compliance/route.js"
+  "/auditor/page": "app/auditor/page.js",
+  "/api/video-compliance/route": "app/api/video-compliance/route.js",
+  "/api/parse-cartridge/route": "app/api/parse-cartridge/route.js",
+  "/history/page": "app/history/page.js",
+  "/rubric/page": "app/rubric/page.js",
+  "/profile/page": "app/profile/page.js",
+  "/settings/page": "app/settings/page.js"
 }
