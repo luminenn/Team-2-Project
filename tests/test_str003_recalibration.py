@@ -156,10 +156,8 @@ class TestDeduplication:
             message="Image missing alt", remediation="Add alt.",
         )
         result = deduplicate_findings([f, f, f])
-        # img-001 IS in the default group set, so it gets grouped
-        # actually let's check — the default set includes lnk-004 etc but not img-001
-        img = [r for r in result if r.check_id == "img-001"]
         # img-001 is NOT in default group_check_ids, so 3 separate findings
+        img = [r for r in result if r.check_id == "img-001"]
         assert len(img) == 3
 
     def test_suppress_info_placeholders(self):

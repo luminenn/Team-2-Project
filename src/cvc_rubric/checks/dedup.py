@@ -52,7 +52,7 @@ def deduplicate_findings(
 
     # Default: group str-003 and str-002 (the most repetitive checks)
     if group_check_ids is None:
-        group_check_ids = {"str-003", "str-002", "lnk-004", "hdg-001", "med-003", "vid-001"}
+        group_check_ids = {"str-003", "str-002", "hdg-001", "med-003", "vid-001"}
 
     # Partition: groupable vs pass-through
     groupable: list[AccessibilityFinding] = []

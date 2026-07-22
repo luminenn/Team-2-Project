@@ -36,10 +36,10 @@ def test_missing_alt_detected(findings):
     )
 
 
-def test_blank_target_link_detected(findings):
-    """page-reading-1 has target=_blank without new-tab warning."""
+def test_blank_target_link_not_flagged(findings):
+    """lnk-004 is disabled — target=_blank links no longer flagged."""
     lnk_warnings = [f for f in findings if f.check_id == "lnk-004"]
-    assert len(lnk_warnings) >= 1
+    assert len(lnk_warnings) == 0
 
 
 def test_pdf_document_flagged(findings):

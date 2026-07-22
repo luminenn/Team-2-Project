@@ -14,9 +14,13 @@ Logic:
 Deduplicates by video URL so the same video appearing on multiple pages
 is reported once (with affected_pages metadata).
 
-Future tiers (YouTube Data API, AWS Transcribe accuracy check) can layer on
-top of this module by extending the logic after the presence check without
-refactoring it.
+---
+FUTURE HOOK: To add transcript-based accuracy checking (e.g. AWS Transcribe
+or a third-party transcript API), extend check_video_captions() with an
+additional pass AFTER the presence check. Videos that pass presence (captions
+confirmed present) would then be checked for accuracy. Do not mix the two
+concerns in a single pass.
+---
 """
 from __future__ import annotations
 

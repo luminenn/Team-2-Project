@@ -83,16 +83,17 @@ def test_unique_link_texts_no_lnk003():
 
 
 # ---------------------------------------------------------------------------
-# lnk-004: target=_blank without warning
+# lnk-004: target=_blank without warning — DISABLED (acceptable in courses)
 # ---------------------------------------------------------------------------
 
-def test_target_blank_without_warning_is_flagged():
+def test_target_blank_no_longer_flagged():
+    """lnk-004 is disabled — target=_blank links are acceptable."""
     html = '<a href="https://example.com" target="_blank">External Resource</a>'
     findings = check_links(html, PID, PT)
-    assert any(f.check_id == "lnk-004" for f in findings)
+    assert not any(f.check_id == "lnk-004" for f in findings)
 
 
-def test_target_blank_with_aria_label_new_tab_no_flag():
+def test_target_blank_with_aria_label_no_flag():
     html = (
         '<a href="https://example.com" target="_blank" '
         'aria-label="External Resource (opens in new tab)">External Resource</a>'

@@ -336,24 +336,24 @@ def check_links(html: str, page_id: str, page_title: str) -> list[AccessibilityF
             text_to_hrefs.setdefault(link_text_lower, set()).add(href)
 
         # lnk-004: target=_blank without any warning indicator
-        if a.get("target") == "_blank":
-            # Check for common warning patterns: aria-label mentioning new tab,
-            # a visually-hidden span, or the word "new tab/window" in surrounding text
-            aria_label = a.get("aria-label", "")
-            has_warning = (
-                "new tab" in aria_label.lower()
-                or "new window" in aria_label.lower()
-                or a.find("span", class_=re.compile(r"sr-only|visually-hidden|screen-reader"))
-                or "new tab" in link_text.lower()
-                or "new window" in link_text.lower()
-            )
-            if not has_warning:
-                findings.append(_finding(
-                    "lnk-004", "warning", page_id, page_title, a,
-                    f"Link opens in a new tab/window without warning: \"{link_text[:80]}\".",
-                    "Add an aria-label that includes \"(opens in new tab)\" or add a "
-                    "visually-hidden span with that text so screen reader users are informed.",
-                ))
+        # DISABLED by default — new-tab links are acceptable in course content.
+        # Gate behind config flag 'check_lnk_004' (default: False) if re-enabling later.
+        # if a.get("target") == "_blank":
+        #     aria_label = a.get("aria-label", "")
+        #     has_warning = (
+        #         "new tab" in aria_label.lower()
+        #         or "new window" in aria_label.lower()
+        #         or a.find("span", class_=re.compile(r"sr-only|visually-hidden|screen-reader"))
+        #         or "new tab" in link_text.lower()
+        #         or "new window" in link_text.lower()
+        #     )
+        #     if not has_warning:
+        #         findings.append(_finding(
+        #             "lnk-004", "warning", page_id, page_title, a,
+        #             f"Link opens in a new tab/window without warning: \"{link_text[:80]}\".",
+        #             "Add an aria-label that includes \"(opens in new tab)\" or add a "
+        #             "visually-hidden span with that text so screen reader users are informed.",
+        #         ))
 
     # lnk-003: emit one finding per duplicated text pointing to multiple destinations
     for text, hrefs in text_to_hrefs.items():
