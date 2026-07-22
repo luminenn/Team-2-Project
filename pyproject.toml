@@ -28,6 +28,8 @@ dev = [
 
 [project.scripts]
 analyze = "cvc_rubric.cli:cli"
+parse   = "cvc_rubric.cli:parse_cmd"
+audit   = "cvc_rubric.cli:audit_cmd"
 
 [tool.setuptools.packages.find]
 where = ["src"]
@@ -37,4 +39,5 @@ asyncio_mode = "auto"
 testpaths = ["tests"]
 markers = [
     "integration: marks tests that call the real LLM (deselect with -m 'not integration')",
+    "golden: marks golden-file tests that require a real .imscc fixture",
 ]
