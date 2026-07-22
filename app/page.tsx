@@ -6,13 +6,15 @@ import { LoginPage } from '@/components/LoginPage';
 import { MOCK_COURSES } from '@/lib/data/mockCourses';
 import { evaluateCourse } from '@/lib/pocr/evaluator';
 import { CourseData, EvaluationResult } from '@/types/pocr';
+import { CanvasStructuralCourse } from '@/types/imsccSchema';
 import { Header } from '@/components/Header';
 import { RubricNav } from '@/components/RubricNav';
 import { StandardCard } from '@/components/StandardCard';
 import { InspectorPanel } from '@/components/InspectorPanel';
 import { IngestionModal } from '@/components/IngestionModal';
 import { ExportModal } from '@/components/ExportModal';
-import { Sparkles, RefreshCw, LayoutDashboard, LogIn, ShieldCheck, ArrowLeft } from 'lucide-react';
+import { JsonViewerModal } from '@/components/JsonViewerModal';
+import { Sparkles, RefreshCw, LayoutDashboard, LogIn, ShieldCheck, ArrowLeft, Code } from 'lucide-react';
 
 export default function Home() {
   const [currentView, setCurrentView] = useState<'dashboard' | 'login' | 'pocr'>('dashboard');
@@ -27,6 +29,8 @@ export default function Home() {
 
   const [isIngestModalOpen, setIsIngestModalOpen] = useState<boolean>(false);
   const [isExportModalOpen, setIsExportModalOpen] = useState<boolean>(false);
+  const [isJsonModalOpen, setIsJsonModalOpen] = useState<boolean>(false);
+  const [currentStructuralJson, setCurrentStructuralJson] = useState<CanvasStructuralCourse | null>(null);
 
   const report = useMemo(() => {
     return evaluateCourse(selectedCourse);
@@ -54,7 +58,80 @@ export default function Home() {
     setSelectedCourse(newCourse);
   };
 
-  // Render Login View
+  // Mock Structural JSON generator for selected course
+  const activeStructuralJson: CanvasStructuralCourse = useMemo(() => {
+    if (currentStructuralJson) return currentStructuralJson;
+    return {
+      course_metadata: {
+        title: selectedCourse.title,
+        canvas_id: selectedCourse.id,
+        home_page_type: 'wiki_page',
+        home_page_content_html: selectedCourse.syllabusHtml,
+        home_page_content_text: selectedCourse.syllabusHtml.replace(/<[^>]+>/g, ' '),
+        syllabus: {
+          content_html: selectedCourse.syllabusHtml,
+          content_text: selectedCourse.syllabusHtml.replace(/<[^>]+>/g, ' '),
+          attached_files: [{ file_name: 'Syllabus.pdf', file_path: '/files/Syllabus.pdf' }]
+        }
+      },
+      modules: selectedCourse.modules.map((m, idx) => ({
+        module_id: m.id,
+        title: m.name,
+        order: idx + 1,
+        items: m.items.map(i => ({ item_id: i.id, type: 'Page', title: i.title, indent_level: 0 }))
+      })),
+      pages: selectedCourse.pages.map(p => ({
+        page_id: p.id,
+        title: p.title,
+        url: `/pages/${p.id}`,
+        is_front_page: false,
+        content_html: p.htmlContent,
+        content_text: p.htmlContent.replace(/<[^>]+>/g, ' '),
+        embedded_media: [
+          {
+            type: 'image',
+            url: '/images/mural.jpg',
+            embed_code: '<img src="/images/mural.jpg" alt="Diverse mural" />',
+            alt_text: 'Diverse mural depiction',
+            has_caption_track_detected: false
+          }
+        ]
+      })),
+      assignments: selectedCourse.assignments.map(a => ({
+        assignment_id: a.id,
+        title: a.title,
+        description_html: a.descriptionHtml,
+        description_text: a.descriptionHtml.replace(/<[^>]+>/g, ' '),
+        is_first_day_activity: a.title.toLowerCase().includes('essay #1') || a.title.toLowerCase().includes('welcome'),
+        points_possible: 100,
+        rubric: a.rubricCriteria.map((c, i) => ({ id: `r-${i}`, description: c, points: 25 })),
+        attachments: []
+      })),
+      discussions: selectedCourse.discussions.map(d => ({
+        discussion_id: d.id,
+        title: d.title,
+        prompt_html: d.promptHtml,
+        prompt_text: d.promptHtml.replace(/<[^>]+>/g, ' '),
+        is_pinned: true,
+        allow_rating: false
+      })),
+      quizzes: [],
+      file_assets: [
+        {
+          asset_id: 'asset-1',
+          file_name: 'ETHN_Syllabus.pdf',
+          file_type: 'pdf',
+          file_path: '/documents/ETHN_Syllabus.pdf',
+          extracted_text: 'Course Policies and Learning Objectives...',
+          document_structure: {
+            has_heading_tags: true,
+            detected_headings: ['H1: Syllabus Overview', 'H2: Course Policies']
+          }
+        }
+      ]
+    };
+  }, [selectedCourse, currentStructuralJson]);
+
   if (currentView === 'login') {
     return (
       <div className="relative">
@@ -77,12 +154,10 @@ export default function Home() {
     );
   }
 
-  // Render POCR Auditor View
   if (currentView === 'pocr') {
     return (
       <div className="min-h-screen bg-slate-950 flex flex-col font-sans">
         
-        {/* Floating Switcher Back to Dashboard */}
         <div className="bg-slate-900 border-b border-slate-800 px-6 py-2 flex items-center justify-between text-xs text-slate-400">
           <button
             onClick={() => setCurrentView('dashboard')}
@@ -92,6 +167,12 @@ export default function Home() {
           </button>
 
           <div className="flex items-center gap-3">
+            <button
+              onClick={() => setIsJsonModalOpen(true)}
+              className="text-blue-300 hover:underline inline-flex items-center gap-1 font-mono font-semibold"
+            >
+              <Code className="w-3.5 h-3.5" /> View Structural JSON Output
+            </button>
             <button
               onClick={() => setCurrentView('login')}
               className="hover:text-slate-200 inline-flex items-center gap-1"
@@ -108,6 +189,7 @@ export default function Home() {
           onSelectCourse={setSelectedCourse}
           onOpenIngestModal={() => setIsIngestModalOpen(true)}
           onOpenExportModal={() => setIsExportModalOpen(true)}
+          onOpenJsonModal={() => setIsJsonModalOpen(true)}
         />
 
         <div className="flex-1 flex flex-col lg:flex-row p-4 lg:p-8 gap-6 max-w-[1750px] mx-auto w-full">
@@ -211,11 +293,16 @@ export default function Home() {
           report={report}
           onClose={() => setIsExportModalOpen(false)}
         />
+
+        <JsonViewerModal
+          isOpen={isJsonModalOpen}
+          structuralJson={activeStructuralJson}
+          onClose={() => setIsJsonModalOpen(false)}
+        />
       </div>
     );
   }
 
-  // Render Student Dashboard View (Default - image_1.png)
   return (
     <StudentDashboard 
       onOpenPocrAuditor={() => setCurrentView('pocr')} 
