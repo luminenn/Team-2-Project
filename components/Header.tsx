@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { CourseAuditReport, CourseData } from '@/types/pocr';
-import { ShieldCheck, Upload, FileDown, BookOpen, AlertTriangle, CheckCircle2, XCircle, Sparkles } from 'lucide-react';
+import { ShieldCheck, Upload, FileDown, BookOpen, AlertTriangle, CheckCircle2, XCircle, Code } from 'lucide-react';
 
 interface HeaderProps {
   courses: CourseData[];
@@ -11,6 +11,7 @@ interface HeaderProps {
   onSelectCourse: (course: CourseData) => void;
   onOpenIngestModal: () => void;
   onOpenExportModal: () => void;
+  onOpenJsonModal?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -19,10 +20,17 @@ export const Header: React.FC<HeaderProps> = ({
   report,
   onSelectCourse,
   onOpenIngestModal,
-  onOpenExportModal
+  onOpenExportModal,
+  onOpenJsonModal
 }) => {
   const getStatusBadge = (status: string) => {
     switch (status) {
+      case 'Exceptional':
+        return (
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-purple-500/10 text-purple-300 border border-purple-500/30">
+            <CheckCircle2 className="w-3.5 h-3.5" /> POCR Exceptional ({report.overallScore}%)
+          </span>
+        );
       case 'Aligned':
         return (
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
@@ -48,7 +56,7 @@ export const Header: React.FC<HeaderProps> = ({
     <header className="sticky top-0 z-30 w-full glass-panel border-b border-slate-800/80 px-4 lg:px-8 py-3.5">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         
-        {/* Branding & Logo */}
+        {/* Branding */}
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-500 to-sky-400 flex items-center justify-center shadow-lg shadow-blue-500/20">
             <ShieldCheck className="w-6 h-6 text-white" />
@@ -56,19 +64,19 @@ export const Header: React.FC<HeaderProps> = ({
           <div>
             <div className="flex items-center gap-2">
               <h1 className="text-lg font-bold tracking-tight text-white flex items-center gap-2">
-                POCR-Bot <span className="text-xs px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 font-mono font-medium border border-blue-500/30">v1.0 MVP</span>
+                POCR-Bot <span className="text-xs px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 font-mono font-medium border border-blue-500/30">v2.0 Structural</span>
               </h1>
               <span className="hidden sm:inline-block text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-400 font-medium">
-                CCC / CVC Standard
+                June 2027 CCC Standard
               </span>
             </div>
             <p className="text-xs text-slate-400">
-              Peer Online Course Review AI Assistant • June 2026 Rubric Engine
+              Peer Online Course Review AI Assistant • Full-Spec Canvas Parser Engine
             </p>
           </div>
         </div>
 
-        {/* Course Switcher & Controls */}
+        {/* Controls */}
         <div className="flex flex-wrap items-center gap-3">
           
           {/* Course Selector */}
@@ -92,6 +100,17 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Status Badge */}
           {getStatusBadge(report.overallStatus)}
+
+          {/* View Structural JSON */}
+          {onOpenJsonModal && (
+            <button
+              onClick={onOpenJsonModal}
+              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-xl bg-slate-800 hover:bg-slate-700 text-blue-300 border border-blue-500/30 transition duration-150"
+            >
+              <Code className="w-3.5 h-3.5 text-blue-400" />
+              Structural JSON
+            </button>
+          )}
 
           {/* Ingest Canvas Button */}
           <button
