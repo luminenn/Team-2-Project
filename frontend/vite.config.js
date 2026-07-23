@@ -6,8 +6,8 @@ export default defineConfig({
   server: {
     port: 5173,
     proxy: {
-      '/audit': 'http://localhost:8000',
-      '/history': 'http://localhost:8000',
+      '/audit': 'http://localhost:8001',
+      '/history': 'http://localhost:8001',
     },
   },
 })

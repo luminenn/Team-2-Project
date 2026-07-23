@@ -43,11 +43,20 @@ logger = logging.getLogger(__name__)
 # Prompt construction
 # ---------------------------------------------------------------------------
 
-PROMPT_VERSION = "2027.06.2"
+PROMPT_VERSION = "2027.06.4"
 
 _SYSTEM_PROMPT = """\
 You are an expert peer reviewer for the California Virtual Campus (CVC) Online Course Design Rubric (June 2027 edition).
 You will be given excerpts from an online course and asked to evaluate one rubric element.
+
+EVALUATION PHILOSOPHY:
+- Apply the rubric with a GENEROUS, benefit-of-the-doubt interpretation.
+- The rubric is designed to recognize well-designed courses, not to penalize minor gaps or stylistic differences.
+- If the INTENT and SUBSTANCE of a criterion is met, even if the exact phrasing or placement differs from a textbook example, rate it as "aligned."
+- Placeholder text (e.g., "[Insert campus info here]", "Add your specific...") in a template course does NOT disqualify alignment if the surrounding structure and intent are clear.
+- Policies, guidance, or information that appears in ANY accessible location (syllabus, orientation module, dedicated page, or within activities) satisfies location requirements — it does NOT need to appear in multiple places.
+- Do NOT require explicit statements about things that are implied by course design (e.g., using Canvas implies accessibility compliance; having weekly modules implies regular structure).
+- When in doubt between "approaching" and "aligned," choose "aligned" if the core intent of the criterion is satisfied with at least some evidence.
 
 RULES YOU MUST FOLLOW:
 1. Rate the element as one of: incomplete | approaching | aligned | exceptional | not_evaluable
@@ -181,6 +190,10 @@ class BedrockLLMClient:
         self._retry_base_delay = retry_base_delay
         self._prompt_version = prompt_version
         self._client = boto3.client("bedrock-runtime", region_name=aws_region)
+        # Token/cost tracking
+        self._session_input_tokens = 0
+        self._session_output_tokens = 0
+        self._session_cost = 0.0
 
     def evaluate_element(
         self,
@@ -300,8 +313,13 @@ class BedrockLLMClient:
         for block in content_blocks:
             if isinstance(block, dict) and block.get("type") == "text":
                 text += block.get("text", "")
-        tokens = outer.get("usage", {}).get("input_tokens", 0) + \
-                 outer.get("usage", {}).get("output_tokens", 0)
+        input_tokens = outer.get("usage", {}).get("input_tokens", 0)
+        output_tokens = outer.get("usage", {}).get("output_tokens", 0)
+        tokens = input_tokens + output_tokens
+
+        # Log token usage and estimated cost
+        self._log_usage(input_tokens, output_tokens)
+
         # Parse JSON from model text — strip markdown fences if present
         text = text.strip()
         if text.startswith("```"):
@@ -309,6 +327,27 @@ class BedrockLLMClient:
             text = re.sub(r"\n?```$", "", text)
         parsed = json.loads(text)
         return parsed, tokens
+
+    def _log_usage(self, input_tokens: int, output_tokens: int) -> None:
+        """Print token usage and estimated cost for Claude Sonnet 4 on Bedrock."""
+        # Claude Sonnet 4 pricing (per 1K tokens)
+        INPUT_COST_PER_1K = 0.003    # $3 per 1M input tokens
+        OUTPUT_COST_PER_1K = 0.015   # $15 per 1M output tokens
+
+        input_cost = (input_tokens / 1000) * INPUT_COST_PER_1K
+        output_cost = (output_tokens / 1000) * OUTPUT_COST_PER_1K
+        total_cost = input_cost + output_cost
+
+        self._session_input_tokens += input_tokens
+        self._session_output_tokens += output_tokens
+        self._session_cost += total_cost
+
+        print(
+            f"[TOKEN USAGE] input={input_tokens:,} | output={output_tokens:,} | "
+            f"cost=${total_cost:.4f} | "
+            f"session_total: {self._session_input_tokens:,}in + "
+            f"{self._session_output_tokens:,}out = ${self._session_cost:.4f}"
+        )
 
     def _parse_response(
         self,
