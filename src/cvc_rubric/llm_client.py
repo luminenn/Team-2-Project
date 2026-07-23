@@ -13,7 +13,22 @@ from __future__ import annotations
 import hashlib
 import json
 import logging
+import os
 import time
+from pathlib import Path
+
+# Load .env file if present (ensures credentials are available regardless of entry point)
+_ENV_PATH = Path(__file__).resolve().parent.parent.parent / ".env"
+if _ENV_PATH.exists():
+    with open(_ENV_PATH, encoding="utf-8") as _f:
+        for _line in _f:
+            _line = _line.strip()
+            if _line and not _line.startswith("#") and "=" in _line:
+                _key, _, _val = _line.partition("=")
+                _key = _key.strip()
+                _val = _val.strip().strip('"').strip("'")
+                if _key and _val:
+                    os.environ.setdefault(_key, _val)
 from pathlib import Path
 from typing import Any, Optional
 
@@ -28,7 +43,7 @@ logger = logging.getLogger(__name__)
 # Prompt construction
 # ---------------------------------------------------------------------------
 
-PROMPT_VERSION = "2027.06.1"
+PROMPT_VERSION = "2027.06.2"
 
 _SYSTEM_PROMPT = """\
 You are an expert peer reviewer for the California Virtual Campus (CVC) Online Course Design Rubric (June 2027 edition).
@@ -65,6 +80,25 @@ def _build_user_prompt(
     context_text: str,
     truncation_note: str,
 ) -> str:
+    # Prefer the detailed evaluation_prompt from rubric_prompts.json
+    evaluation_prompt = element.get("evaluation_prompt")
+    if evaluation_prompt:
+        lines = [
+            evaluation_prompt,
+            "",
+        ]
+        if truncation_note:
+            lines += [f"*Note: {truncation_note}*", ""]
+        lines += [
+            "### Course Content",
+            context_text or "(no content available for this scope)",
+            "",
+            f"Evaluate element {element['id']} using only the content above. "
+            "Respond with JSON only.",
+        ]
+        return "\n".join(lines)
+
+    # Fallback: build from level descriptors (legacy path)
     levels = element.get("levels", {})
     lines = [
         f"## Rubric Element: {element['id']} — {element.get('title', '')}",

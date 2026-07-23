@@ -140,7 +140,7 @@ def cli(
     # -----------------------------------------------------------------------
     if not only_deterministic:
         from cvc_rubric.llm_client import BedrockLLMClient, ResponseCache
-        from cvc_rubric.semantic_checker import SemanticChecker, load_rubric
+        from cvc_rubric.semantic_checker import SemanticChecker, load_rubric, load_rubric_prompts
 
         rubric_path = cfg.get("rubric_path", "src/cvc_rubric/rubric.json")
         try:
@@ -148,6 +148,8 @@ def cli(
         except FileNotFoundError as e:
             console.print(f"[red]{e}[/red]")
             sys.exit(1)
+
+        rubric_prompts = load_rubric_prompts(cfg.get("rubric_prompts_path"))
 
         cache = ResponseCache(
             cache_dir=cfg.get("cache_dir", ".cache"),
@@ -167,6 +169,7 @@ def cli(
             token_budget=int(cfg.get("token_budget", 6000)),
             concurrency=int(cfg.get("concurrency", 5)),
             only_element=element,
+            rubric_prompts=rubric_prompts,
         )
 
         if dry_run:
@@ -420,7 +423,7 @@ def audit_cmd(
 
         if not only_deterministic:
             from cvc_rubric.llm_client import BedrockLLMClient, ResponseCache
-            from cvc_rubric.semantic_checker import SemanticChecker, load_rubric
+            from cvc_rubric.semantic_checker import SemanticChecker, load_rubric, load_rubric_prompts
 
             rubric_path = cfg.get("rubric_path", "src/cvc_rubric/rubric.json")
             try:
@@ -428,6 +431,8 @@ def audit_cmd(
             except FileNotFoundError as e:
                 console.print(f"[red]{e}[/red]")
                 sys.exit(1)
+
+            rubric_prompts = load_rubric_prompts(cfg.get("rubric_prompts_path"))
 
             cache = ResponseCache(
                 cache_dir=cfg.get("cache_dir", ".cache"),
@@ -447,6 +452,7 @@ def audit_cmd(
                 token_budget=int(cfg.get("token_budget", 6000)),
                 concurrency=int(cfg.get("concurrency", 5)),
                 only_element=element,
+                rubric_prompts=rubric_prompts,
             )
 
             if dry_run:

@@ -31,6 +31,19 @@ def load_rubric(rubric_path: str) -> dict:
         return json.load(f)
 
 
+def load_rubric_prompts(prompts_path: Optional[str] = None) -> dict[str, dict]:
+    """Load rubric_prompts.json and return a dict keyed by element ID."""
+    if prompts_path is None:
+        prompts_path = str(Path(__file__).parent / "rubric_prompts.json")
+    path = Path(prompts_path)
+    if not path.exists():
+        logger.warning("rubric_prompts.json not found at %s — falling back to level descriptors", prompts_path)
+        return {}
+    with open(path, encoding="utf-8") as f:
+        data = json.load(f)
+    return data.get("elements", {})
+
+
 def _all_elements(rubric: dict) -> list[tuple[dict, dict]]:
     """Returns list of (section_dict, element_dict) pairs."""
     pairs = []
@@ -76,12 +89,14 @@ class SemanticChecker:
         token_budget: int = 6000,
         concurrency: int = 5,
         only_element: Optional[str] = None,
+        rubric_prompts: Optional[dict[str, dict]] = None,
     ):
         self._rubric = rubric
         self._client = llm_client
         self._token_budget = token_budget
         self._concurrency = concurrency
         self._only_element = only_element
+        self._prompts = rubric_prompts or {}
 
     def dry_run(self, course: CourseObject) -> None:
         """Print token estimates for all elements without calling the LLM."""
@@ -177,6 +192,10 @@ class SemanticChecker:
     ) -> RubricFinding:
         element_id = element["id"]
         t0 = time.monotonic()
+
+        # Inject evaluation_prompt from rubric_prompts.json if available
+        if element_id in self._prompts and "evaluation_prompt" in self._prompts[element_id]:
+            element = {**element, "evaluation_prompt": self._prompts[element_id]["evaluation_prompt"]}
 
         # Check requires[] — skip LLM if required content is absent
         missing_reason = _check_requires(element, course)
