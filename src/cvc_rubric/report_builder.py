@@ -41,12 +41,40 @@ def build_report(
     errors: list[ReportError],
 ) -> Report:
     # Summary counts
+    aligned_count = sum(1 for f in rubric_findings if f.rating == "aligned")
+    approaching_count = sum(1 for f in rubric_findings if f.rating == "approaching")
+    incomplete_count = sum(1 for f in rubric_findings if f.rating == "incomplete")
+    exceptional_count = sum(1 for f in rubric_findings if f.rating == "exceptional")
+    not_evaluable_count = sum(1 for f in rubric_findings if f.rating == "not_evaluable")
+
+    # -----------------------------------------------------------------------
+    # Alignment score calculation
+    # Weights: Aligned/Exceptional = 100, Approaching = 50, Incomplete = 0
+    # Not-evaluable is excluded from the denominator — courses aren't penalized
+    # for content the tool couldn't assess.
+    # -----------------------------------------------------------------------
+    WEIGHT_ALIGNED = 100       # Points for aligned or exceptional
+    WEIGHT_APPROACHING = 50    # Points for approaching
+    WEIGHT_INCOMPLETE = 0      # Points for incomplete
+
+    scored_items = aligned_count + exceptional_count + approaching_count + incomplete_count
+    if scored_items > 0:
+        raw_score = (
+            (aligned_count + exceptional_count) * WEIGHT_ALIGNED
+            + approaching_count * WEIGHT_APPROACHING
+            + incomplete_count * WEIGHT_INCOMPLETE
+        )
+        alignment_score: Optional[int] = round(raw_score / scored_items)
+    else:
+        alignment_score = None  # All not-evaluable — display "N/A"
+
     summary = ReportSummary(
-        exceptional_count=sum(1 for f in rubric_findings if f.rating == "exceptional"),
-        aligned_count=sum(1 for f in rubric_findings if f.rating == "aligned"),
-        approaching_count=sum(1 for f in rubric_findings if f.rating == "approaching"),
-        incomplete_count=sum(1 for f in rubric_findings if f.rating == "incomplete"),
-        not_evaluable_count=sum(1 for f in rubric_findings if f.rating == "not_evaluable"),
+        exceptional_count=exceptional_count,
+        aligned_count=aligned_count,
+        approaching_count=approaching_count,
+        incomplete_count=incomplete_count,
+        not_evaluable_count=not_evaluable_count,
+        alignment_score=alignment_score,
         accessibility_errors=sum(1 for f in accessibility_findings if f.severity == "error"),
         accessibility_warnings=sum(1 for f in accessibility_findings if f.severity == "warning"),
         accessibility_info=sum(1 for f in accessibility_findings if f.severity == "info"),

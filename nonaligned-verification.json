@@ -1,0 +1,3128 @@
+{
+  "meta": {
+    "course_title": "MasterShell_ENGL2044_Fernandez",
+    "analyzed_at": "2026-07-24T00:00:50.288975+00:00",
+    "rubric_version": "2027.06",
+    "prompt_version": "2027.06.5",
+    "duration_seconds": 121.04
+  },
+  "summary": {
+    "exceptional_count": 0,
+    "aligned_count": 15,
+    "approaching_count": 0,
+    "incomplete_count": 7,
+    "not_evaluable_count": 0,
+    "accessibility_errors": 3,
+    "accessibility_warnings": 79,
+    "accessibility_info": 7
+  },
+  "rubric_findings": [
+    {
+      "element_id": "1.1",
+      "element_title": "Course Policies",
+      "section_id": "1",
+      "section_title": "Policies & Support",
+      "rating": "aligned",
+      "confidence": 0.92,
+      "evidence_quotes": [
+        {
+          "quote": "Submission Policy I get it; sometimes life has a way of upsetting the best laid plans. Since this is probably not your only course this semester, getting behind in your work creates a definite problem. Don't panic! I encourage you to work with me as soon as you encounter a problem meeting a due date. Don't wait! Working together, we can usually create a plan to keep you learning. Key Points Reflections have a built in 5 day grace period for late submission. Quizzes are eligible for late work with prior approval. No exceptions. Late work must still be submitted via the assignment. No work will be accepted via Canvas Inbox or email. Late initial discussion posts are acceptable but will lose 2 points.",
+          "page_id": "g7720ced37ed9fe7dbb3d6fce0a6f3b92",
+          "page_title": "1.7 Getting Started in Your Course"
+        },
+        {
+          "quote": "Discussion Work Policy Discussions are not eligible for makeup work, as per the late work policy. However, Reflection Assignments based on discussions can and should be done to the best of your ability. Discussions become 'Read Only' after the due date, so you should still be able to review the conversations even if you were unable to participate.",
+          "page_id": "g15bae78fafa77e18d6c78b83310e5212",
+          "page_title": "1.8 Participating in Discussions"
+        },
+        {
+          "quote": "During the semester, the best way to reach me is via Canvas Inbox. I normally check my inbox throughout the day, Monday-Friday. You can expect a response within 24 hours. If you don't hear from me within 24 hours, please resend your message. I am not generally available on weekends or campus holidays.",
+          "page_id": "g577f28d7710e5f63c0eb870e8fb5357b",
+          "page_title": "1.3 Our Communication Plan"
+        }
+      ],
+      "missing_items": [
+        "Explicit academic honesty/integrity policy with clear expectations",
+        "Formal withdrawal or drop policy explaining process"
+      ],
+      "suggested_fix": "Add a dedicated section on academic honesty/integrity policy with clear definitions and consequences, and include a formal withdrawal/drop policy with relevant campus deadlines and procedures.",
+      "reasoning": "The course clearly addresses three of the five required policy areas: work submission (detailed late work policy with specific expectations), communication (Canvas Inbox as primary method with 24-hour response time), and participation (discussion expectations and grading). While academic honesty and withdrawal policies are not explicitly stated in the provided content, the three substantively addressed areas meet the baseline threshold for alignment.",
+      "prompt_version": "2027.06.5",
+      "cache_hit": false,
+      "latency_seconds": 51.812,
+      "tokens_used": 113203,
+      "error_note": null,
+      "status": "ai_suggested"
+    },
+    {
+      "element_id": "1.2",
+      "element_title": "Equitable Use of Technology",
+      "section_id": "1",
+      "section_title": "Policies & Support",
+      "rating": "incomplete",
+      "confidence": 0.95,
+      "evidence_quotes": [],
+      "missing_items": [
+        "No list or explanation of required technology tools found",
+        "No instructions for accessing technology (links, downloads, login info)",
+        "No technical support information (help desk contact, links)"
+      ],
+      "suggested_fix": "Add a dedicated 'Technology Requirements' page or section in the Welcome module that lists all required tools (Canvas, Zoom, Pronto, TutorMe, etc.), explains their learning purpose, provides access instructions with links, and includes technical support contact information (Student Help Desk, Canvas 24/7 support).",
+      "reasoning": "The supplied content is primarily binary/encoded data from what appears to be a Word document (syllabus) and image files. No readable text content is available that would demonstrate identification of required technology, access guidance, or technical support information. Without accessible text content to evaluate, the required evidence for alignment cannot be located.",
+      "prompt_version": "2027.06.5",
+      "cache_hit": false,
+      "latency_seconds": 17.534,
+      "tokens_used": 112720,
+      "error_note": null,
+      "status": "ai_suggested"
+    },
+    {
+      "element_id": "1.3",
+      "element_title": "Artificial Intelligence (AI)",
+      "section_id": "1",
+      "section_title": "Policies & Support",
+      "rating": "incomplete",
+      "confidence": 0.95,
+      "evidence_quotes": [],
+      "missing_items": [
+        "No AI policy, guidance, or substantive AI content found",
+        "No instructor disclosure of AI use or stance",
+        "No student-centered AI approach with clear usage expectations"
+      ],
+      "suggested_fix": "Add a dedicated AI page or section in the syllabus/orientation module that explains the instructor's stance on AI use, provides clear guidance on when and how students may use AI tools for coursework (e.g., for brainstorming, summarizing, editing), and addresses how the instructor uses or incorporates AI in teaching.",
+      "reasoning": "The supplied course content includes the syllabus, welcome materials, assignment instructions, and other course pages. After reviewing all accessible content, no AI-related policy, guidance, or substantive discussion was found. There is no indication of instructor stance on AI use, no course-specific AI approach, and no guidance for students on appropriate AI tool usage.",
+      "prompt_version": "2027.06.5",
+      "cache_hit": false,
+      "latency_seconds": 16.99,
+      "tokens_used": 113122,
+      "error_note": null,
+      "status": "ai_suggested"
+    },
+    {
+      "element_id": "1.4",
+      "element_title": "Data Privacy and Security",
+      "section_id": "1",
+      "section_title": "Policies & Support",
+      "rating": "incomplete",
+      "confidence": 0.95,
+      "evidence_quotes": [],
+      "missing_items": [
+        "No reference to institutional privacy or security policies",
+        "No guidance on safe technology use (protecting credentials, secure connections, video privacy settings)",
+        "No mention of privacy considerations for external tools or data handling practices"
+      ],
+      "suggested_fix": "Add a dedicated section in the syllabus or Welcome module that links to the institution's privacy policy and provides explicit guidance on protecting login credentials, using secure connections, and setting video privacy appropriately when using Canvas and any external tools.",
+      "reasoning": "The supplied course content consists primarily of binary/encoded data from a syllabus file and various module pages covering course content, assignments, and resources. Despite extensive review of all readable sections including the Welcome module, syllabus references, and multiple unit pages, there is no mention of institutional privacy/security policies, no guidance on safe technology practices, and no discussion of data handling or FERPA. The absence of any privacy or security information means this element cannot be rated as aligned.",
+      "prompt_version": "2027.06.5",
+      "cache_hit": false,
+      "latency_seconds": 18.079,
+      "tokens_used": 112757,
+      "error_note": null,
+      "status": "ai_suggested"
+    },
+    {
+      "element_id": "1.5",
+      "element_title": "Student Resources and Support",
+      "section_id": "1",
+      "section_title": "Policies & Support",
+      "rating": "incomplete",
+      "confidence": 0.95,
+      "evidence_quotes": [],
+      "missing_items": [
+        "Links to disability/accessibility services",
+        "Links to tutoring services",
+        "Links to counseling or student support services",
+        "Links to library resources",
+        "Links to technology help or help desk",
+        "Links to basic needs support"
+      ],
+      "suggested_fix": "Create a dedicated 'Student Resources and Support' page in the Welcome module or syllabus that provides clearly labeled links to at least four of the six required service categories: disability services, counseling, tutoring, library, basic needs, and technology help. Include direct URLs or contact information for each service.",
+      "reasoning": "The supplied content consists primarily of binary/encoded data from the syllabus document that is unreadable in its current form. While the course navigation mentions an Academic Success Center, TutorMe, and library resources in instructional contexts, no clearly labeled, easy-to-find links to the required institutional support services (disability services, counseling, tutoring, library, basic needs, technology help) are present in the readable portions of the supplied content. Without evidence of at least four of the six service categories being addressed with actual links or clear references, the element cannot be rated as aligned.",
+      "prompt_version": "2027.06.5",
+      "cache_hit": false,
+      "latency_seconds": 18.253,
+      "tokens_used": 112799,
+      "error_note": null,
+      "status": "ai_suggested"
+    },
+    {
+      "element_id": "1.6",
+      "element_title": "Learning Support",
+      "section_id": "1",
+      "section_title": "Policies & Support",
+      "rating": "aligned",
+      "confidence": 0.92,
+      "evidence_quotes": [
+        {
+          "quote": "Use these resources to improve your knowledge of MLA format. Visit the CSU, Dominguez Hills Library Guides MLA 9th ed. resource page. Visit the Purdue OWL website for all things MLA. View a sample Source-Based Reflection Assignment (PDF)as an example of the work you will do in this course. View a sample discussion post (PDF). This video provides a general overview of MLA Style: How to Create a Works Cited Entry",
+          "page_id": "g8e0f8dd1f2b3b15cd9c2642814adb211",
+          "page_title": "1.5 Improve Your Learning and Get Better Grades"
+        },
+        {
+          "quote": "Virtual Paper Review, and Writing and Reading Support from our Academic Success Center TutorMe can be accessed from the global navigation menu and from the course menu. These tutorials can help with the specific formatting required for the Works Cited. How to Create a Hanging Indent in a Word Doc How to Create a Hanging Indent in Google Docs",
+          "page_id": "g8e0f8dd1f2b3b15cd9c2642814adb211",
+          "page_title": "1.5 Improve Your Learning and Get Better Grades"
+        }
+      ],
+      "missing_items": [],
+      "suggested_fix": "Continue integrating support resources within module activities throughout the remaining units, maintaining the current level of embedded guidance.",
+      "reasoning": "The course demonstrates strong integration of learning support resources within modules and activities. Multiple examples show tips, reminders, helpful links, and tutorials embedded throughout the course content (not just in orientation). Module 1 includes extensive MLA resources with links to writing centers, sample documents, and formatting tutorials. Module 2 includes Quick Guide pages with definitions and key terms. Module 11 includes Library Micro-Courses embedded in the unit. TutorMe and Academic Success Center resources are consistently referenced. This pattern of integrated support appears across multiple modules, meeting the aligned criteria of support resources within modules and activities in more than one module.",
+      "prompt_version": "2027.06.5",
+      "cache_hit": false,
+      "latency_seconds": 17.068,
+      "tokens_used": 112987,
+      "error_note": null,
+      "status": "ai_suggested"
+    },
+    {
+      "element_id": "2.1",
+      "element_title": "Structure and Navigation",
+      "section_id": "2",
+      "section_title": "Course Structure",
+      "rating": "aligned",
+      "confidence": 0.92,
+      "evidence_quotes": [
+        {
+          "quote": "In this video, you will learn about your Canvas Dashboard and Global Navigation links. You'll also learn about navigating a course and accessing assignments.",
+          "page_id": "gec8d44e80f2469ef6347fd4cd1e1bcfa",
+          "page_title": "1.2 How to Use Canvas and FAQs"
+        }
+      ],
+      "missing_items": [],
+      "suggested_fix": "Already meets baseline requirements; no action needed.",
+      "reasoning": "The course demonstrates clear alignment with Element 2.1. Module 1 serves as a clearly labeled 'Welcome to Your Course' starting point with orientation content. The 15 modules show consistent organization with numbered units, descriptive titles, and parallel structure (each starting with 'From the Podium,' followed by overview, activities, and summary). Page 1.2 explicitly provides navigation guidance explaining how to use Canvas. All modules follow the same pattern of overview → materials → activities → summary, demonstrating consistent structure throughout.",
+      "prompt_version": "2027.06.5",
+      "cache_hit": false,
+      "latency_seconds": 15.672,
+      "tokens_used": 113100,
+      "error_note": null,
+      "status": "ai_suggested"
+    },
+    {
+      "element_id": "2.2",
+      "element_title": "Module Objectives",
+      "section_id": "2",
+      "section_title": "Course Structure",
+      "rating": "aligned",
+      "confidence": 0.92,
+      "evidence_quotes": [
+        {
+          "quote": "Identify important course policies. Navigate the online course environment. Build classroom community.",
+          "page_id": "g08cb1f6d5a7f569507ec93a488f58966",
+          "page_title": "1.1 Welcome Unit Overview"
+        },
+        {
+          "quote": "Identify and explain the cultural circumstances that give rise to the oral literature of Native American tribal cultures. Compare the vast philosophic and spiritual differences between colonists and indigenous peoples of the Americas. Apply close reading techniques to identify and analyze key or recurring images and characters in Native American works.",
+          "page_id": "geef71bd1b6f3e9f82a5f3ee96caf4de9",
+          "page_title": "2.1 Unit Overview"
+        },
+        {
+          "quote": "Compare the documented experiences of pre-colonial explorers Cabeza de Vaca and John Smith in order to consider the complex social, cultural, and political contexts for their writings. Compare the philosophic and spiritual differences between Cabeza de Vaca and Smith, and between these explorers and the indigenous peoples they encountered. Identify archetypal elements in the works of Cabeza de Vaca and Smith.",
+          "page_id": "ga1c3dbe186f5e454a724732d1effe203",
+          "page_title": "3.1 Unit Overview"
+        }
+      ],
+      "missing_items": [],
+      "suggested_fix": "None needed. Module objectives are present, consistently placed, use measurable action verbs, and connect to course-level learning outcomes.",
+      "reasoning": "Module learning objectives are present in all reviewed modules (Units 1-13). They are consistently placed at the start of each module in the Unit Overview pages. The objectives use measurable action verbs (identify, explain, compare, analyze, apply, discuss) rather than vague terms like 'understand' or 'learn about.' The objectives describe specific, measurable outcomes and connect to what students will do (reading, reviewing, participating in discussions, completing assignments). This meets all baseline requirements for the 'aligned' rating.",
+      "prompt_version": "2027.06.5",
+      "cache_hit": false,
+      "latency_seconds": 16.211,
+      "tokens_used": 113134,
+      "error_note": null,
+      "status": "ai_suggested"
+    },
+    {
+      "element_id": "2.3",
+      "element_title": "Module Alignment",
+      "section_id": "2",
+      "section_title": "Course Structure",
+      "rating": "aligned",
+      "confidence": 0.88,
+      "evidence_quotes": [
+        {
+          "quote": "To meet the unit objectives, you will: Read : Read the \"Period Introduction: Beginnings to 1700\", pp 3-13 Read the Headnote, \"Native American Oral Literature,\" p 29 The Iroquois Creation Story, p 31 Trickster Tales, pp 35-38 Note: all pages numbers are for the NAAL, Shorter 9th edition, Beginnings to 1865. Review: The contents of this module, including the micro lecture. The associated enrichment resources are optional and designed to provide opportunities for you to futher explore specific topics or authors. Participate : Show What You Know practice quizzes: Period Intro/Native American Oral Literature and the Iroquois Creation Story Discussion of key or recurring images Reflection: Key Characters",
+          "page_id": "geef71bd1b6f3e9f82a5f3ee96caf4de9",
+          "page_title": "2.1 Unit Overview"
+        },
+        {
+          "quote": "Identify and explain the cultural circumstances that give rise to the oral literature of Native American tribal cultures. Compare the vast philosophic and spiritual differences between colonists and indigenous peoples of the Americas. Apply close reading techniques to i dentify and analyze key or recurring images and characters in Native American works.",
+          "page_id": "geef71bd1b6f3e9f82a5f3ee96caf4de9",
+          "page_title": "2.1 Unit Overview"
+        }
+      ],
+      "missing_items": [],
+      "suggested_fix": "Consider adding explicit statements in module materials that directly connect learning objectives to specific activities and assessments to make the alignment even more transparent to students.",
+      "reasoning": "Module 2 shows clear alignment between stated objectives and content/assessments. The objectives focus on identifying cultural circumstances, comparing worldviews, and applying close reading to Native American works. The activities directly support these: readings include cultural/historical context (Period Introduction, Headnotes), primary texts (Iroquois Creation Story, Trickster Tales), quizzes assess knowledge of content, discussions analyze recurring images, and reflections focus on key characters—all matching the stated learning outcomes. This pattern is consistent across multiple modules examined.",
+      "prompt_version": "2027.06.5",
+      "cache_hit": false,
+      "latency_seconds": 17.241,
+      "tokens_used": 113129,
+      "error_note": null,
+      "status": "ai_suggested"
+    },
+    {
+      "element_id": "2.4",
+      "element_title": "Canvas Tools and Apps",
+      "section_id": "2",
+      "section_title": "Course Structure",
+      "rating": "aligned",
+      "confidence": 0.92,
+      "evidence_quotes": [
+        {
+          "quote": "Each module contains content, activities, and assessments. You are encouraged to read ahead whenever possible.",
+          "page_id": "g3e75789416693cf1580adf313395b45c",
+          "page_title": "1.7 Getting Started in Your Course"
+        },
+        {
+          "quote": "The most common tasks in the course module include: Accessing course materials, which can include tabbed Canvas content pages, captioned videos, online library articles, open source readings, or general Canvas page content. Community-building, which can include peer reviews, discussions, contributing to a Canvas page, group work, etc. Taking Quizzes and/or exams. Practice quizzes and formal exams always appear in your To Do list. Practice quizzes can be taken multiple times and are untimed. Submitting Assignments, which can be via text-box entry, uploaded submissions (papers, reflections, PowerPoint presentations, images, media files, etc). Assignments can be graded or ungraded.",
+          "page_id": "g3e75789416693cf1580adf313395b45c",
+          "page_title": "1.7 Getting Started in Your Course"
+        }
+      ],
+      "missing_items": [],
+      "suggested_fix": "None needed; Canvas tools are used appropriately for organizing, submitting, and interacting.",
+      "reasoning": "The course demonstrates intentional use of Canvas tools. Modules organize content sequentially across 13 units. Assignments are used for graded work with clear submission methods. Discussions are used for interaction activities. Resources are embedded within structured Canvas pages rather than scattered files. Evidence shows appropriate tool selection for each activity type, meeting all baseline aligned criteria.",
+      "prompt_version": "2027.06.5",
+      "cache_hit": false,
+      "latency_seconds": 14.454,
+      "tokens_used": 112896,
+      "error_note": null,
+      "status": "ai_suggested"
+    },
+    {
+      "element_id": "2.5",
+      "element_title": "Use of Multimedia",
+      "section_id": "2",
+      "section_title": "Course Structure",
+      "rating": "aligned",
+      "confidence": 0.88,
+      "evidence_quotes": [
+        {
+          "quote": "This micro lecture has closed captions, which can be turned on or off using the CC button.",
+          "page_id": "g0a5ea0c3c0332fcd945a98129a05e302",
+          "page_title": "1.0 From the Podium: Professor's Welcome"
+        },
+        {
+          "quote": "The 5-minute video tutorial below describes how to use Pronto within Canvas for students. Watch the video to familiarize yourself with Pronto and consider how you might utilize the program in our class. Click CC to view captions.",
+          "page_id": "g2d297a00958c42881b1ad67166499b59",
+          "page_title": "Connecting with Pronto"
+        }
+      ],
+      "missing_items": [],
+      "suggested_fix": "Continue integrating multiple media types throughout all modules and ensure all visual content includes alt text for full accessibility compliance.",
+      "reasoning": "The course demonstrates consistent use of multiple media types beyond text across modules: captioned videos ('From the Podium' micro lectures in each unit), embedded video tutorials (with CC available), images, and interactive Canvas pages. Captions are explicitly mentioned for videos. Content includes diverse perspectives through readings from Native American, African American, women, and various cultural authors (Wheatley, Murray, Douglass, Jacobs, Davis, Alcott, etc.). While alt text for images is not explicitly documented in the supplied excerpts, the presence of multiple accessible media types and diverse content perspectives satisfies the aligned criteria.",
+      "prompt_version": "2027.06.5",
+      "cache_hit": false,
+      "latency_seconds": 14.115,
+      "tokens_used": 112900,
+      "error_note": null,
+      "status": "ai_suggested"
+    },
+    {
+      "element_id": "2.6",
+      "element_title": "Guidance for Working with Content",
+      "section_id": "2",
+      "section_title": "Course Structure",
+      "rating": "aligned",
+      "confidence": 0.92,
+      "evidence_quotes": [
+        {
+          "quote": "As you view these micro lectures this semester, take note of ideas, schedule details, or any questions that come up for you. You will likely find answers to some of your questions in the module contents provided, but if not, try posting your question to the Community Knowledge Base --many of your peers are experienced online learners.",
+          "page_id": "g0a5ea0c3c0332fcd945a98129a05e302",
+          "page_title": "1.0 From the Podium: Professor's Welcome"
+        },
+        {
+          "quote": "This optional resource guide provides an overview of the oral tradition within Native American tribes and communities. Use the guide to help you review key terms and definitions summarized from the assigned readings. You will also practice identifying and applying these terms and ideas in this week's quiz and discussion.",
+          "page_id": "g8d8db320b7a747c8baef3264c6be6c9c",
+          "page_title": "2.2 Quick Guide: Native American Oral Tradition"
+        }
+      ],
+      "missing_items": [],
+      "suggested_fix": "Continue providing clear instructional guidance throughout all modules as demonstrated in existing content.",
+      "reasoning": "The course provides extensive guidance for engaging with content across multiple modules. Examples include instructions to take notes during video lectures, explanations of how resource guides connect to quizzes and discussions, directions to focus on specific concepts, and clear contextualization of weekly content and activities.",
+      "prompt_version": "2027.06.5",
+      "cache_hit": false,
+      "latency_seconds": 13.786,
+      "tokens_used": 112862,
+      "error_note": null,
+      "status": "ai_suggested"
+    },
+    {
+      "element_id": "3.1",
+      "element_title": "Initial Course Contact",
+      "section_id": "3",
+      "section_title": "Regular & Substantive Interaction (RSI)",
+      "rating": "aligned",
+      "confidence": 0.95,
+      "evidence_quotes": [
+        {
+          "quote": "During the semester, the best way to reach me is via Canvas Inbox. I normally check my inbox throughout the day, Monday-Friday. You can expect a response within 24 hours. If you don't hear from me within 24 hours, please resend your message.",
+          "page_id": "g08cb1f6d5a7f569507ec93a488f58966",
+          "page_title": "1.1 Welcome Unit Overview"
+        },
+        {
+          "quote": "To meet the unit objectives, you will: Review the Course Syllabus. Review the contents of this Welcome module. Take the Show What You Know: Syllabus Quiz. Check in with an introduction. You must complete all of the required activities in this unit in order to stay enrolled. I am looking forward to working with you, so please let me know if you have any challenges completing this week's work.",
+          "page_id": "g08cb1f6d5a7f569507ec93a488f58966",
+          "page_title": "1.1 Welcome Unit Overview"
+        }
+      ],
+      "missing_items": [],
+      "suggested_fix": "Consider adding a more explicit welcome statement at the beginning of the module that introduces both the instructor and the course before listing tasks.",
+      "reasoning": "The course provides clear welcome messaging with instructor introduction, specific first-week requirements (review syllabus, complete welcome module, take quiz, check in with introduction), technology/communication information (Canvas Inbox, response time expectations), and support resources. The welcome content is present across multiple pages in the Welcome module, including a video welcome, written overview, and communication plan. All baseline requirements for alignment are met with clear, actionable information for students to start the course successfully.",
+      "prompt_version": "2027.06.5",
+      "cache_hit": false,
+      "latency_seconds": 14.4,
+      "tokens_used": 112870,
+      "error_note": null,
+      "status": "ai_suggested"
+    },
+    {
+      "element_id": "3.2",
+      "element_title": "Instructor-Initiated Interaction",
+      "section_id": "3",
+      "section_title": "Regular & Substantive Interaction (RSI)",
+      "rating": "aligned",
+      "confidence": 0.95,
+      "evidence_quotes": [
+        {
+          "quote": "During the semester, the best way to reach me is via Canvas Inbox. I normally check my inbox throughout the day, Monday-Friday. You can expect a response within 24 hours. If you don't hear from me within 24 hours, please resend your message. I am not generally available on weekends or campus holidays.",
+          "page_id": "g08cb1f6d5a7f569507ec93a488f58966",
+          "page_title": "1.1 Welcome Unit Overview"
+        },
+        {
+          "quote": "I monitor our weekly discussions daily and will chime in with opinions and clarifications as it seems appropriate. The Community Knowledge Base is where I encourage you to post general questions about the class - and feel free to answer someone's question when you can! ... Every week, I'll record a brand new short video for you where I preview the module content, assigned readings, and share biographical, literary, or historical information to provide context for the work. ... I do my best to grade discussion and reflection assignments and offer feedback within 3-5 days. I will let you know via an announcement if grading is delayed, and provide a new timeline for feedback. ... I use general announcements to let you know when a new module opens, to send assignment reminders, or to share information I think will be valuable for you. ... Each week, I host a drop-in student hour on Thursdays from 4-5pm. Everyone is welcome to ask a question, get assignment clarification, or just discuss the reading.",
+          "page_id": "g577f28d7710e5f63c0eb870e8fb5357b",
+          "page_title": "1.3 Our Communication Plan"
+        }
+      ],
+      "missing_items": [],
+      "suggested_fix": "None needed. The communication plan is comprehensive and clearly stated.",
+      "reasoning": "The course provides a clear, explicit communication plan describing when and how the instructor initiates regular interaction. Specific methods include: weekly micro lectures, daily discussion monitoring, general announcements for module openings/reminders, grading feedback within 3-5 days, weekly drop-in hours (Thursdays 4-5pm), and Canvas Inbox responses within 24 hours Monday-Friday. This comprehensive plan meets all requirements for alignment.",
+      "prompt_version": "2027.06.5",
+      "cache_hit": false,
+      "latency_seconds": 18.095,
+      "tokens_used": 113076,
+      "error_note": null,
+      "status": "ai_suggested"
+    },
+    {
+      "element_id": "3.3",
+      "element_title": "Student-Initiated Interaction",
+      "section_id": "3",
+      "section_title": "Regular & Substantive Interaction (RSI)",
+      "rating": "aligned",
+      "confidence": 0.95,
+      "evidence_quotes": [
+        {
+          "quote": "During the semester, the best way to reach me is via Canvas Inbox. I normally check my inbox throughout the day, Monday-Friday. You can expect a response within 24 hours. If you don't hear from me within 24 hours, please resend your message.",
+          "page_id": "g08cb1f6d5a7f569507ec93a488f58966",
+          "page_title": "1.1 Welcome Unit Overview"
+        },
+        {
+          "quote": "Weekly Student Hour Each week, I host a drop-in student hour on Thursdays from 4-5pm. Everyone is welcome to ask a question, get assignment clarification, or just discuss the reading. If the scheduled time and day do not work for you, message me for a different time and day to meet.",
+          "page_id": "g577f28d7710e5f63c0eb870e8fb5357b",
+          "page_title": "1.3 Our Communication Plan"
+        }
+      ],
+      "missing_items": [],
+      "suggested_fix": "None needed. All required elements are present and clearly stated.",
+      "reasoning": "The course provides clear instructor contact information (Canvas Inbox as preferred method), explicit response time expectations (within 24 hours, Monday-Friday), and regular opportunities for interaction (weekly student hours on Thursdays 4-5pm, with option to schedule alternate times). This information appears in multiple easily accessible locations including the Welcome Unit Overview and Communication Plan pages, satisfying all alignment criteria.",
+      "prompt_version": "2027.06.5",
+      "cache_hit": false,
+      "latency_seconds": 12.156,
+      "tokens_used": 112821,
+      "error_note": null,
+      "status": "ai_suggested"
+    },
+    {
+      "element_id": "3.4",
+      "element_title": "Facilitation of Student Interaction",
+      "section_id": "3",
+      "section_title": "Regular & Substantive Interaction (RSI)",
+      "rating": "incomplete",
+      "confidence": 0.95,
+      "evidence_quotes": [],
+      "missing_items": [
+        "No structured opportunities for student-to-student interaction about course content (discussions require peer engagement, peer review, or collaborative activities)",
+        "No explanation of instructor's facilitation role in student interactions"
+      ],
+      "suggested_fix": "Add discussion forums that require students to respond to classmates' posts (e.g., 'Post your initial analysis by Wednesday, then reply substantively to at least two peers by Friday'). Include a communication plan or discussion guidelines page stating how you will facilitate discussions (e.g., 'I monitor discussions daily and chime in with opinions and clarifications' or 'I participate in discussions to guide your thinking and provide feedback').",
+      "reasoning": "The supplied content consists entirely of assignment descriptions (journals, quizzes, reflections, exams, surveys, and other individual work). No discussion forums, peer review assignments, group work, or collaborative activities are present. There is no communication plan, discussion guidelines page, or any statement explaining how the instructor facilitates student-to-student interactions. Without evidence of structured peer engagement or instructor facilitation role, this element is incomplete.",
+      "prompt_version": "2027.06.5",
+      "cache_hit": false,
+      "latency_seconds": 10.16,
+      "tokens_used": 114544,
+      "error_note": null,
+      "status": "ai_suggested"
+    },
+    {
+      "element_id": "4.1",
+      "element_title": "Variety & Frequency",
+      "section_id": "4",
+      "section_title": "Assessments",
+      "rating": "aligned",
+      "confidence": 0.92,
+      "evidence_quotes": [
+        {
+          "quote": "Reflection assignments allow you to independently demonstrate close reading and analysis of the assigned work(s), an understanding of the history and cultural contexts of the period, and/or any insights gained during the discussion, through a written essay.",
+          "page_id": "g478338169ecd8e16181fd709cb0fd5c0",
+          "page_title": "Assignment: 2.6 Reflection: Key Characters in Native American Oral Tradition"
+        },
+        {
+          "quote": "In this exam you will: apply unit terminology to specific works. identify and/or evaluate important authors, works, genres, and themes of the period 1820-1865. Identify and explain historical, philosophical, social, political, regional, and/or aesthetic contexts in the literature and intellectual movements of the period 1820-1865. compose written responses that demonstrate appropriate academic format. The exam contains: 10 multiple choice questions (10 pts) 10 identification items (10 pts) Three short answer questions (20 pts total).",
+          "page_id": "g16b78d1aa6b54ec6b91a3dea72b47e0d",
+          "page_title": "Assignment: Exam Two"
+        }
+      ],
+      "missing_items": [],
+      "suggested_fix": "None needed; the course meets all alignment criteria for this element.",
+      "reasoning": "The course demonstrates both formative and summative assessments distributed throughout the term with at least four distinct formats: practice quizzes (formative, low-stakes, repeatable), reflections (formative essays), journal article summaries (formative research practice), and exams (summative with multiple components including MC, identification, and essays). Assessments appear across all units from Unit 2 through Unit 13 and Exam 2, meeting the distribution requirement.",
+      "prompt_version": "2027.06.5",
+      "cache_hit": false,
+      "latency_seconds": 12.94,
+      "tokens_used": 19651,
+      "error_note": null,
+      "status": "ai_suggested"
+    },
+    {
+      "element_id": "4.2",
+      "element_title": "Scoring Criteria",
+      "section_id": "4",
+      "section_title": "Assessments",
+      "rating": "aligned",
+      "confidence": 0.92,
+      "evidence_quotes": [
+        {
+          "quote": "This assignment will be evaluated within 3 days with the Journal Article grading rubric shown below.",
+          "page_id": "g0355e1f4b740489535f0ae977e980470",
+          "page_title": "Assignment: 11. 4 Journal Article Summary"
+        },
+        {
+          "quote": "This reflection will be evaluated within 5 days with the Source-based Reflection grading rubric shown below.",
+          "page_id": "g0efbe02cc2b160d88c23e131cf94f168",
+          "page_title": "Assignment: 8.5 Reflection: Rip Van Winkle"
+        }
+      ],
+      "missing_items": [],
+      "suggested_fix": "Continue current practice of consistently referencing rubrics across all assessment types.",
+      "reasoning": "Multiple assessments consistently reference grading rubrics ('Journal Article grading rubric shown below,' 'Source-based Reflection grading rubric shown below,' 'General Reflection grading rubric shown below'). Pattern demonstrates that scoring criteria are provided through rubric references throughout the course, meeting the aligned standard.",
+      "prompt_version": "2027.06.5",
+      "cache_hit": false,
+      "latency_seconds": 8.066,
+      "tokens_used": 19027,
+      "error_note": null,
+      "status": "ai_suggested"
+    },
+    {
+      "element_id": "4.3",
+      "element_title": "Assessment Instructions",
+      "section_id": "4",
+      "section_title": "Assessments",
+      "rating": "aligned",
+      "confidence": 0.92,
+      "evidence_quotes": [
+        {
+          "quote": "Instructions\nFor this assignment, you will create a Journal Article summary, which is not the same as an abstract. Please follow these steps:\nComplete the 5 Library Micro-courses [if you haven't already done so].\nLocate one academic journal article from either JSTOR or Academic Search Complete, on any author or topic related to slavery and abolitionism.\nRead your chosen article and use any active reading strategy to work through the primary points.\nCreate a summary based on this Journal Article Summary Example. Be sure to include all the necessary information, as seen in the sample, highlighting the author's main argument and primary points. Your goal is to provide an at-a-glance overview of the article for another reader. Please also include the permalink to your article at the end of your summary.\n\nDue Date\nThis assignment is due by Tuesday at 11:59pm PST.\n\nSubmitting this Assignment\nAll COS students have access to Office 365 via their campus accounts. Office 365 will allow you to create and view Word docs. You are also welcome to use Google Docs. Submit this assignment as a file upload. Submit doc, docx, or pdf files only.",
+          "page_id": "g0355e1f4b740489535f0ae977e980470",
+          "page_title": "Assignment: 11. 4 Journal Article Summary"
+        },
+        {
+          "quote": "Instructions\nUse MLA format: please create a title for your reflection, double space your work, and include in-text citations for any quotes or paraphrases, as well as the full citation for the work(s) you use in a works cited section. 500 words should be sufficient (but you can write more).\nBefore reading this story, most of us have heard of the character of Rip Van Winkle, and we have heard the phrase \"the American Dream\" being used in different contexts. Having read the story, how do you think we should understand the character of Rip Van Winkle? For example, is he an example of a Romantic hero or something else? Ultimately, if this story is the first \"American Dream\" in American literature, what do you think about the implications of that \"dream\"?\nTip: create a strong thesis statement that is an answer to the questions asked above and build your essay from there.\nNote: You are not normally asked to do outside research for these assignments, and you should rely on the assigned readings for your primary evidence as you support your observations and conclusions. If you wish to bring in relevant secondary research in the form of books, scholarly articles, or any of the web resources provided in this module, be sure to cite these sources in MLA format, as well.\n\nDue Date\nThis reflection is due by Tuesday at 11:59pm PST.\n\nSubmitting this Assignment\nAll COS students have access to Office 365 via their campus accounts. Office 365 will allow you to create and view Word docs. You are also welcome to use Google Docs. Submit this assignment as a file upload. Submit doc, docx, or pdf files only.",
+          "page_id": "g10ad50e08564e8dd8c6d1c9a85858df3",
+          "page_title": "Assignment: 8.5 Reflection: Rip Van Winkle"
+        }
+      ],
+      "missing_items": [],
+      "suggested_fix": "No fix needed; the majority of assessments demonstrate clear instructions with purpose, completion steps, submission requirements, and due dates.",
+      "reasoning": "The majority of assessments provide clear instructions explaining task purpose and context, step-by-step directions, submission requirements (format and method), due dates, and relevant resources or links. Evidence from multiple assignments confirms alignment with all baseline criteria.",
+      "prompt_version": "2027.06.5",
+      "cache_hit": false,
+      "latency_seconds": 16.764,
+      "tokens_used": 20053,
+      "error_note": null,
+      "status": "ai_suggested"
+    },
+    {
+      "element_id": "4.4",
+      "element_title": "Assessment Feedback",
+      "section_id": "4",
+      "section_title": "Assessments",
+      "rating": "aligned",
+      "confidence": 0.92,
+      "evidence_quotes": [
+        {
+          "quote": "This assignment will be evaluated within 3 days with the Journal Article grading rubric shown below.",
+          "page_id": "g0355e1f4b740489535f0ae977e980470",
+          "page_title": "Assignment: 11. 4 Journal Article Summary"
+        },
+        {
+          "quote": "This reflection will be evaluated within 5 days with the Source-based Reflection grading rubric shown below. I will provide individual comments within the rubric to help you improve your future work, or in the comment section to continue the conversation.",
+          "page_id": "g478338169ecd8e16181fd709cb0fd5c0",
+          "page_title": "Assignment: 2.6 Reflection: Key Characters in Native American Oral Tradition"
+        },
+        {
+          "quote": "I do my best to grade discussion and reflection assignments and offer feedback within 3-5 days. I will let you know via an announcement if grading is delayed, and provide a new timeline for feedback.",
+          "page_id": "g577f28d7710e5f63c0eb870e8fb5357b",
+          "page_title": "1.3 Our Communication Plan"
+        }
+      ],
+      "missing_items": [],
+      "suggested_fix": "No changes needed. The course clearly establishes feedback timelines and methods across multiple locations.",
+      "reasoning": "The course provides clear and consistent information about feedback timelines (3-5 days for discussions/reflections, 3 days for journal articles, within 4 days for exams) and delivery methods (rubric comments, gradebook comments). Students are told where to find feedback (Gradebook) and how to access it. This information appears in multiple accessible locations including assignment pages, the communication plan, and the syllabus area.",
+      "prompt_version": "2027.06.5",
+      "cache_hit": false,
+      "latency_seconds": 15.296,
+      "tokens_used": 114454,
+      "error_note": null,
+      "status": "ai_suggested"
+    },
+    {
+      "element_id": "4.5",
+      "element_title": "Learner Self-Reflection",
+      "section_id": "4",
+      "section_title": "Assessments",
+      "rating": "incomplete",
+      "confidence": 0.95,
+      "evidence_quotes": [],
+      "missing_items": [
+        "No self-reflection prompts or assignments asking students to think about their learning process",
+        "No learning journals, progress reflections, or self-assessment activities found",
+        "No evidence of multiple reflection opportunities distributed throughout the course focused on metacognitive thinking"
+      ],
+      "suggested_fix": "Add explicit self-reflection prompts in multiple modules asking students to reflect on their learning process, such as 'What strategies helped you understand this week's material?' or 'How has your approach to analyzing literature evolved?' Include a mid-course learning journal assignment where students assess their progress toward course objectives.",
+      "reasoning": "The supplied content contains numerous reflection assignments throughout the course, but these are analytical essays about literature (e.g., 'Reflection: Rip Van Winkle,' 'Reflection: The Gothic Imagination') rather than metacognitive self-reflections about the learning process itself. There is one 'Muddy Point' assignment asking students to identify unclear concepts, and two 'Check In' surveys, but these do not constitute multiple opportunities for students to reflect on their own learning process and growth. The reflections present are content-focused rather than process-focused.",
+      "prompt_version": "2027.06.5",
+      "cache_hit": false,
+      "latency_seconds": 10.284,
+      "tokens_used": 114393,
+      "error_note": null,
+      "status": "ai_suggested"
+    },
+    {
+      "element_id": "4.6",
+      "element_title": "Learner Feedback Survey",
+      "section_id": "4",
+      "section_title": "Assessments",
+      "rating": "incomplete",
+      "confidence": 0.95,
+      "evidence_quotes": [],
+      "missing_items": [
+        "No anonymous or confidential learner feedback survey found in the course content",
+        "No feedback mechanism placed in the second half or near the end of the course",
+        "No clear invitation for students to provide feedback about course design, pacing, or content"
+      ],
+      "suggested_fix": "Add an anonymous survey or feedback form in the second half of the course (e.g., in a later module or near the final module) that explicitly invites students to provide confidential feedback about course design, pacing, clarity of instructions, and what to keep or change. Include clear privacy assurance language such as 'your responses are anonymous' or 'does not affect your grade.'",
+      "reasoning": "The supplied content includes the course syllabus, welcome materials, and 13 units of course content. While there are references to 'Check in with an introduction' and mentions of 'Check-In and Feedback surveys' occurring 'at various times throughout the semester' (page g3e75789416693cf1580adf313395b45c), no actual feedback survey or mechanism is present in the provided content. No specific survey asking students about course design, pacing, workload, or what to keep/change is found. Without evidence of an anonymous/confidential feedback mechanism in the course content, the element cannot be rated as aligned.",
+      "prompt_version": "2027.06.5",
+      "cache_hit": false,
+      "latency_seconds": 11.556,
+      "tokens_used": 112896,
+      "error_note": null,
+      "status": "ai_suggested"
+    }
+  ],
+  "accessibility_findings": [
+    {
+      "check_id": "hdg-002",
+      "severity": "error",
+      "page_id": "g262dbf0f7d528de857db7336b101cf27",
+      "page_title": "village of secoton in roanoke 1585",
+      "element_snippet": "<h6 ch=\"\" f=\"\" ud=\"\" v=\"\">�C�F]f�Mz�h2��)U\n}�j���\tР�)G�!2+�yqm��|��aW\tn� T+{״*�V&amp;{.����O\\��@S�$�D��4-�A��wBTM��R]�5\"D�}J��H:��f��&amp;�\t�Tk���FPR~c�J�U�*:h�\"\t,�J��F���R\ni_�Au�0���ݷ���<z>�� |&lt;�w…",
+      "line_hint": null,
+      "message": "Heading level skipped: h2 → h6. Screen readers announce the depth; a skip breaks the outline.",
+      "remediation": "Change this heading to h3 or restructure the content hierarchy.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "img-003",
+      "severity": "error",
+      "page_id": "g1a379213d6a210672eef02f54bf6d394",
+      "page_title": "1.12 Welcome Unit Summary",
+      "element_snippet": "<img alt=\"fancy  Unit Completion.png\" height=\"300\" id=\"614682\" loading=\"lazy\" src=\"$IMS-CC-FILEBASE$/Images/fancy%20%20Unit%20Completion.png\" width=\"300\"/>",
+      "line_hint": null,
+      "message": "Alt text appears to be a filename: \"fancy  Unit Completion.png\".",
+      "remediation": "Replace the filename with a meaningful description of the image content.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "lnk-001",
+      "severity": "error",
+      "page_id": "ge4c4e4e6c055fe3b986f186b25061d8b",
+      "page_title": "10-dot-5-shared-class-page-activity-19th-century-inventions",
+      "element_snippet": "<a class=\"\" data-preview-alt=\"\" href=\"https://www.thoughtco.com/inventions-nineteenth-century-4144740\" title=\"Link\">Link</a>",
+      "line_hint": null,
+      "message": "Non-descriptive link text: \"Link\". Screen reader users who navigate by links hear this out of context.",
+      "remediation": "Replace with text that describes the destination or action, e.g. \"Read the course syllabus\" instead of \"Click here\".",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "doc-001",
+      "severity": "warning",
+      "page_id": "",
+      "page_title": "Files",
+      "element_snippet": "Alcott The Brothers_My Contraband.pdf (/web_resources/Accessibility Review/Needs Remediation/Alcott The Brothers_My Contraband.pdf)",
+      "line_hint": null,
+      "message": "PDF file \"Alcott The Brothers_My Contraband.pdf\" requires manual accessibility verification.",
+      "remediation": "Run the file through Adobe Acrobat's Accessibility Checker or PAC 2024. Ensure the PDF is tagged, has a logical reading order, alt text on images, and an accessible form structure if applicable.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "doc-001",
+      "severity": "warning",
+      "page_id": "",
+      "page_title": "Files",
+      "element_snippet": "ENGL 2044 Syllabus_Fall 2022.pdf (/web_resources/Accessibility Review/Needs Remediation/ENGL 2044 Syllabus_Fall 2022.pdf)",
+      "line_hint": null,
+      "message": "PDF file \"ENGL 2044 Syllabus_Fall 2022.pdf\" requires manual accessibility verification.",
+      "remediation": "Run the file through Adobe Acrobat's Accessibility Checker or PAC 2024. Ensure the PDF is tagged, has a logical reading order, alt text on images, and an accessible form structure if applicable.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "doc-001",
+      "severity": "warning",
+      "page_id": "",
+      "page_title": "Files",
+      "element_snippet": "Sample Discussion Post.pdf (/web_resources/Accessibility Review/Needs Remediation/Sample Discussion Post.pdf)",
+      "line_hint": null,
+      "message": "PDF file \"Sample Discussion Post.pdf\" requires manual accessibility verification.",
+      "remediation": "Run the file through Adobe Acrobat's Accessibility Checker or PAC 2024. Ensure the PDF is tagged, has a logical reading order, alt text on images, and an accessible form structure if applicable.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "doc-001",
+      "severity": "warning",
+      "page_id": "",
+      "page_title": "Files",
+      "element_snippet": "Sample Student Reflection.pdf (/web_resources/Accessibility Review/Needs Remediation/Sample Student Reflection.pdf)",
+      "line_hint": null,
+      "message": "PDF file \"Sample Student Reflection.pdf\" requires manual accessibility verification.",
+      "remediation": "Run the file through Adobe Acrobat's Accessibility Checker or PAC 2024. Ensure the PDF is tagged, has a logical reading order, alt text on images, and an accessible form structure if applicable.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "doc-002",
+      "severity": "warning",
+      "page_id": "",
+      "page_title": "Files",
+      "element_snippet": "Alcott The Brothers_My Contraband.docx (/web_resources/Accessibility Review/Accessible/Alcott The Brothers_My Contraband.docx)",
+      "line_hint": null,
+      "message": "Word document \"Alcott The Brothers_My Contraband.docx\" requires manual accessibility verification.",
+      "remediation": "Use Word's built-in Accessibility Checker (Review → Check Accessibility). Ensure headings, alt text, table headers, and reading order are correct before uploading.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "doc-002",
+      "severity": "warning",
+      "page_id": "",
+      "page_title": "Files",
+      "element_snippet": "ENGL 2044 Syllabus_Fall 2022.docx (/web_resources/Accessibility Review/Accessible/ENGL 2044 Syllabus_Fall 2022.docx)",
+      "line_hint": null,
+      "message": "Word document \"ENGL 2044 Syllabus_Fall 2022.docx\" requires manual accessibility verification.",
+      "remediation": "Use Word's built-in Accessibility Checker (Review → Check Accessibility). Ensure headings, alt text, table headers, and reading order are correct before uploading.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "doc-002",
+      "severity": "warning",
+      "page_id": "",
+      "page_title": "Files",
+      "element_snippet": "Fillable Evidence Interpretation Form.docx (/web_resources/Accessibility Review/Accessible/Fillable Evidence Interpretation Form.docx)",
+      "line_hint": null,
+      "message": "Word document \"Fillable Evidence Interpretation Form.docx\" requires manual accessibility verification.",
+      "remediation": "Use Word's built-in Accessibility Checker (Review → Check Accessibility). Ensure headings, alt text, table headers, and reading order are correct before uploading.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "doc-002",
+      "severity": "warning",
+      "page_id": "",
+      "page_title": "Files",
+      "element_snippet": "ID Answers for Midterm.docx (/web_resources/Accessibility Review/Accessible/ID Answers for Midterm.docx)",
+      "line_hint": null,
+      "message": "Word document \"ID Answers for Midterm.docx\" requires manual accessibility verification.",
+      "remediation": "Use Word's built-in Accessibility Checker (Review → Check Accessibility). Ensure headings, alt text, table headers, and reading order are correct before uploading.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "doc-002",
+      "severity": "warning",
+      "page_id": "",
+      "page_title": "Files",
+      "element_snippet": "Welcome Letter for ENGL 2044.docx (/web_resources/Accessibility Review/Accessible/Welcome Letter for ENGL 2044.docx)",
+      "line_hint": null,
+      "message": "Word document \"Welcome Letter for ENGL 2044.docx\" requires manual accessibility verification.",
+      "remediation": "Use Word's built-in Accessibility Checker (Review → Check Accessibility). Ensure headings, alt text, table headers, and reading order are correct before uploading.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "doc-002",
+      "severity": "warning",
+      "page_id": "",
+      "page_title": "Files",
+      "element_snippet": "Journal Article Summary Example.docx (/web_resources/course_image/Journal Article Summary Example.docx)",
+      "line_hint": null,
+      "message": "Word document \"Journal Article Summary Example.docx\" requires manual accessibility verification.",
+      "remediation": "Use Word's built-in Accessibility Checker (Review → Check Accessibility). Ensure headings, alt text, table headers, and reading order are correct before uploading.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "hdg-001",
+      "severity": "warning",
+      "page_id": "g0172217d7fe96e41ac8182fad55d9071",
+      "page_title": "94 pages affected",
+      "element_snippet": "(no headings found) | (no headings found) | (no headings found) | ... and 91 more",
+      "line_hint": null,
+      "message": "Page has substantial content but no heading elements (h1–h6).",
+      "remediation": "Add at least one heading (h2 or h3) to introduce major sections. This helps screen reader users navigate with heading shortcuts.",
+      "status": "ai_suggested",
+      "occurrences": 94,
+      "affected_pages": [
+        {
+          "page_id": "g0172217d7fe96e41ac8182fad55d9071",
+          "page_title": "concepts-for-review-ethos-pathos-and-logos-copy",
+          "count": 1
+        },
+        {
+          "page_id": "g026d329236990a0b576285698b55f94a",
+          "page_title": "community",
+          "count": 1
+        },
+        {
+          "page_id": "g0cd3c1f6028db55e2cdf54a7aff2a6e9",
+          "page_title": "anne bradstreet",
+          "count": 1
+        },
+        {
+          "page_id": "g0e191c1c2f7f5ff42201d912deb7fa2e",
+          "page_title": "Muddy Point",
+          "count": 1
+        },
+        {
+          "page_id": "g1063d344338c62b76a360f4e1f183a86",
+          "page_title": "The Gothic Imagination",
+          "count": 1
+        },
+        {
+          "page_id": "g11911bd5c0e76f302a7eddc1040bd9e2",
+          "page_title": "WIN_20211207_07_55_20_Pro (2)",
+          "count": 1
+        },
+        {
+          "page_id": "g18118ab44821428e0e5524835df7c10c",
+          "page_title": "187px-The_Historian_(The_How_and_Why_Library)",
+          "count": 1
+        },
+        {
+          "page_id": "g1a23b63e3ffc7b7d0e53162a5f69372c",
+          "page_title": "anne bradstreet",
+          "count": 1
+        },
+        {
+          "page_id": "g1f72058d079430602b5e5240824376c9",
+          "page_title": "native american coyote design",
+          "count": 1
+        },
+        {
+          "page_id": "g1fe6898356d2844069334ae8d438583e",
+          "page_title": "philly_skyline2",
+          "count": 1
+        },
+        {
+          "page_id": "g21648c41340315f8cb28c9d740b3a2ec",
+          "page_title": "course check in",
+          "count": 1
+        },
+        {
+          "page_id": "g2559e52dacaf1a26d776eaa7bb7a54b0",
+          "page_title": "knowledge check (3)",
+          "count": 1
+        },
+        {
+          "page_id": "g275929fef5e984d0349d90eee2a6aba9",
+          "page_title": "declaration of independence",
+          "count": 1
+        },
+        {
+          "page_id": "g2f60343486a42d870d2f4dd85dd3ef76",
+          "page_title": "activities-interactions",
+          "count": 1
+        },
+        {
+          "page_id": "g3218ec43798a5ae7e1be604ed1635c4e",
+          "page_title": "old salem village",
+          "count": 1
+        },
+        {
+          "page_id": "g409082f912a22ca456a894aae40380de",
+          "page_title": "puritan family",
+          "count": 1
+        },
+        {
+          "page_id": "g444285e49573b829e4e1d33ccec677ba",
+          "page_title": "ask a question",
+          "count": 1
+        },
+        {
+          "page_id": "g488df273ae68ec25262a24ed430fa327",
+          "page_title": "ENGL 2044 Syllabus_Fall 2022",
+          "count": 1
+        },
+        {
+          "page_id": "g4c23293f2128591febf2614845d2012f",
+          "page_title": "steam locomotive",
+          "count": 1
+        },
+        {
+          "page_id": "g4de806d11aa871ad315925ddd03a63c8",
+          "page_title": "quest online",
+          "count": 1
+        },
+        {
+          "page_id": "g4ece393d17237503b32b58b4b475ba0f",
+          "page_title": "shorter ninth naal",
+          "count": 1
+        },
+        {
+          "page_id": "g52d15ee9a45658c0ab7717d1b2ef75c4",
+          "page_title": "Alcott The Brothers_My Contraband",
+          "count": 1
+        },
+        {
+          "page_id": "g53934af1e94128001d573a72fcca25ad",
+          "page_title": "Sample Discussion Post",
+          "count": 1
+        },
+        {
+          "page_id": "g5785b853f10e835f2cddf53bc4ffbca7",
+          "page_title": "apollo-and-dionysus",
+          "count": 1
+        },
+        {
+          "page_id": "g5b494f336c3da08bc68855c79db20278",
+          "page_title": "ENGL2044  Let's Discuss",
+          "count": 1
+        },
+        {
+          "page_id": "g5bee28f9c4ffb469e201053c03a8976f",
+          "page_title": "help icon",
+          "count": 1
+        },
+        {
+          "page_id": "g5c11263889434e7d982af7c253b61876",
+          "page_title": "journal-article-summary-sample",
+          "count": 1
+        },
+        {
+          "page_id": "g5d0b405316257e239228f22901ceb021",
+          "page_title": "Small_Red_Rose",
+          "count": 1
+        },
+        {
+          "page_id": "g5db6ed2686d833d9365c950152f438e1",
+          "page_title": "judith sargent murray",
+          "count": 1
+        },
+        {
+          "page_id": "g5ebf177be32c8ef56eb399500d00e756",
+          "page_title": "11. 6 Video Resource: Harriet Jacobs and Abolitionism",
+          "count": 1
+        },
+        {
+          "page_id": "g68a2c97868bdce66a23c6b55dd24490a",
+          "page_title": "Welcome Letter for ENGL 2044",
+          "count": 1
+        },
+        {
+          "page_id": "g6b38f82f4840d5a4f9b1ecb24b1aada7",
+          "page_title": "ID Answers for Midterm",
+          "count": 1
+        },
+        {
+          "page_id": "g72e8b2f32d1468dfd54323f67669432f",
+          "page_title": "220px-Cabeza_de_Vaca_Portrait",
+          "count": 1
+        },
+        {
+          "page_id": "g76547a7240911eb721fa98a9fbd286ca",
+          "page_title": "Fillable Evidence Interpretation Form",
+          "count": 1
+        },
+        {
+          "page_id": "g778a81d792f187fe8cbd11a12369fe6e",
+          "page_title": "_2044 Exam Two Banner",
+          "count": 1
+        },
+        {
+          "page_id": "g802041c7272c7a6def7fc9a8ee56bc36",
+          "page_title": "11-6-video-resource-angelina-e-grimke",
+          "count": 1
+        },
+        {
+          "page_id": "g827784af4bccefac0b9b2a074b7945ff",
+          "page_title": "Alcott The Brothers_My Contraband",
+          "count": 1
+        },
+        {
+          "page_id": "g83d012cdec82e811fede55ffccea8a85",
+          "page_title": "writer's resources (2)",
+          "count": 1
+        },
+        {
+          "page_id": "g85612f9742a973a391749d5ba19b66c5",
+          "page_title": "button_start-here",
+          "count": 1
+        },
+        {
+          "page_id": "g87c4fd2175d6a339caee4e3ab70e64b6",
+          "page_title": "Hopi-Petroglyphs",
+          "count": 1
+        },
+        {
+          "page_id": "g88a32c1a43b6364747d067fd02dd9545",
+          "page_title": "_ENGL2044 Reflections",
+          "count": 1
+        },
+        {
+          "page_id": "g8d7d2ec9ab86a08d1651200b7275c350",
+          "page_title": "phillis-wheatley-600x600jpg",
+          "count": 1
+        },
+        {
+          "page_id": "g8eba042b35f048a4bf8ba27f54717ea1",
+          "page_title": "slave ship turner",
+          "count": 1
+        },
+        {
+          "page_id": "g8fff09e0b9f150288a9313c88fbdbba3",
+          "page_title": "Student Hour (2)",
+          "count": 1
+        },
+        {
+          "page_id": "g9133aeadd51b3349203aa42d78d60ea0",
+          "page_title": "Pastel Orange Travel Photo Collage",
+          "count": 1
+        },
+        {
+          "page_id": "g9263a6f17224052e248b5d87b3644d90",
+          "page_title": "11.5 Digging Deeper: Enrichment Resources for Slavery and Abolitionism:",
+          "count": 1
+        },
+        {
+          "page_id": "g936c065d15e041a0ba251079f204e643",
+          "page_title": "Puritan family home page",
+          "count": 1
+        },
+        {
+          "page_id": "g9b118d80c28763855c22615e9d162008",
+          "page_title": "Pronto app 6",
+          "count": 1
+        },
+        {
+          "page_id": "g9cf7ffd6465be1c9224ed1fc4c35f6ff",
+          "page_title": "tutorme (1)",
+          "count": 1
+        },
+        {
+          "page_id": "ga2178b1bb14e7de6bb8e455543988f4b",
+          "page_title": "Student Hour",
+          "count": 1
+        },
+        {
+          "page_id": "ga4fc2e78dd24e932de2bbf2b6f6877bc",
+          "page_title": "ENGL 2044 Syllabus_Fall 2022",
+          "count": 1
+        },
+        {
+          "page_id": "ga9795697aec88d5aa7a938ba5bcdb022",
+          "page_title": "6.7 Digging Deeper: Enrichment Resources for Revolutionary Period Writers",
+          "count": 1
+        },
+        {
+          "page_id": "gaa3eb26605c627908f169ce7a4618626",
+          "page_title": "john smith",
+          "count": 1
+        },
+        {
+          "page_id": "gab935fd0ab143573d6f6c5197931dd20",
+          "page_title": "new york 1880",
+          "count": 1
+        },
+        {
+          "page_id": "gac973b74d9286e487335800f8d7605d9",
+          "page_title": "peaceable kingdom",
+          "count": 1
+        },
+        {
+          "page_id": "gaf646f04dd51fc5acc0387bc3f20af87",
+          "page_title": "American Literature 1",
+          "count": 1
+        },
+        {
+          "page_id": "gb838e1483ea708e4b4aaec2736f5a972",
+          "page_title": "winter landscape",
+          "count": 1
+        },
+        {
+          "page_id": "gba3d06d5c509129c9cfdfb5412999f3d",
+          "page_title": "Capture7",
+          "count": 1
+        },
+        {
+          "page_id": "gbe11df0efb79c65706ad4269e884f438",
+          "page_title": "4.7 Digging Deeper: Enrichment Resources for the Puritan Legacy",
+          "count": 1
+        },
+        {
+          "page_id": "gbe97fe71ea4a11d2db58eb2508e34d9e",
+          "page_title": "Journal Article Summary Example",
+          "count": 1
+        },
+        {
+          "page_id": "gc2bb76b4e61fe6d1734f38efd9343f9a",
+          "page_title": "EdTalks",
+          "count": 1
+        },
+        {
+          "page_id": "gc2c68438a440f08b2edc7201153e6096",
+          "page_title": "moonlight by winslow homer",
+          "count": 1
+        },
+        {
+          "page_id": "gc537d66564639dc9ec7322064e70f729",
+          "page_title": "1770_MaryRowlandson_Captivity",
+          "count": 1
+        },
+        {
+          "page_id": "gc904fe9333c0fed08b17669af45b1412",
+          "page_title": "inbox icon",
+          "count": 1
+        },
+        {
+          "page_id": "gcc6d05d05ac6b0dadf41ef2c2746fb6b",
+          "page_title": "562px-Caspar_David_Friedrich_-_Wanderer_above_the_sea_of_fog",
+          "count": 1
+        },
+        {
+          "page_id": "gcd134a1aa07e9e63c24deacf228e459e",
+          "page_title": "freidrich-1",
+          "count": 1
+        },
+        {
+          "page_id": "gcd35d28b725e162c55d606f1a2f8b786",
+          "page_title": "ENGL2046  Let's Discuss",
+          "count": 1
+        },
+        {
+          "page_id": "gcd6f928dee9a9b7e62d2f6ddb64d5d9e",
+          "page_title": "yosemite valley",
+          "count": 1
+        },
+        {
+          "page_id": "gcdf17956e28b30d8267a4c2308fb7771",
+          "page_title": "gettysburg national cemetary",
+          "count": 1
+        },
+        {
+          "page_id": "gce9e50e7dd2031bc5511eecde21def5f",
+          "page_title": "thomas cole landscape",
+          "count": 1
+        },
+        {
+          "page_id": "gcfba03e233dd491bfe5a0b6a08650345",
+          "page_title": "5.2 Visual Resources: Benjamin Franklin",
+          "count": 1
+        },
+        {
+          "page_id": "gd2d5ba79335bf10a73e5a641ea6b1354",
+          "page_title": "Sample Student Reflection",
+          "count": 1
+        },
+        {
+          "page_id": "gd748a1a6b22c9833078cd7ef12bddc69",
+          "page_title": "more options menu",
+          "count": 1
+        },
+        {
+          "page_id": "gd7c6d09ee7317a071c7bad69ffbc5382",
+          "page_title": "microlecture",
+          "count": 1
+        },
+        {
+          "page_id": "gd7edc877abb52d99ae2e7a26a20f5c4c",
+          "page_title": "free women of color and their children",
+          "count": 1
+        },
+        {
+          "page_id": "gdbb771113b89f9b9fe649ba6347cb655",
+          "page_title": "show what you know 2022",
+          "count": 1
+        },
+        {
+          "page_id": "gdf2185b2048b5db99fef763883c8b03c",
+          "page_title": "dancing skeletons",
+          "count": 1
+        },
+        {
+          "page_id": "ge259be3b454dd49a0680d02b043baffc",
+          "page_title": "fancy  Unit Completion",
+          "count": 1
+        },
+        {
+          "page_id": "ge5ba09ae80e816de4125ab8c139027e6",
+          "page_title": "pronto_icon",
+          "count": 1
+        },
+        {
+          "page_id": "ge966fd25ebe0a5a970d205d9f5817ff2",
+          "page_title": "microlecture-1",
+          "count": 1
+        },
+        {
+          "page_id": "geb8c93c79b69075ce6d9478a24ace200",
+          "page_title": "sky woman",
+          "count": 1
+        },
+        {
+          "page_id": "ged5fd4f7cc598f4e185d5b5892471cf9",
+          "page_title": "By the end of this unit, you should be able to",
+          "count": 1
+        },
+        {
+          "page_id": "gf66a7e36a298fbdd29a162027d436011",
+          "page_title": "Battle-of-Antietam-Kurz-Allison-1888",
+          "count": 1
+        },
+        {
+          "page_id": "gf7aa5f54be36818959355119807a02f7",
+          "page_title": "2044 Exam Banner",
+          "count": 1
+        },
+        {
+          "page_id": "gf8a759814de57879ae2fcaba037852d1",
+          "page_title": "button_your-learning-units (1)",
+          "count": 1
+        },
+        {
+          "page_id": "gfae37c9e6da99981926a563065543982",
+          "page_title": "2044 course tile",
+          "count": 1
+        },
+        {
+          "page_id": "gfcbc3392cae15e16b20738d23cc0d4d2",
+          "page_title": "_Unit Completion Am Lit 2022",
+          "count": 1
+        },
+        {
+          "page_id": "gfe48b0dd779ac8cd70feb5b9719d3899",
+          "page_title": "women workers edwardian",
+          "count": 1
+        },
+        {
+          "page_id": "g1dc95477dd9187755b9083779312edf5",
+          "page_title": "Week 4 Check In",
+          "count": 1
+        },
+        {
+          "page_id": "g70865158f81288b438f5aa06702d4c13",
+          "page_title": "Unit 8 Check In",
+          "count": 1
+        },
+        {
+          "page_id": "g9ed659c72afc1c39eff9037b6f086393",
+          "page_title": "Anonymous Course Feedback Survey: American Lit I",
+          "count": 1
+        },
+        {
+          "page_id": "ga09aa38c11a4179af7c64e58685b5f89",
+          "page_title": "exam-1-essay-questions-for-quanah",
+          "count": 1
+        },
+        {
+          "page_id": "gc0268e655c9238ab9a0edba9070cd84a",
+          "page_title": "Assignment: Library Micro-Courses",
+          "count": 1
+        },
+        {
+          "page_id": "syllabus",
+          "page_title": "Syllabus",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "check_id": "hdg-003",
+      "severity": "warning",
+      "page_id": "g25abfa819042f19e8748d8fe0fdfba01",
+      "page_title": "4.2  Quick Guide: Puritan Poetry and Prose",
+      "element_snippet": "<span style=\"font-size: 1.8em;\">Poetry and Prose of the 17th Century</span>",
+      "line_hint": null,
+      "message": "Paragraph styled with large/bold text may be a visual heading: \"Poetry and Prose of the 17th Century\".",
+      "remediation": "Replace with a semantic heading element (h2–h6) to expose the structure to assistive technology.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "hdg-003",
+      "severity": "warning",
+      "page_id": "g2d297a00958c42881b1ad67166499b59",
+      "page_title": "Connecting with Pronto",
+      "element_snippet": "<span style=\"font-size: 1.5em;\">Download Pronto on mobile Devices</span>",
+      "line_hint": null,
+      "message": "Paragraph styled with large/bold text may be a visual heading: \"Download Pronto on mobile Devices\".",
+      "remediation": "Replace with a semantic heading element (h2–h6) to expose the structure to assistive technology.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "hdg-003",
+      "severity": "warning",
+      "page_id": "gb18222fdf154917b6193288efa8eb081",
+      "page_title": "Preview of Exam Two Identification items and Short Answer Questions",
+      "element_snippet": "<span style=\"font-family: inherit; font-size: 1.5em; color: var(--ic-brand-font-color-dark);\">Short AnswerTip:</span>",
+      "line_hint": null,
+      "message": "Paragraph styled with large/bold text may be a visual heading: \"Short AnswerTip:\".",
+      "remediation": "Replace with a semantic heading element (h2–h6) to expose the structure to assistive technology.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "hdg-003",
+      "severity": "warning",
+      "page_id": "ge0b145c3015c937bdeb403e1aaf383e1",
+      "page_title": "11.2 Research Review Assignment: Library Micro-Courses",
+      "element_snippet": "<span style=\"font-family: inherit; font-size: 1.8em; color: var(--ic-brand-font-color-dark);\">Contact the Library</span>",
+      "line_hint": null,
+      "message": "Paragraph styled with large/bold text may be a visual heading: \"Contact the Library\".",
+      "remediation": "Replace with a semantic heading element (h2–h6) to expose the structure to assistive technology.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "img-002",
+      "severity": "warning",
+      "page_id": "g31ef6d56fcb5d715147b3dce94473b62",
+      "page_title": "3.2  Quick Guide: Cabeza de Vaca and John Smith",
+      "element_snippet": "<img alt=\"\" data-api-endpoint=\"https://siskiyous.instructure.com/api/v1/courses/4401/files/556890\" data-api-returntype=\"File\" data-decorative=\"true\" height=\"241\" loading=\"lazy\" src=\"$IMS-CC-FILEBASE$/…",
+      "line_hint": null,
+      "message": "Image has empty alt but may not be decorative. Verify this image carries no meaning.",
+      "remediation": "If decorative, add role=\"presentation\". If meaningful, provide a descriptive alt attribute.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "img-002",
+      "severity": "warning",
+      "page_id": "g577f28d7710e5f63c0eb870e8fb5357b",
+      "page_title": "1.3 Our Communication Plan",
+      "element_snippet": "<img alt=\"\" data-api-endpoint=\"https://siskiyous.instructure.com/api/v1/courses/5370/files/692162\" data-api-returntype=\"File\" height=\"147\" id=\"692162\" loading=\"lazy\" src=\"$IMS-CC-FILEBASE$/Images/acti…",
+      "line_hint": null,
+      "message": "Image has empty alt but may not be decorative. Verify this image carries no meaning.",
+      "remediation": "If decorative, add role=\"presentation\". If meaningful, provide a descriptive alt attribute.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "img-002",
+      "severity": "warning",
+      "page_id": "g8d8db320b7a747c8baef3264c6be6c9c",
+      "page_title": "2.2 Quick Guide: Native American Oral Tradition",
+      "element_snippet": "<img alt=\"\" data-api-endpoint=\"https://siskiyous.instructure.com/api/v1/courses/4401/files/556882\" data-api-returntype=\"File\" data-decorative=\"true\" loading=\"lazy\" src=\"$IMS-CC-FILEBASE$/Images/187px-…",
+      "line_hint": null,
+      "message": "Image has empty alt but may not be decorative. Verify this image carries no meaning.",
+      "remediation": "If decorative, add role=\"presentation\". If meaningful, provide a descriptive alt attribute.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "img-002",
+      "severity": "warning",
+      "page_id": "g8d8db320b7a747c8baef3264c6be6c9c",
+      "page_title": "2.2 Quick Guide: Native American Oral Tradition",
+      "element_snippet": "<img alt=\"\" data-api-endpoint=\"https://siskiyous.instructure.com/api/v1/courses/4401/files/556884\" data-api-returntype=\"File\" data-decorative=\"true\" height=\"158\" loading=\"lazy\" src=\"$IMS-CC-FILEBASE$/…",
+      "line_hint": null,
+      "message": "Image has empty alt but may not be decorative. Verify this image carries no meaning.",
+      "remediation": "If decorative, add role=\"presentation\". If meaningful, provide a descriptive alt attribute.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "img-002",
+      "severity": "warning",
+      "page_id": "g8d8db320b7a747c8baef3264c6be6c9c",
+      "page_title": "2.2 Quick Guide: Native American Oral Tradition",
+      "element_snippet": "<img alt=\"\" data-api-endpoint=\"https://siskiyous.instructure.com/api/v1/courses/4401/files/556885\" data-api-returntype=\"File\" data-decorative=\"true\" height=\"272\" loading=\"lazy\" src=\"$IMS-CC-FILEBASE$/…",
+      "line_hint": null,
+      "message": "Image has empty alt but may not be decorative. Verify this image carries no meaning.",
+      "remediation": "If decorative, add role=\"presentation\". If meaningful, provide a descriptive alt attribute.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "img-002",
+      "severity": "warning",
+      "page_id": "gc0095e0c12a4396466e2a04df11ef8c8",
+      "page_title": "7.2  Quick Guide: Murray and Wheatley",
+      "element_snippet": "<img alt=\"\" data-api-endpoint=\"https://siskiyous.instructure.com/api/v1/courses/4401/files/556910\" data-api-returntype=\"File\" data-decorative=\"true\" height=\"260\" loading=\"lazy\" src=\"$IMS-CC-FILEBASE$/…",
+      "line_hint": null,
+      "message": "Image has empty alt but may not be decorative. Verify this image carries no meaning.",
+      "remediation": "If decorative, add role=\"presentation\". If meaningful, provide a descriptive alt attribute.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "img-002",
+      "severity": "warning",
+      "page_id": "gc0095e0c12a4396466e2a04df11ef8c8",
+      "page_title": "7.2  Quick Guide: Murray and Wheatley",
+      "element_snippet": "<img alt=\"\" data-api-endpoint=\"https://siskiyous.instructure.com/api/v1/courses/4401/files/556916\" data-api-returntype=\"File\" data-decorative=\"true\" height=\"250\" loading=\"lazy\" src=\"$IMS-CC-FILEBASE$/…",
+      "line_hint": null,
+      "message": "Image has empty alt but may not be decorative. Verify this image carries no meaning.",
+      "remediation": "If decorative, add role=\"presentation\". If meaningful, provide a descriptive alt attribute.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "lnk-002",
+      "severity": "warning",
+      "page_id": "ga64b13f90ab34debb06810436744a643",
+      "page_title": "memorial-and-remonstrance-against-religious-assessments-ca-20-june-1785",
+      "element_snippet": "<a href=\"https://founders.archives.gov/documents/Madison/01-08-02-0163\">https://founders.archives.gov/documents/Madison/01-08-02-0163</a>",
+      "line_hint": null,
+      "message": "Raw URL used as link text: \"https://founders.archives.gov/documents/Madison/01-08-02-0163\".",
+      "remediation": "Replace the URL with a descriptive phrase. If the URL must be visible (e.g. for print), add an aria-label with a description.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "med-003",
+      "severity": "warning",
+      "page_id": "g0a5ea0c3c0332fcd945a98129a05e302",
+      "page_title": "1.0 From the Podium: Professor's Welcome",
+      "element_snippet": "<iframe allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen=\"allowfullscreen\" height=\"315\" loading=\"lazy\" src=\"https://www.youtube.com/embe…",
+      "line_hint": null,
+      "message": "Embedded video from https://www.youtube.com/embed/0WYGt7fV2co?rel=0 has unconfirmed captions (captions_declared=None).",
+      "remediation": "Verify that the video has accurate captions enabled. For YouTube, open the video and confirm closed captions are available and are not auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "med-003",
+      "severity": "warning",
+      "page_id": "g1e2e96448a0b254fa6af939d8c6ec306",
+      "page_title": "9.0 From the Podium",
+      "element_snippet": "<iframe allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen=\"allowfullscreen\" height=\"315\" loading=\"lazy\" src=\"https://www.youtube.com/embe…",
+      "line_hint": null,
+      "message": "Embedded video from https://www.youtube.com/embed/2R0DSroTtsc?rel=0 has unconfirmed captions (captions_declared=None).",
+      "remediation": "Verify that the video has accurate captions enabled. For YouTube, open the video and confirm closed captions are available and are not auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "med-003",
+      "severity": "warning",
+      "page_id": "g2aa7923c4925273df55d2e19e1110d26",
+      "page_title": "11.0 From the Podium",
+      "element_snippet": "<iframe allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen=\"allowfullscreen\" height=\"315\" loading=\"lazy\" src=\"https://www.youtube.com/embe…",
+      "line_hint": null,
+      "message": "Embedded video from https://www.youtube.com/embed/pIN8EkABM1U?rel=0 has unconfirmed captions (captions_declared=None).",
+      "remediation": "Verify that the video has accurate captions enabled. For YouTube, open the video and confirm closed captions are available and are not auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "med-003",
+      "severity": "warning",
+      "page_id": "g2b0f9cff4d39aca03a4c99abcc641d90",
+      "page_title": "3.0 From the Podium",
+      "element_snippet": "<iframe allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen=\"allowfullscreen\" height=\"315\" loading=\"lazy\" src=\"https://www.youtube.com/embe…",
+      "line_hint": null,
+      "message": "Embedded video from https://www.youtube.com/embed/Q2GoiVgnIfU?rel=0 has unconfirmed captions (captions_declared=None).",
+      "remediation": "Verify that the video has accurate captions enabled. For YouTube, open the video and confirm closed captions are available and are not auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "med-003",
+      "severity": "warning",
+      "page_id": "g2cc80ccb3cfdafd37db604c9006841d3",
+      "page_title": "12.2 Visual Resource: Two Short Biographies",
+      "element_snippet": "<iframe allowfullscreen=\"allowfullscreen\" height=\"150\" loading=\"lazy\" mozallowfullscreen=\"mozallowfullscreen\" src=\"https://fod.infobase.com/OnDemandEmbed.aspx?token=43964&amp;wID=105122&amp;loid=0&amp…",
+      "line_hint": null,
+      "message": "Embedded video from https://fod.infobase.com/OnDemandEmbed.aspx?token=43964&wID= has unconfirmed captions (captions_declared=None).",
+      "remediation": "Verify that the video has accurate captions enabled. For YouTube, open the video and confirm closed captions are available and are not auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "med-003",
+      "severity": "warning",
+      "page_id": "g2d297a00958c42881b1ad67166499b59",
+      "page_title": "Connecting with Pronto",
+      "element_snippet": "<iframe allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen=\"allowfullscreen\" data-mce-fragment=\"1\" height=\"315\" loading=\"lazy\" src=\"//www.youtube.com/embed…",
+      "line_hint": null,
+      "message": "Embedded video from //www.youtube.com/embed/D2JITujyUVY?rel=0 has unconfirmed captions (captions_declared=None).",
+      "remediation": "Verify that the video has accurate captions enabled. For YouTube, open the video and confirm closed captions are available and are not auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "med-003",
+      "severity": "warning",
+      "page_id": "g2d297a00958c42881b1ad67166499b59",
+      "page_title": "Connecting with Pronto",
+      "element_snippet": "<iframe allow=\"autoplay; fullscreen\" allowfullscreen=\"allowfullscreen\" data-mce-fragment=\"1\" height=\"360\" loading=\"lazy\" src=\"//player.vimeo.com/video/405774086?title=0&amp;amp;byline=0\" width=\"640\"><…",
+      "line_hint": null,
+      "message": "Embedded video from //player.vimeo.com/video/405774086?title=0&amp;byline=0 has unconfirmed captions (captions_declared=None).",
+      "remediation": "Verify that the video has accurate captions enabled. For YouTube, open the video and confirm closed captions are available and are not auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "med-003",
+      "severity": "warning",
+      "page_id": "g2d297a00958c42881b1ad67166499b59",
+      "page_title": "Connecting with Pronto",
+      "element_snippet": "<iframe allow=\"autoplay; fullscreen\" allowfullscreen=\"allowfullscreen\" data-mce-fragment=\"1\" height=\"360\" loading=\"lazy\" src=\"//player.vimeo.com/video/399309232?title=0&amp;amp;byline=0\" width=\"640\"><…",
+      "line_hint": null,
+      "message": "Embedded video from //player.vimeo.com/video/399309232?title=0&amp;byline=0 has unconfirmed captions (captions_declared=None).",
+      "remediation": "Verify that the video has accurate captions enabled. For YouTube, open the video and confirm closed captions are available and are not auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "med-003",
+      "severity": "warning",
+      "page_id": "g31ef6d56fcb5d715147b3dce94473b62",
+      "page_title": "1 pages affected",
+      "element_snippet": "<iframe allowfullscreen=\"allowfullscreen\" height=\"150\" loading=\"lazy\" mozallowfullscreen=\"mozallowfullscreen\" src=\"https://fod.infobase.com/OnDemandEmbed.aspx?token=44410&amp;wID=105122&amp;plt=FOD&am",
+      "line_hint": null,
+      "message": "Embedded video from https://fod.infobase.com/OnDemandEmbed.aspx?token=44410&wID= has unconfirmed captions (captions_declared=None).",
+      "remediation": "Verify that the video has accurate captions enabled. For YouTube, open the video and confirm closed captions are available and are not auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": 2,
+      "affected_pages": [
+        {
+          "page_id": "g31ef6d56fcb5d715147b3dce94473b62",
+          "page_title": "3.2  Quick Guide: Cabeza de Vaca and John Smith",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "check_id": "med-003",
+      "severity": "warning",
+      "page_id": "g31ef6d56fcb5d715147b3dce94473b62",
+      "page_title": "1 pages affected",
+      "element_snippet": "<iframe allowfullscreen=\"allowfullscreen\" height=\"150\" loading=\"lazy\" mozallowfullscreen=\"mozallowfullscreen\" src=\"https://fod.infobase.com/OnDemandEmbed.aspx?token=40806&amp;wID=105122&amp;plt=FOD&am",
+      "line_hint": null,
+      "message": "Embedded video from https://fod.infobase.com/OnDemandEmbed.aspx?token=40806&wID= has unconfirmed captions (captions_declared=None).",
+      "remediation": "Verify that the video has accurate captions enabled. For YouTube, open the video and confirm closed captions are available and are not auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": 2,
+      "affected_pages": [
+        {
+          "page_id": "g31ef6d56fcb5d715147b3dce94473b62",
+          "page_title": "3.2  Quick Guide: Cabeza de Vaca and John Smith",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "check_id": "med-003",
+      "severity": "warning",
+      "page_id": "g3a06a1f4c73091e51305dcd94445b60a",
+      "page_title": "4.0 From the Podium",
+      "element_snippet": "<iframe allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen=\"allowfullscreen\" height=\"315\" loading=\"lazy\" src=\"https://www.youtube.com/embe…",
+      "line_hint": null,
+      "message": "Embedded video from https://www.youtube.com/embed/yJB5mMh8rK4?rel=0 has unconfirmed captions (captions_declared=None).",
+      "remediation": "Verify that the video has accurate captions enabled. For YouTube, open the video and confirm closed captions are available and are not auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "med-003",
+      "severity": "warning",
+      "page_id": "g3a83a7d3fc8df4ab402ddff18503b5c5",
+      "page_title": "7.0 From the Podium",
+      "element_snippet": "<iframe allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen=\"allowfullscreen\" height=\"315\" loading=\"lazy\" src=\"https://www.youtube.com/embe…",
+      "line_hint": null,
+      "message": "Embedded video from https://www.youtube.com/embed/FOgVHSwfKd4?rel=0 has unconfirmed captions (captions_declared=None).",
+      "remediation": "Verify that the video has accurate captions enabled. For YouTube, open the video and confirm closed captions are available and are not auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "med-003",
+      "severity": "warning",
+      "page_id": "g3d748cc18f818350066d3b3b2990b8ce",
+      "page_title": "Exam 2 Overview",
+      "element_snippet": "<iframe allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen=\"allowfullscreen\" height=\"315\" loading=\"lazy\" src=\"https://www.youtube.com/embe…",
+      "line_hint": null,
+      "message": "Embedded video from https://www.youtube.com/embed/mmwP7cZbnVE?rel=0 has unconfirmed captions (captions_declared=None).",
+      "remediation": "Verify that the video has accurate captions enabled. For YouTube, open the video and confirm closed captions are available and are not auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "med-003",
+      "severity": "warning",
+      "page_id": "g3e10beff7fbcfeefe807ff4526849af7",
+      "page_title": "12.0 From the Podium",
+      "element_snippet": "<iframe allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen=\"allowfullscreen\" height=\"315\" loading=\"lazy\" src=\"https://www.youtube.com/embe…",
+      "line_hint": null,
+      "message": "Embedded video from https://www.youtube.com/embed/7Q87Bf6B7bY?rel=0 has unconfirmed captions (captions_declared=None).",
+      "remediation": "Verify that the video has accurate captions enabled. For YouTube, open the video and confirm closed captions are available and are not auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "med-003",
+      "severity": "warning",
+      "page_id": "g637bc9751779323f98d9c25481b759d5",
+      "page_title": "6.0 From the Podium",
+      "element_snippet": "<iframe allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen=\"allowfullscreen\" height=\"315\" loading=\"lazy\" src=\"https://www.youtube.com/embe…",
+      "line_hint": null,
+      "message": "Embedded video from https://www.youtube.com/embed/QA9NeWQaS_E?rel=0 has unconfirmed captions (captions_declared=None).",
+      "remediation": "Verify that the video has accurate captions enabled. For YouTube, open the video and confirm closed captions are available and are not auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "med-003",
+      "severity": "warning",
+      "page_id": "g867e8fddc81401284a568bfe137f92e3",
+      "page_title": "13.0 From the Podium",
+      "element_snippet": "<iframe allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen=\"allowfullscreen\" height=\"315\" loading=\"lazy\" src=\"https://www.youtube.com/embe…",
+      "line_hint": null,
+      "message": "Embedded video from https://www.youtube.com/embed/FZdTbqhE8sE?rel=0 has unconfirmed captions (captions_declared=None).",
+      "remediation": "Verify that the video has accurate captions enabled. For YouTube, open the video and confirm closed captions are available and are not auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "med-003",
+      "severity": "warning",
+      "page_id": "g8e0f8dd1f2b3b15cd9c2642814adb211",
+      "page_title": "1.5 Improve Your Learning and Get Better Grades",
+      "element_snippet": "<iframe allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen=\"allowfullscreen\" height=\"315\" loading=\"lazy\" src=\"https://www.youtube.com/embe…",
+      "line_hint": null,
+      "message": "Embedded video from https://www.youtube.com/embed/jRzXDrH0MLY?rel=0 has unconfirmed captions (captions_declared=None).",
+      "remediation": "Verify that the video has accurate captions enabled. For YouTube, open the video and confirm closed captions are available and are not auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "med-003",
+      "severity": "warning",
+      "page_id": "g8e0f8dd1f2b3b15cd9c2642814adb211",
+      "page_title": "2 pages affected",
+      "element_snippet": "<iframe allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen=\"allowfullscreen\" height=\"315\" loading=\"lazy\" src=\"https://www.youtube.com/embe",
+      "line_hint": null,
+      "message": "Embedded video from https://www.youtube.com/embed/o7MyM_V8-EA?rel=0 has unconfirmed captions (captions_declared=None).",
+      "remediation": "Verify that the video has accurate captions enabled. For YouTube, open the video and confirm closed captions are available and are not auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": 2,
+      "affected_pages": [
+        {
+          "page_id": "g8e0f8dd1f2b3b15cd9c2642814adb211",
+          "page_title": "1.5 Improve Your Learning and Get Better Grades",
+          "count": 1
+        },
+        {
+          "page_id": "gc027a3a5e892eebfc373f511bc6dc2cb",
+          "page_title": "writers-resources",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "check_id": "med-003",
+      "severity": "warning",
+      "page_id": "g8e0f8dd1f2b3b15cd9c2642814adb211",
+      "page_title": "2 pages affected",
+      "element_snippet": "<iframe allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen=\"allowfullscreen\" height=\"315\" loading=\"lazy\" src=\"https://www.youtube.com/embe",
+      "line_hint": null,
+      "message": "Embedded video from https://www.youtube.com/embed/Qq5Itf5Tg-U?rel=0 has unconfirmed captions (captions_declared=None).",
+      "remediation": "Verify that the video has accurate captions enabled. For YouTube, open the video and confirm closed captions are available and are not auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": 2,
+      "affected_pages": [
+        {
+          "page_id": "g8e0f8dd1f2b3b15cd9c2642814adb211",
+          "page_title": "1.5 Improve Your Learning and Get Better Grades",
+          "count": 1
+        },
+        {
+          "page_id": "gc027a3a5e892eebfc373f511bc6dc2cb",
+          "page_title": "writers-resources",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "check_id": "med-003",
+      "severity": "warning",
+      "page_id": "g9d62e2bb72b8ac622791ae89b46dbeb3",
+      "page_title": "2.0 From the Podium",
+      "element_snippet": "<iframe allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen=\"allowfullscreen\" height=\"315\" loading=\"lazy\" src=\"https://www.youtube.com/embe…",
+      "line_hint": null,
+      "message": "Embedded video from https://www.youtube.com/embed/qOeAyj9nYe0?rel=0 has unconfirmed captions (captions_declared=None).",
+      "remediation": "Verify that the video has accurate captions enabled. For YouTube, open the video and confirm closed captions are available and are not auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "med-003",
+      "severity": "warning",
+      "page_id": "gba2ec0cdb4aab4ad93ab8f98e09ceff8",
+      "page_title": "10.0 From the Podium",
+      "element_snippet": "<iframe allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen=\"allowfullscreen\" height=\"315\" loading=\"lazy\" src=\"https://www.youtube.com/embe…",
+      "line_hint": null,
+      "message": "Embedded video from https://www.youtube.com/embed/7CEjGH0LE_8?rel=0 has unconfirmed captions (captions_declared=None).",
+      "remediation": "Verify that the video has accurate captions enabled. For YouTube, open the video and confirm closed captions are available and are not auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "med-003",
+      "severity": "warning",
+      "page_id": "gc0095e0c12a4396466e2a04df11ef8c8",
+      "page_title": "7.2  Quick Guide: Murray and Wheatley",
+      "element_snippet": "<iframe allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen=\"allowfullscreen\" height=\"315\" loading=\"lazy\" src=\"https://www.youtube.com/embed/mlp6eRlDSKg?rel…",
+      "line_hint": null,
+      "message": "Embedded video from https://www.youtube.com/embed/mlp6eRlDSKg?rel=0 has unconfirmed captions (captions_declared=None).",
+      "remediation": "Verify that the video has accurate captions enabled. For YouTube, open the video and confirm closed captions are available and are not auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "med-003",
+      "severity": "warning",
+      "page_id": "gc0095e0c12a4396466e2a04df11ef8c8",
+      "page_title": "7.2  Quick Guide: Murray and Wheatley",
+      "element_snippet": "<iframe allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen=\"allowfullscreen\" height=\"315\" loading=\"lazy\" src=\"https://www.youtube.com/embe…",
+      "line_hint": null,
+      "message": "Embedded video from https://www.youtube.com/embed/nZui6Ti9ChQ?rel=0 has unconfirmed captions (captions_declared=None).",
+      "remediation": "Verify that the video has accurate captions enabled. For YouTube, open the video and confirm closed captions are available and are not auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "med-003",
+      "severity": "warning",
+      "page_id": "gc1c58fe8967136f27e221e01c0865d5f",
+      "page_title": "ENGL 2044 Exam 1 Overview",
+      "element_snippet": "<iframe allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen=\"allowfullscreen\" height=\"315\" loading=\"lazy\" src=\"https://www.youtube.com/embe…",
+      "line_hint": null,
+      "message": "Embedded video from https://www.youtube.com/embed/2oSeTtVz3zY?rel=0 has unconfirmed captions (captions_declared=None).",
+      "remediation": "Verify that the video has accurate captions enabled. For YouTube, open the video and confirm closed captions are available and are not auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "med-003",
+      "severity": "warning",
+      "page_id": "gcfba03e233dd491bfe5a0b6a08650345",
+      "page_title": "1 pages affected",
+      "element_snippet": "<iframe allowfullscreen=\"allowfullscreen\" height=\"150\" loading=\"lazy\" mozallowfullscreen=\"mozallowfullscreen\" src=\"https://fod.infobase.com/OnDemandEmbed.aspx?token=113245&amp;wID=105122&amp;plt=FOD&a",
+      "line_hint": null,
+      "message": "Embedded video from https://fod.infobase.com/OnDemandEmbed.aspx?token=113245&wID has unconfirmed captions (captions_declared=None).",
+      "remediation": "Verify that the video has accurate captions enabled. For YouTube, open the video and confirm closed captions are available and are not auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": 2,
+      "affected_pages": [
+        {
+          "page_id": "gcfba03e233dd491bfe5a0b6a08650345",
+          "page_title": "5.2 Visual Resources: Benjamin Franklin",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "check_id": "med-003",
+      "severity": "warning",
+      "page_id": "gdb9b3ce9d24f263494b825b1315ff635",
+      "page_title": "8.0 From the Podium",
+      "element_snippet": "<iframe allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen=\"allowfullscreen\" height=\"315\" loading=\"lazy\" src=\"https://www.youtube.com/embe…",
+      "line_hint": null,
+      "message": "Embedded video from https://www.youtube.com/embed/aBTeGcJOrm4?rel=0 has unconfirmed captions (captions_declared=None).",
+      "remediation": "Verify that the video has accurate captions enabled. For YouTube, open the video and confirm closed captions are available and are not auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "med-003",
+      "severity": "warning",
+      "page_id": "ge526ca08232a8b944af39b32702e7d57",
+      "page_title": "5.0 From the Podium",
+      "element_snippet": "<iframe allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen=\"allowfullscreen\" height=\"315\" loading=\"lazy\" src=\"https://www.youtube.com/embe…",
+      "line_hint": null,
+      "message": "Embedded video from https://www.youtube.com/embed/zteyIycwAL4?rel=0 has unconfirmed captions (captions_declared=None).",
+      "remediation": "Verify that the video has accurate captions enabled. For YouTube, open the video and confirm closed captions are available and are not auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "med-003",
+      "severity": "warning",
+      "page_id": "gec8d44e80f2469ef6347fd4cd1e1bcfa",
+      "page_title": "1.2 How to Use Canvas and FAQs",
+      "element_snippet": "<iframe allow=\"autoplay; fullscreen\" allowfullscreen=\"allowfullscreen\" height=\"360\" loading=\"lazy\" src=\"https://player.vimeo.com/video/74677642?title=0&amp;byline=0&amp;portrait=0\" width=\"640\"></ifram…",
+      "line_hint": null,
+      "message": "Embedded video from https://player.vimeo.com/video/74677642?title=0&byline=0&por has unconfirmed captions (captions_declared=None).",
+      "remediation": "Verify that the video has accurate captions enabled. For YouTube, open the video and confirm closed captions are available and are not auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "vid-001",
+      "severity": "warning",
+      "page_id": "g2d297a00958c42881b1ad67166499b59",
+      "page_title": "Connecting with Pronto",
+      "element_snippet": "vimeo: //player.vimeo.com/video/399309232?title=0&amp;byline=0",
+      "line_hint": null,
+      "message": "Caption status could not be verified from the export — manual review needed. (vimeo: //player.vimeo.com/video/399309232?title=0&amp;byline=0)",
+      "remediation": "Open the video and confirm captions are present and accurate. For YouTube, check that closed captions are enabled and not solely auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "vid-001",
+      "severity": "warning",
+      "page_id": "g2d297a00958c42881b1ad67166499b59",
+      "page_title": "Connecting with Pronto",
+      "element_snippet": "vimeo: //player.vimeo.com/video/405774086?title=0&amp;byline=0",
+      "line_hint": null,
+      "message": "Caption status could not be verified from the export — manual review needed. (vimeo: //player.vimeo.com/video/405774086?title=0&amp;byline=0)",
+      "remediation": "Open the video and confirm captions are present and accurate. For YouTube, check that closed captions are enabled and not solely auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "vid-001",
+      "severity": "warning",
+      "page_id": "g2d297a00958c42881b1ad67166499b59",
+      "page_title": "Connecting with Pronto",
+      "element_snippet": "youtube: //www.youtube.com/embed/D2JITujyUVY?rel=0",
+      "line_hint": null,
+      "message": "Caption status could not be verified from the export — manual review needed. (youtube: //www.youtube.com/embed/D2JITujyUVY?rel=0)",
+      "remediation": "Open the video and confirm captions are present and accurate. For YouTube, check that closed captions are enabled and not solely auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "vid-001",
+      "severity": "warning",
+      "page_id": "gcfba03e233dd491bfe5a0b6a08650345",
+      "page_title": "1 pages affected",
+      "element_snippet": "kaltura: https://fod.infobase.com/OnDemandEmbed.aspx?token=113245&wID=105122&plt=FOD&loid=408332&w=420&h=315&fWidth=440&fHeight=365&lti=1&ConKey=105122&TitleName=Benjamin%20Franklin&Thumbna | kaltura:",
+      "line_hint": null,
+      "message": "Caption status could not be verified from the export — manual review needed. (kaltura: https://fod.infobase.com/OnDemandEmbed.aspx?token=113245&...)",
+      "remediation": "Open the video and confirm captions are present and accurate. For YouTube, check that closed captions are enabled and not solely auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": 2,
+      "affected_pages": [
+        {
+          "page_id": "gcfba03e233dd491bfe5a0b6a08650345",
+          "page_title": "5.2 Visual Resources: Benjamin Franklin",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "check_id": "vid-001",
+      "severity": "warning",
+      "page_id": "g31ef6d56fcb5d715147b3dce94473b62",
+      "page_title": "1 pages affected",
+      "element_snippet": "kaltura: https://fod.infobase.com/OnDemandEmbed.aspx?token=40806&wID=105122&plt=FOD&loid=76551&w=420&h=315&fWidth=440&fHeight=365&lti=1&ConKey=105122&TitleName=John%20Smith%3A%20Troublemake | kaltura:",
+      "line_hint": null,
+      "message": "Caption status could not be verified from the export — manual review needed. (kaltura: https://fod.infobase.com/OnDemandEmbed.aspx?token=40806&w...)",
+      "remediation": "Open the video and confirm captions are present and accurate. For YouTube, check that closed captions are enabled and not solely auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": 2,
+      "affected_pages": [
+        {
+          "page_id": "g31ef6d56fcb5d715147b3dce94473b62",
+          "page_title": "3.2  Quick Guide: Cabeza de Vaca and John Smith",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "check_id": "vid-001",
+      "severity": "warning",
+      "page_id": "g2cc80ccb3cfdafd37db604c9006841d3",
+      "page_title": "12.2 Visual Resource: Two Short Biographies",
+      "element_snippet": "kaltura: https://fod.infobase.com/OnDemandEmbed.aspx?token=43964&wID=105122&loid=0&w=420&h=315&amp;lti=1&ConKey=105122&TitleName=Emily%20Dickinson%3A%20A%20Concise%20Biography&ThumbnailUrl=",
+      "line_hint": null,
+      "message": "Caption status could not be verified from the export — manual review needed. (kaltura: https://fod.infobase.com/OnDemandEmbed.aspx?token=43964&w...)",
+      "remediation": "Open the video and confirm captions are present and accurate. For YouTube, check that closed captions are enabled and not solely auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "vid-001",
+      "severity": "warning",
+      "page_id": "g31ef6d56fcb5d715147b3dce94473b62",
+      "page_title": "1 pages affected",
+      "element_snippet": "kaltura: https://fod.infobase.com/OnDemandEmbed.aspx?token=44410&wID=105122&plt=FOD&loid=128621&w=420&h=315&fWidth=440&fHeight=365&lti=1&ConKey=105122&TitleName=Cabeza%20de%20Vaca's%20Ameri | kaltura:",
+      "line_hint": null,
+      "message": "Caption status could not be verified from the export — manual review needed. (kaltura: https://fod.infobase.com/OnDemandEmbed.aspx?token=44410&w...)",
+      "remediation": "Open the video and confirm captions are present and accurate. For YouTube, check that closed captions are enabled and not solely auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": 2,
+      "affected_pages": [
+        {
+          "page_id": "g31ef6d56fcb5d715147b3dce94473b62",
+          "page_title": "3.2  Quick Guide: Cabeza de Vaca and John Smith",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "check_id": "vid-001",
+      "severity": "warning",
+      "page_id": "gec8d44e80f2469ef6347fd4cd1e1bcfa",
+      "page_title": "1.2 How to Use Canvas and FAQs",
+      "element_snippet": "vimeo: https://player.vimeo.com/video/74677642?title=0&byline=0&portrait=0",
+      "line_hint": null,
+      "message": "Caption status could not be verified from the export — manual review needed. (vimeo: https://player.vimeo.com/video/74677642?title=0&byline=0&...)",
+      "remediation": "Open the video and confirm captions are present and accurate. For YouTube, check that closed captions are enabled and not solely auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "vid-001",
+      "severity": "warning",
+      "page_id": "g0a5ea0c3c0332fcd945a98129a05e302",
+      "page_title": "1.0 From the Podium: Professor's Welcome",
+      "element_snippet": "youtube: https://www.youtube.com/embed/0WYGt7fV2co?rel=0",
+      "line_hint": null,
+      "message": "Caption status could not be verified from the export — manual review needed. (youtube: https://www.youtube.com/embed/0WYGt7fV2co?rel=0)",
+      "remediation": "Open the video and confirm captions are present and accurate. For YouTube, check that closed captions are enabled and not solely auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "vid-001",
+      "severity": "warning",
+      "page_id": "g1e2e96448a0b254fa6af939d8c6ec306",
+      "page_title": "9.0 From the Podium",
+      "element_snippet": "youtube: https://www.youtube.com/embed/2R0DSroTtsc?rel=0",
+      "line_hint": null,
+      "message": "Caption status could not be verified from the export — manual review needed. (youtube: https://www.youtube.com/embed/2R0DSroTtsc?rel=0)",
+      "remediation": "Open the video and confirm captions are present and accurate. For YouTube, check that closed captions are enabled and not solely auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "vid-001",
+      "severity": "warning",
+      "page_id": "gc1c58fe8967136f27e221e01c0865d5f",
+      "page_title": "ENGL 2044 Exam 1 Overview",
+      "element_snippet": "youtube: https://www.youtube.com/embed/2oSeTtVz3zY?rel=0",
+      "line_hint": null,
+      "message": "Caption status could not be verified from the export — manual review needed. (youtube: https://www.youtube.com/embed/2oSeTtVz3zY?rel=0)",
+      "remediation": "Open the video and confirm captions are present and accurate. For YouTube, check that closed captions are enabled and not solely auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "vid-001",
+      "severity": "warning",
+      "page_id": "gba2ec0cdb4aab4ad93ab8f98e09ceff8",
+      "page_title": "10.0 From the Podium",
+      "element_snippet": "youtube: https://www.youtube.com/embed/7CEjGH0LE_8?rel=0",
+      "line_hint": null,
+      "message": "Caption status could not be verified from the export — manual review needed. (youtube: https://www.youtube.com/embed/7CEjGH0LE_8?rel=0)",
+      "remediation": "Open the video and confirm captions are present and accurate. For YouTube, check that closed captions are enabled and not solely auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "vid-001",
+      "severity": "warning",
+      "page_id": "g3e10beff7fbcfeefe807ff4526849af7",
+      "page_title": "12.0 From the Podium",
+      "element_snippet": "youtube: https://www.youtube.com/embed/7Q87Bf6B7bY?rel=0",
+      "line_hint": null,
+      "message": "Caption status could not be verified from the export — manual review needed. (youtube: https://www.youtube.com/embed/7Q87Bf6B7bY?rel=0)",
+      "remediation": "Open the video and confirm captions are present and accurate. For YouTube, check that closed captions are enabled and not solely auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "vid-001",
+      "severity": "warning",
+      "page_id": "g3a83a7d3fc8df4ab402ddff18503b5c5",
+      "page_title": "7.0 From the Podium",
+      "element_snippet": "youtube: https://www.youtube.com/embed/FOgVHSwfKd4?rel=0",
+      "line_hint": null,
+      "message": "Caption status could not be verified from the export — manual review needed. (youtube: https://www.youtube.com/embed/FOgVHSwfKd4?rel=0)",
+      "remediation": "Open the video and confirm captions are present and accurate. For YouTube, check that closed captions are enabled and not solely auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "vid-001",
+      "severity": "warning",
+      "page_id": "g867e8fddc81401284a568bfe137f92e3",
+      "page_title": "13.0 From the Podium",
+      "element_snippet": "youtube: https://www.youtube.com/embed/FZdTbqhE8sE?rel=0",
+      "line_hint": null,
+      "message": "Caption status could not be verified from the export — manual review needed. (youtube: https://www.youtube.com/embed/FZdTbqhE8sE?rel=0)",
+      "remediation": "Open the video and confirm captions are present and accurate. For YouTube, check that closed captions are enabled and not solely auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "vid-001",
+      "severity": "warning",
+      "page_id": "g2b0f9cff4d39aca03a4c99abcc641d90",
+      "page_title": "3.0 From the Podium",
+      "element_snippet": "youtube: https://www.youtube.com/embed/Q2GoiVgnIfU?rel=0",
+      "line_hint": null,
+      "message": "Caption status could not be verified from the export — manual review needed. (youtube: https://www.youtube.com/embed/Q2GoiVgnIfU?rel=0)",
+      "remediation": "Open the video and confirm captions are present and accurate. For YouTube, check that closed captions are enabled and not solely auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "vid-001",
+      "severity": "warning",
+      "page_id": "g637bc9751779323f98d9c25481b759d5",
+      "page_title": "6.0 From the Podium",
+      "element_snippet": "youtube: https://www.youtube.com/embed/QA9NeWQaS_E?rel=0",
+      "line_hint": null,
+      "message": "Caption status could not be verified from the export — manual review needed. (youtube: https://www.youtube.com/embed/QA9NeWQaS_E?rel=0)",
+      "remediation": "Open the video and confirm captions are present and accurate. For YouTube, check that closed captions are enabled and not solely auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "vid-001",
+      "severity": "warning",
+      "page_id": "g8e0f8dd1f2b3b15cd9c2642814adb211",
+      "page_title": "2 pages",
+      "element_snippet": "youtube: https://www.youtube.com/embed/Qq5Itf5Tg-U?rel=0",
+      "line_hint": null,
+      "message": "Caption status could not be verified from the export — manual review needed. (youtube: https://www.youtube.com/embed/Qq5Itf5Tg-U?rel=0)",
+      "remediation": "Open the video and confirm captions are present and accurate. For YouTube, check that closed captions are enabled and not solely auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": 2,
+      "affected_pages": [
+        {
+          "page_id": "g8e0f8dd1f2b3b15cd9c2642814adb211",
+          "page_title": "1.5 Improve Your Learning and Get Better Grades",
+          "count": 1
+        },
+        {
+          "page_id": "gc027a3a5e892eebfc373f511bc6dc2cb",
+          "page_title": "writers-resources",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "check_id": "vid-001",
+      "severity": "warning",
+      "page_id": "gdb9b3ce9d24f263494b825b1315ff635",
+      "page_title": "8.0 From the Podium",
+      "element_snippet": "youtube: https://www.youtube.com/embed/aBTeGcJOrm4?rel=0",
+      "line_hint": null,
+      "message": "Caption status could not be verified from the export — manual review needed. (youtube: https://www.youtube.com/embed/aBTeGcJOrm4?rel=0)",
+      "remediation": "Open the video and confirm captions are present and accurate. For YouTube, check that closed captions are enabled and not solely auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "vid-001",
+      "severity": "warning",
+      "page_id": "g8e0f8dd1f2b3b15cd9c2642814adb211",
+      "page_title": "1.5 Improve Your Learning and Get Better Grades",
+      "element_snippet": "youtube: https://www.youtube.com/embed/jRzXDrH0MLY?rel=0",
+      "line_hint": null,
+      "message": "Caption status could not be verified from the export — manual review needed. (youtube: https://www.youtube.com/embed/jRzXDrH0MLY?rel=0)",
+      "remediation": "Open the video and confirm captions are present and accurate. For YouTube, check that closed captions are enabled and not solely auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "vid-001",
+      "severity": "warning",
+      "page_id": "gc0095e0c12a4396466e2a04df11ef8c8",
+      "page_title": "7.2  Quick Guide: Murray and Wheatley",
+      "element_snippet": "youtube: https://www.youtube.com/embed/mlp6eRlDSKg?rel=0",
+      "line_hint": null,
+      "message": "Caption status could not be verified from the export — manual review needed. (youtube: https://www.youtube.com/embed/mlp6eRlDSKg?rel=0)",
+      "remediation": "Open the video and confirm captions are present and accurate. For YouTube, check that closed captions are enabled and not solely auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "vid-001",
+      "severity": "warning",
+      "page_id": "g3d748cc18f818350066d3b3b2990b8ce",
+      "page_title": "Exam 2 Overview",
+      "element_snippet": "youtube: https://www.youtube.com/embed/mmwP7cZbnVE?rel=0",
+      "line_hint": null,
+      "message": "Caption status could not be verified from the export — manual review needed. (youtube: https://www.youtube.com/embed/mmwP7cZbnVE?rel=0)",
+      "remediation": "Open the video and confirm captions are present and accurate. For YouTube, check that closed captions are enabled and not solely auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "vid-001",
+      "severity": "warning",
+      "page_id": "gc0095e0c12a4396466e2a04df11ef8c8",
+      "page_title": "7.2  Quick Guide: Murray and Wheatley",
+      "element_snippet": "youtube: https://www.youtube.com/embed/nZui6Ti9ChQ?rel=0",
+      "line_hint": null,
+      "message": "Caption status could not be verified from the export — manual review needed. (youtube: https://www.youtube.com/embed/nZui6Ti9ChQ?rel=0)",
+      "remediation": "Open the video and confirm captions are present and accurate. For YouTube, check that closed captions are enabled and not solely auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "vid-001",
+      "severity": "warning",
+      "page_id": "g8e0f8dd1f2b3b15cd9c2642814adb211",
+      "page_title": "2 pages",
+      "element_snippet": "youtube: https://www.youtube.com/embed/o7MyM_V8-EA?rel=0",
+      "line_hint": null,
+      "message": "Caption status could not be verified from the export — manual review needed. (youtube: https://www.youtube.com/embed/o7MyM_V8-EA?rel=0)",
+      "remediation": "Open the video and confirm captions are present and accurate. For YouTube, check that closed captions are enabled and not solely auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": 2,
+      "affected_pages": [
+        {
+          "page_id": "g8e0f8dd1f2b3b15cd9c2642814adb211",
+          "page_title": "1.5 Improve Your Learning and Get Better Grades",
+          "count": 1
+        },
+        {
+          "page_id": "gc027a3a5e892eebfc373f511bc6dc2cb",
+          "page_title": "writers-resources",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "check_id": "vid-001",
+      "severity": "warning",
+      "page_id": "g2aa7923c4925273df55d2e19e1110d26",
+      "page_title": "11.0 From the Podium",
+      "element_snippet": "youtube: https://www.youtube.com/embed/pIN8EkABM1U?rel=0",
+      "line_hint": null,
+      "message": "Caption status could not be verified from the export — manual review needed. (youtube: https://www.youtube.com/embed/pIN8EkABM1U?rel=0)",
+      "remediation": "Open the video and confirm captions are present and accurate. For YouTube, check that closed captions are enabled and not solely auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "vid-001",
+      "severity": "warning",
+      "page_id": "g9d62e2bb72b8ac622791ae89b46dbeb3",
+      "page_title": "2.0 From the Podium",
+      "element_snippet": "youtube: https://www.youtube.com/embed/qOeAyj9nYe0?rel=0",
+      "line_hint": null,
+      "message": "Caption status could not be verified from the export — manual review needed. (youtube: https://www.youtube.com/embed/qOeAyj9nYe0?rel=0)",
+      "remediation": "Open the video and confirm captions are present and accurate. For YouTube, check that closed captions are enabled and not solely auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "vid-001",
+      "severity": "warning",
+      "page_id": "g3a06a1f4c73091e51305dcd94445b60a",
+      "page_title": "4.0 From the Podium",
+      "element_snippet": "youtube: https://www.youtube.com/embed/yJB5mMh8rK4?rel=0",
+      "line_hint": null,
+      "message": "Caption status could not be verified from the export — manual review needed. (youtube: https://www.youtube.com/embed/yJB5mMh8rK4?rel=0)",
+      "remediation": "Open the video and confirm captions are present and accurate. For YouTube, check that closed captions are enabled and not solely auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "vid-001",
+      "severity": "warning",
+      "page_id": "ge526ca08232a8b944af39b32702e7d57",
+      "page_title": "5.0 From the Podium",
+      "element_snippet": "youtube: https://www.youtube.com/embed/zteyIycwAL4?rel=0",
+      "line_hint": null,
+      "message": "Caption status could not be verified from the export — manual review needed. (youtube: https://www.youtube.com/embed/zteyIycwAL4?rel=0)",
+      "remediation": "Open the video and confirm captions are present and accurate. For YouTube, check that closed captions are enabled and not solely auto-generated without review.",
+      "status": "ai_suggested",
+      "occurrences": null,
+      "affected_pages": null
+    },
+    {
+      "check_id": "str-002",
+      "severity": "info",
+      "page_id": "g0172217d7fe96e41ac8182fad55d9071",
+      "page_title": "94 pages affected",
+      "element_snippet": "(page: concepts-for-review-ethos-pathos-and-logos-copy) | (page: community) | (page: anne bradstreet) | ... and 91 more",
+      "line_hint": null,
+      "message": "Page is not attached to any module and may be invisible to students.",
+      "remediation": "Add this page to a module so students can access it, or delete it if it is a draft or no longer needed.",
+      "status": "ai_suggested",
+      "occurrences": 94,
+      "affected_pages": [
+        {
+          "page_id": "g0172217d7fe96e41ac8182fad55d9071",
+          "page_title": "concepts-for-review-ethos-pathos-and-logos-copy",
+          "count": 1
+        },
+        {
+          "page_id": "g026d329236990a0b576285698b55f94a",
+          "page_title": "community",
+          "count": 1
+        },
+        {
+          "page_id": "g0cd3c1f6028db55e2cdf54a7aff2a6e9",
+          "page_title": "anne bradstreet",
+          "count": 1
+        },
+        {
+          "page_id": "g0e191c1c2f7f5ff42201d912deb7fa2e",
+          "page_title": "Muddy Point",
+          "count": 1
+        },
+        {
+          "page_id": "g1063d344338c62b76a360f4e1f183a86",
+          "page_title": "The Gothic Imagination",
+          "count": 1
+        },
+        {
+          "page_id": "g11911bd5c0e76f302a7eddc1040bd9e2",
+          "page_title": "WIN_20211207_07_55_20_Pro (2)",
+          "count": 1
+        },
+        {
+          "page_id": "g18118ab44821428e0e5524835df7c10c",
+          "page_title": "187px-The_Historian_(The_How_and_Why_Library)",
+          "count": 1
+        },
+        {
+          "page_id": "g1a23b63e3ffc7b7d0e53162a5f69372c",
+          "page_title": "anne bradstreet",
+          "count": 1
+        },
+        {
+          "page_id": "g1ca8abed9d82816feb0d60e2d76b5785",
+          "page_title": "course-home-page",
+          "count": 1
+        },
+        {
+          "page_id": "g1f72058d079430602b5e5240824376c9",
+          "page_title": "native american coyote design",
+          "count": 1
+        },
+        {
+          "page_id": "g1fe6898356d2844069334ae8d438583e",
+          "page_title": "philly_skyline2",
+          "count": 1
+        },
+        {
+          "page_id": "g21648c41340315f8cb28c9d740b3a2ec",
+          "page_title": "course check in",
+          "count": 1
+        },
+        {
+          "page_id": "g2559e52dacaf1a26d776eaa7bb7a54b0",
+          "page_title": "knowledge check (3)",
+          "count": 1
+        },
+        {
+          "page_id": "g262dbf0f7d528de857db7336b101cf27",
+          "page_title": "village of secoton in roanoke 1585",
+          "count": 1
+        },
+        {
+          "page_id": "g275929fef5e984d0349d90eee2a6aba9",
+          "page_title": "declaration of independence",
+          "count": 1
+        },
+        {
+          "page_id": "g2f60343486a42d870d2f4dd85dd3ef76",
+          "page_title": "activities-interactions",
+          "count": 1
+        },
+        {
+          "page_id": "g3218ec43798a5ae7e1be604ed1635c4e",
+          "page_title": "old salem village",
+          "count": 1
+        },
+        {
+          "page_id": "g409082f912a22ca456a894aae40380de",
+          "page_title": "puritan family",
+          "count": 1
+        },
+        {
+          "page_id": "g444285e49573b829e4e1d33ccec677ba",
+          "page_title": "ask a question",
+          "count": 1
+        },
+        {
+          "page_id": "g488df273ae68ec25262a24ed430fa327",
+          "page_title": "ENGL 2044 Syllabus_Fall 2022",
+          "count": 1
+        },
+        {
+          "page_id": "g4c23293f2128591febf2614845d2012f",
+          "page_title": "steam locomotive",
+          "count": 1
+        },
+        {
+          "page_id": "g4de806d11aa871ad315925ddd03a63c8",
+          "page_title": "quest online",
+          "count": 1
+        },
+        {
+          "page_id": "g4ece393d17237503b32b58b4b475ba0f",
+          "page_title": "shorter ninth naal",
+          "count": 1
+        },
+        {
+          "page_id": "g52d15ee9a45658c0ab7717d1b2ef75c4",
+          "page_title": "Alcott The Brothers_My Contraband",
+          "count": 1
+        },
+        {
+          "page_id": "g53934af1e94128001d573a72fcca25ad",
+          "page_title": "Sample Discussion Post",
+          "count": 1
+        },
+        {
+          "page_id": "g5785b853f10e835f2cddf53bc4ffbca7",
+          "page_title": "apollo-and-dionysus",
+          "count": 1
+        },
+        {
+          "page_id": "g5b494f336c3da08bc68855c79db20278",
+          "page_title": "ENGL2044  Let's Discuss",
+          "count": 1
+        },
+        {
+          "page_id": "g5bee28f9c4ffb469e201053c03a8976f",
+          "page_title": "help icon",
+          "count": 1
+        },
+        {
+          "page_id": "g5c11263889434e7d982af7c253b61876",
+          "page_title": "journal-article-summary-sample",
+          "count": 1
+        },
+        {
+          "page_id": "g5d0b405316257e239228f22901ceb021",
+          "page_title": "Small_Red_Rose",
+          "count": 1
+        },
+        {
+          "page_id": "g5db6ed2686d833d9365c950152f438e1",
+          "page_title": "judith sargent murray",
+          "count": 1
+        },
+        {
+          "page_id": "g68a2c97868bdce66a23c6b55dd24490a",
+          "page_title": "Welcome Letter for ENGL 2044",
+          "count": 1
+        },
+        {
+          "page_id": "g6b38f82f4840d5a4f9b1ecb24b1aada7",
+          "page_title": "ID Answers for Midterm",
+          "count": 1
+        },
+        {
+          "page_id": "g72e8b2f32d1468dfd54323f67669432f",
+          "page_title": "220px-Cabeza_de_Vaca_Portrait",
+          "count": 1
+        },
+        {
+          "page_id": "g76547a7240911eb721fa98a9fbd286ca",
+          "page_title": "Fillable Evidence Interpretation Form",
+          "count": 1
+        },
+        {
+          "page_id": "g778a81d792f187fe8cbd11a12369fe6e",
+          "page_title": "_2044 Exam Two Banner",
+          "count": 1
+        },
+        {
+          "page_id": "g802041c7272c7a6def7fc9a8ee56bc36",
+          "page_title": "11-6-video-resource-angelina-e-grimke",
+          "count": 1
+        },
+        {
+          "page_id": "g827784af4bccefac0b9b2a074b7945ff",
+          "page_title": "Alcott The Brothers_My Contraband",
+          "count": 1
+        },
+        {
+          "page_id": "g83d012cdec82e811fede55ffccea8a85",
+          "page_title": "writer's resources (2)",
+          "count": 1
+        },
+        {
+          "page_id": "g85612f9742a973a391749d5ba19b66c5",
+          "page_title": "button_start-here",
+          "count": 1
+        },
+        {
+          "page_id": "g87c4fd2175d6a339caee4e3ab70e64b6",
+          "page_title": "Hopi-Petroglyphs",
+          "count": 1
+        },
+        {
+          "page_id": "g88a32c1a43b6364747d067fd02dd9545",
+          "page_title": "_ENGL2044 Reflections",
+          "count": 1
+        },
+        {
+          "page_id": "g891c3eea2510c873c4820ad39b383b87",
+          "page_title": "the-brothers-by-louisa-may-alcott",
+          "count": 1
+        },
+        {
+          "page_id": "g8d7d2ec9ab86a08d1651200b7275c350",
+          "page_title": "phillis-wheatley-600x600jpg",
+          "count": 1
+        },
+        {
+          "page_id": "g8eba042b35f048a4bf8ba27f54717ea1",
+          "page_title": "slave ship turner",
+          "count": 1
+        },
+        {
+          "page_id": "g8fff09e0b9f150288a9313c88fbdbba3",
+          "page_title": "Student Hour (2)",
+          "count": 1
+        },
+        {
+          "page_id": "g9133aeadd51b3349203aa42d78d60ea0",
+          "page_title": "Pastel Orange Travel Photo Collage",
+          "count": 1
+        },
+        {
+          "page_id": "g936c065d15e041a0ba251079f204e643",
+          "page_title": "Puritan family home page",
+          "count": 1
+        },
+        {
+          "page_id": "g96f9b417413a294ea34d381a4f2bc8d9",
+          "page_title": "show what you know",
+          "count": 1
+        },
+        {
+          "page_id": "g9994d183ca72dc75642824536f88c421",
+          "page_title": "open-source-reading-the-journey-of-cabeza-de-vaca",
+          "count": 1
+        },
+        {
+          "page_id": "g9b118d80c28763855c22615e9d162008",
+          "page_title": "Pronto app 6",
+          "count": 1
+        },
+        {
+          "page_id": "g9ce62856b82d4c4c7586710eeaa0a0f9",
+          "page_title": "course-home-page-2",
+          "count": 1
+        },
+        {
+          "page_id": "g9cf7ffd6465be1c9224ed1fc4c35f6ff",
+          "page_title": "tutorme (1)",
+          "count": 1
+        },
+        {
+          "page_id": "ga2178b1bb14e7de6bb8e455543988f4b",
+          "page_title": "Student Hour",
+          "count": 1
+        },
+        {
+          "page_id": "ga4fc2e78dd24e932de2bbf2b6f6877bc",
+          "page_title": "ENGL 2044 Syllabus_Fall 2022",
+          "count": 1
+        },
+        {
+          "page_id": "ga64b13f90ab34debb06810436744a643",
+          "page_title": "memorial-and-remonstrance-against-religious-assessments-ca-20-june-1785",
+          "count": 1
+        },
+        {
+          "page_id": "gaa3eb26605c627908f169ce7a4618626",
+          "page_title": "john smith",
+          "count": 1
+        },
+        {
+          "page_id": "gab935fd0ab143573d6f6c5197931dd20",
+          "page_title": "new york 1880",
+          "count": 1
+        },
+        {
+          "page_id": "gac973b74d9286e487335800f8d7605d9",
+          "page_title": "peaceable kingdom",
+          "count": 1
+        },
+        {
+          "page_id": "gaf646f04dd51fc5acc0387bc3f20af87",
+          "page_title": "American Literature 1",
+          "count": 1
+        },
+        {
+          "page_id": "gb838e1483ea708e4b4aaec2736f5a972",
+          "page_title": "winter landscape",
+          "count": 1
+        },
+        {
+          "page_id": "gba3d06d5c509129c9cfdfb5412999f3d",
+          "page_title": "Capture7",
+          "count": 1
+        },
+        {
+          "page_id": "gbe97fe71ea4a11d2db58eb2508e34d9e",
+          "page_title": "Journal Article Summary Example",
+          "count": 1
+        },
+        {
+          "page_id": "gc027a3a5e892eebfc373f511bc6dc2cb",
+          "page_title": "writers-resources",
+          "count": 1
+        },
+        {
+          "page_id": "gc2bb76b4e61fe6d1734f38efd9343f9a",
+          "page_title": "EdTalks",
+          "count": 1
+        },
+        {
+          "page_id": "gc2c68438a440f08b2edc7201153e6096",
+          "page_title": "moonlight by winslow homer",
+          "count": 1
+        },
+        {
+          "page_id": "gc537d66564639dc9ec7322064e70f729",
+          "page_title": "1770_MaryRowlandson_Captivity",
+          "count": 1
+        },
+        {
+          "page_id": "gc904fe9333c0fed08b17669af45b1412",
+          "page_title": "inbox icon",
+          "count": 1
+        },
+        {
+          "page_id": "gcc6d05d05ac6b0dadf41ef2c2746fb6b",
+          "page_title": "562px-Caspar_David_Friedrich_-_Wanderer_above_the_sea_of_fog",
+          "count": 1
+        },
+        {
+          "page_id": "gcd134a1aa07e9e63c24deacf228e459e",
+          "page_title": "freidrich-1",
+          "count": 1
+        },
+        {
+          "page_id": "gcd35d28b725e162c55d606f1a2f8b786",
+          "page_title": "ENGL2046  Let's Discuss",
+          "count": 1
+        },
+        {
+          "page_id": "gcd6f928dee9a9b7e62d2f6ddb64d5d9e",
+          "page_title": "yosemite valley",
+          "count": 1
+        },
+        {
+          "page_id": "gcdf17956e28b30d8267a4c2308fb7771",
+          "page_title": "gettysburg national cemetary",
+          "count": 1
+        },
+        {
+          "page_id": "gce9e50e7dd2031bc5511eecde21def5f",
+          "page_title": "thomas cole landscape",
+          "count": 1
+        },
+        {
+          "page_id": "gd0414fe25319709878b6de7b806e4274",
+          "page_title": "template-quiz-text",
+          "count": 1
+        },
+        {
+          "page_id": "gd2d5ba79335bf10a73e5a641ea6b1354",
+          "page_title": "Sample Student Reflection",
+          "count": 1
+        },
+        {
+          "page_id": "gd748a1a6b22c9833078cd7ef12bddc69",
+          "page_title": "more options menu",
+          "count": 1
+        },
+        {
+          "page_id": "gd7c6d09ee7317a071c7bad69ffbc5382",
+          "page_title": "microlecture",
+          "count": 1
+        },
+        {
+          "page_id": "gd7edc877abb52d99ae2e7a26a20f5c4c",
+          "page_title": "free women of color and their children",
+          "count": 1
+        },
+        {
+          "page_id": "gdbb771113b89f9b9fe649ba6347cb655",
+          "page_title": "show what you know 2022",
+          "count": 1
+        },
+        {
+          "page_id": "gdf2185b2048b5db99fef763883c8b03c",
+          "page_title": "dancing skeletons",
+          "count": 1
+        },
+        {
+          "page_id": "ge259be3b454dd49a0680d02b043baffc",
+          "page_title": "fancy  Unit Completion",
+          "count": 1
+        },
+        {
+          "page_id": "ge4c4e4e6c055fe3b986f186b25061d8b",
+          "page_title": "10-dot-5-shared-class-page-activity-19th-century-inventions",
+          "count": 1
+        },
+        {
+          "page_id": "ge5ba09ae80e816de4125ab8c139027e6",
+          "page_title": "pronto_icon",
+          "count": 1
+        },
+        {
+          "page_id": "ge966fd25ebe0a5a970d205d9f5817ff2",
+          "page_title": "microlecture-1",
+          "count": 1
+        },
+        {
+          "page_id": "geb8c93c79b69075ce6d9478a24ace200",
+          "page_title": "sky woman",
+          "count": 1
+        },
+        {
+          "page_id": "gebd1f4e5cdca18a7e5d5eb57d55b42d5",
+          "page_title": "home in the woods",
+          "count": 1
+        },
+        {
+          "page_id": "ged5fd4f7cc598f4e185d5b5892471cf9",
+          "page_title": "By the end of this unit, you should be able to",
+          "count": 1
+        },
+        {
+          "page_id": "gf66a7e36a298fbdd29a162027d436011",
+          "page_title": "Battle-of-Antietam-Kurz-Allison-1888",
+          "count": 1
+        },
+        {
+          "page_id": "gf7aa5f54be36818959355119807a02f7",
+          "page_title": "2044 Exam Banner",
+          "count": 1
+        },
+        {
+          "page_id": "gf8a759814de57879ae2fcaba037852d1",
+          "page_title": "button_your-learning-units (1)",
+          "count": 1
+        },
+        {
+          "page_id": "gfae37c9e6da99981926a563065543982",
+          "page_title": "2044 course tile",
+          "count": 1
+        },
+        {
+          "page_id": "gfcbc3392cae15e16b20738d23cc0d4d2",
+          "page_title": "_Unit Completion Am Lit 2022",
+          "count": 1
+        },
+        {
+          "page_id": "gfe48b0dd779ac8cd70feb5b9719d3899",
+          "page_title": "women workers edwardian",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "check_id": "str-003",
+      "severity": "info",
+      "page_id": "g08cb1f6d5a7f569507ec93a488f58966",
+      "page_title": "41 pages affected",
+      "element_snippet": "(1 occurrence(s) in href/src attributes) | (1 occurrence(s) in href/src attributes) | (1 occurrence(s) in href/src attributes) | ... and 38 more",
+      "line_hint": null,
+      "message": "Expected Canvas file-reference placeholder(s) ($IMS-CC-FILEBASE$) found in link/src attributes — resolves on import into a live Canvas course.",
+      "remediation": "No action needed unless this course is being viewed outside Canvas. These placeholders are standard IMS Common Cartridge syntax.",
+      "status": "ai_suggested",
+      "occurrences": 41,
+      "affected_pages": [
+        {
+          "page_id": "g08cb1f6d5a7f569507ec93a488f58966",
+          "page_title": "1.1 Welcome Unit Overview",
+          "count": 1
+        },
+        {
+          "page_id": "g12886259ca805dcce112ad0ce4cb5ebc",
+          "page_title": "Online Tutoring with TutorMe",
+          "count": 1
+        },
+        {
+          "page_id": "g18910e46ab3ff64f7f63f2219b06e705",
+          "page_title": "5.8 Unit Summary",
+          "count": 1
+        },
+        {
+          "page_id": "g1a379213d6a210672eef02f54bf6d394",
+          "page_title": "1.12 Welcome Unit Summary",
+          "count": 1
+        },
+        {
+          "page_id": "g1e2e96448a0b254fa6af939d8c6ec306",
+          "page_title": "9.0 From the Podium",
+          "count": 1
+        },
+        {
+          "page_id": "g1febf40b8b4e37b126b1ed017dff976b",
+          "page_title": "11.7 Unit Summary",
+          "count": 1
+        },
+        {
+          "page_id": "g242ce9d255bf3bcb51484c3f063c4c03",
+          "page_title": "9.2  Quick Guide: American Romanticism and the Gothic Imagination",
+          "count": 1
+        },
+        {
+          "page_id": "g25abfa819042f19e8748d8fe0fdfba01",
+          "page_title": "4.2  Quick Guide: Puritan Poetry and Prose",
+          "count": 1
+        },
+        {
+          "page_id": "g2aa7923c4925273df55d2e19e1110d26",
+          "page_title": "11.0 From the Podium",
+          "count": 1
+        },
+        {
+          "page_id": "g2b25d5d2e83fa0ead8714218e78283e6",
+          "page_title": "Exam 2 Summary",
+          "count": 1
+        },
+        {
+          "page_id": "g2d297a00958c42881b1ad67166499b59",
+          "page_title": "Connecting with Pronto",
+          "count": 1
+        },
+        {
+          "page_id": "g2f836737afe0edc14f19a70146fe3502",
+          "page_title": "Exam 1 Summary",
+          "count": 1
+        },
+        {
+          "page_id": "g31ef6d56fcb5d715147b3dce94473b62",
+          "page_title": "3.2  Quick Guide: Cabeza de Vaca and John Smith",
+          "count": 1
+        },
+        {
+          "page_id": "g343de7d016783f5793c959af1e4d6683",
+          "page_title": "5.1 Unit Overview",
+          "count": 1
+        },
+        {
+          "page_id": "g3a83a7d3fc8df4ab402ddff18503b5c5",
+          "page_title": "7.0 From the Podium",
+          "count": 1
+        },
+        {
+          "page_id": "g3e10beff7fbcfeefe807ff4526849af7",
+          "page_title": "12.0 From the Podium",
+          "count": 1
+        },
+        {
+          "page_id": "g4d2d2a75c63bce69c14e110b245bd6a8",
+          "page_title": "12.5 Unit Summary",
+          "count": 1
+        },
+        {
+          "page_id": "g577f28d7710e5f63c0eb870e8fb5357b",
+          "page_title": "1.3 Our Communication Plan",
+          "count": 1
+        },
+        {
+          "page_id": "g594f0397f794cacdadddc4a05b050276",
+          "page_title": "10.7 Unit Summary",
+          "count": 1
+        },
+        {
+          "page_id": "g5c11263889434e7d982af7c253b61876",
+          "page_title": "journal-article-summary-sample",
+          "count": 1
+        },
+        {
+          "page_id": "g5e1934d1f3f1f97f5760ba0fb2d8fc64",
+          "page_title": "13.7 Unit Summary",
+          "count": 1
+        },
+        {
+          "page_id": "g637bc9751779323f98d9c25481b759d5",
+          "page_title": "6.0 From the Podium",
+          "count": 1
+        },
+        {
+          "page_id": "g7720ced37ed9fe7dbb3d6fce0a6f3b92",
+          "page_title": "1.4 Student Support Resources and Technical Support",
+          "count": 1
+        },
+        {
+          "page_id": "g867e8fddc81401284a568bfe137f92e3",
+          "page_title": "13.0 From the Podium",
+          "count": 1
+        },
+        {
+          "page_id": "g891c3eea2510c873c4820ad39b383b87",
+          "page_title": "the-brothers-by-louisa-may-alcott",
+          "count": 1
+        },
+        {
+          "page_id": "g8d8db320b7a747c8baef3264c6be6c9c",
+          "page_title": "2.2 Quick Guide: Native American Oral Tradition",
+          "count": 1
+        },
+        {
+          "page_id": "g8e0f8dd1f2b3b15cd9c2642814adb211",
+          "page_title": "1.5 Improve Your Learning and Get Better Grades",
+          "count": 1
+        },
+        {
+          "page_id": "g919eaf52ea6deb070df912b79b57f03a",
+          "page_title": "8.6 Unit Summary",
+          "count": 1
+        },
+        {
+          "page_id": "g95527364321efcd67ad6206c2b3acd51",
+          "page_title": "9.5 Unit Summary",
+          "count": 1
+        },
+        {
+          "page_id": "g9d62e2bb72b8ac622791ae89b46dbeb3",
+          "page_title": "2.0 From the Podium",
+          "count": 1
+        },
+        {
+          "page_id": "ga0f38bbe440c20fcd75bb80e5beb548f",
+          "page_title": "6.8 Unit Summary",
+          "count": 1
+        },
+        {
+          "page_id": "gb4b1c77903d640c4094fff1208fca385",
+          "page_title": "4.8 Unit Summary",
+          "count": 1
+        },
+        {
+          "page_id": "gba2ec0cdb4aab4ad93ab8f98e09ceff8",
+          "page_title": "10.0 From the Podium",
+          "count": 1
+        },
+        {
+          "page_id": "gc0095e0c12a4396466e2a04df11ef8c8",
+          "page_title": "7.2  Quick Guide: Murray and Wheatley",
+          "count": 1
+        },
+        {
+          "page_id": "gc027a3a5e892eebfc373f511bc6dc2cb",
+          "page_title": "writers-resources",
+          "count": 1
+        },
+        {
+          "page_id": "gc2808328abd9b294f8d54cef6970a2de",
+          "page_title": "2.8 Unit Summary",
+          "count": 1
+        },
+        {
+          "page_id": "gc85df29eed01c8928e84799ab618b421",
+          "page_title": "7.7 Unit Summary",
+          "count": 1
+        },
+        {
+          "page_id": "gd0414fe25319709878b6de7b806e4274",
+          "page_title": "template-quiz-text",
+          "count": 1
+        },
+        {
+          "page_id": "gdb9b3ce9d24f263494b825b1315ff635",
+          "page_title": "8.0 From the Podium",
+          "count": 1
+        },
+        {
+          "page_id": "ge79643bd3abcebc5c0772957fc107e50",
+          "page_title": "3.8 Unit Summary",
+          "count": 1
+        },
+        {
+          "page_id": "gf3e0c6571c5abf3ba0a9acc3c61d11ce",
+          "page_title": "1.6 Quest Online Readiness Resource",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "check_id": "str-003",
+      "severity": "info",
+      "page_id": "g0a5ea0c3c0332fcd945a98129a05e302",
+      "page_title": "12 pages affected",
+      "element_snippet": "(2 occurrence(s) in href/src attributes) | (2 occurrence(s) in href/src attributes) | (3 occurrence(s) in href/src attributes) | ... and 9 more",
+      "line_hint": null,
+      "message": "Expected Canvas file-reference placeholder(s) ($CANVAS_OBJECT_REFERENCE$, $IMS-CC-FILEBASE$) found in link/src attributes — resolves on import into a live Canvas course.",
+      "remediation": "No action needed unless this course is being viewed outside Canvas. These placeholders are standard IMS Common Cartridge syntax.",
+      "status": "ai_suggested",
+      "occurrences": 12,
+      "affected_pages": [
+        {
+          "page_id": "g0a5ea0c3c0332fcd945a98129a05e302",
+          "page_title": "1.0 From the Podium: Professor's Welcome",
+          "count": 1
+        },
+        {
+          "page_id": "g2b0f9cff4d39aca03a4c99abcc641d90",
+          "page_title": "3.0 From the Podium",
+          "count": 1
+        },
+        {
+          "page_id": "g2b1dcb5fe55450a4a7d58a99577551d0",
+          "page_title": "8.1 Unit Overview",
+          "count": 1
+        },
+        {
+          "page_id": "g3a06a1f4c73091e51305dcd94445b60a",
+          "page_title": "4.0 From the Podium",
+          "count": 1
+        },
+        {
+          "page_id": "g54f429e56acb160e85b16aa29921e7dd",
+          "page_title": "7.1 Unit Overview",
+          "count": 1
+        },
+        {
+          "page_id": "g8eeb3eaccf373287f2a2f7de6d146791",
+          "page_title": "4.1 Unit Overview",
+          "count": 1
+        },
+        {
+          "page_id": "gcecb9c1b59783b02fb83b812c848b673",
+          "page_title": "10.1 Unit Overview",
+          "count": 1
+        },
+        {
+          "page_id": "gd4ced680fff7074f4a5e5382a197da00",
+          "page_title": "12.1 Unit Overview",
+          "count": 1
+        },
+        {
+          "page_id": "ge3a8185385a8bfc4ce485f050f511afb",
+          "page_title": "11.1 Unit Overview",
+          "count": 1
+        },
+        {
+          "page_id": "ge526ca08232a8b944af39b32702e7d57",
+          "page_title": "5.0 From the Podium",
+          "count": 1
+        },
+        {
+          "page_id": "ge78bc2aaa0c010164b70b4f5968033a6",
+          "page_title": "9.1 Unit Overview",
+          "count": 1
+        },
+        {
+          "page_id": "geef71bd1b6f3e9f82a5f3ee96caf4de9",
+          "page_title": "2.1 Unit Overview",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "check_id": "str-003",
+      "severity": "info",
+      "page_id": "g1ca8abed9d82816feb0d60e2d76b5785",
+      "page_title": "2 pages affected",
+      "element_snippet": "(3 occurrence(s) in href/src attributes) | (4 occurrence(s) in href/src attributes)",
+      "line_hint": null,
+      "message": "Expected Canvas file-reference placeholder(s) ($CANVAS_COURSE_REFERENCE$, $IMS-CC-FILEBASE$) found in link/src attributes — resolves on import into a live Canvas course.",
+      "remediation": "No action needed unless this course is being viewed outside Canvas. These placeholders are standard IMS Common Cartridge syntax.",
+      "status": "ai_suggested",
+      "occurrences": 2,
+      "affected_pages": [
+        {
+          "page_id": "g1ca8abed9d82816feb0d60e2d76b5785",
+          "page_title": "course-home-page",
+          "count": 1
+        },
+        {
+          "page_id": "g9ce62856b82d4c4c7586710eeaa0a0f9",
+          "page_title": "course-home-page-2",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "check_id": "str-003",
+      "severity": "info",
+      "page_id": "g3703a5f676a9e0edb05fe30e3862d05b",
+      "page_title": "3 pages affected",
+      "element_snippet": "(4 occurrence(s) in href/src attributes) | (4 occurrence(s) in href/src attributes) | (4 occurrence(s) in href/src attributes)",
+      "line_hint": null,
+      "message": "Expected Canvas file-reference placeholder(s) ($CANVAS_OBJECT_REFERENCE$, $IMS-CC-FILEBASE$, $WIKI_REFERENCE$) found in link/src attributes — resolves on import into a live Canvas course.",
+      "remediation": "No action needed unless this course is being viewed outside Canvas. These placeholders are standard IMS Common Cartridge syntax.",
+      "status": "ai_suggested",
+      "occurrences": 3,
+      "affected_pages": [
+        {
+          "page_id": "g3703a5f676a9e0edb05fe30e3862d05b",
+          "page_title": "6.1 Unit Overview",
+          "count": 1
+        },
+        {
+          "page_id": "g9cbc459d0be041db10444ebc13d69033",
+          "page_title": "13.1 Unit Overview",
+          "count": 1
+        },
+        {
+          "page_id": "ga1c3dbe186f5e454a724732d1effe203",
+          "page_title": "3.1 Unit Overview",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "check_id": "str-003",
+      "severity": "info",
+      "page_id": "g3d748cc18f818350066d3b3b2990b8ce",
+      "page_title": "2 pages affected",
+      "element_snippet": "(2 occurrence(s) in href/src attributes) | (2 occurrence(s) in href/src attributes)",
+      "line_hint": null,
+      "message": "Expected Canvas file-reference placeholder(s) ($IMS-CC-FILEBASE$, $WIKI_REFERENCE$) found in link/src attributes — resolves on import into a live Canvas course.",
+      "remediation": "No action needed unless this course is being viewed outside Canvas. These placeholders are standard IMS Common Cartridge syntax.",
+      "status": "ai_suggested",
+      "occurrences": 2,
+      "affected_pages": [
+        {
+          "page_id": "g3d748cc18f818350066d3b3b2990b8ce",
+          "page_title": "Exam 2 Overview",
+          "count": 1
+        },
+        {
+          "page_id": "gc1c58fe8967136f27e221e01c0865d5f",
+          "page_title": "ENGL 2044 Exam 1 Overview",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "check_id": "str-003",
+      "severity": "info",
+      "page_id": "g79043cf41e98ab43d74bf8f546f3b8a6",
+      "page_title": "3 pages affected",
+      "element_snippet": "(1 occurrence(s) in href/src attributes) | (1 occurrence(s) in href/src attributes) | (1 occurrence(s) in href/src attributes)",
+      "line_hint": null,
+      "message": "Expected Canvas file-reference placeholder(s) ($WIKI_REFERENCE$) found in link/src attributes — resolves on import into a live Canvas course.",
+      "remediation": "No action needed unless this course is being viewed outside Canvas. These placeholders are standard IMS Common Cartridge syntax.",
+      "status": "ai_suggested",
+      "occurrences": 3,
+      "affected_pages": [
+        {
+          "page_id": "g79043cf41e98ab43d74bf8f546f3b8a6",
+          "page_title": "Preview of Identification items and Essay Questions",
+          "count": 1
+        },
+        {
+          "page_id": "g9994d183ca72dc75642824536f88c421",
+          "page_title": "open-source-reading-the-journey-of-cabeza-de-vaca",
+          "count": 1
+        },
+        {
+          "page_id": "gb18222fdf154917b6193288efa8eb081",
+          "page_title": "Preview of Exam Two Identification items and Short Answer Questions",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

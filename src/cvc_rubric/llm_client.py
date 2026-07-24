@@ -13,7 +13,22 @@ from __future__ import annotations
 import hashlib
 import json
 import logging
+import os
 import time
+from pathlib import Path
+
+# Load .env file if present (ensures credentials are available regardless of entry point)
+_ENV_PATH = Path(__file__).resolve().parent.parent.parent / ".env"
+if _ENV_PATH.exists():
+    with open(_ENV_PATH, encoding="utf-8") as _f:
+        for _line in _f:
+            _line = _line.strip()
+            if _line and not _line.startswith("#") and "=" in _line:
+                _key, _, _val = _line.partition("=")
+                _key = _key.strip()
+                _val = _val.strip().strip('"').strip("'")
+                if _key and _val:
+                    os.environ.setdefault(_key, _val)
 from pathlib import Path
 from typing import Any, Optional
 
@@ -28,20 +43,31 @@ logger = logging.getLogger(__name__)
 # Prompt construction
 # ---------------------------------------------------------------------------
 
-PROMPT_VERSION = "2027.06.1"
+PROMPT_VERSION = "2027.06.5"
 
 _SYSTEM_PROMPT = """\
 You are an expert peer reviewer for the California Virtual Campus (CVC) Online Course Design Rubric (June 2027 edition).
 You will be given excerpts from an online course and asked to evaluate one rubric element.
 
+EVALUATION PHILOSOPHY:
+- Apply the rubric based on EVIDENCE present in the supplied content.
+- "Aligned" means the rubric's baseline requirement is demonstrably met with locatable evidence. Absence of evidence is NOT alignment.
+- The bar for "aligned" is the rubric's stated baseline — meets the requirement with evidence present — not exceptional-level richness.
+- Placeholder text (e.g., "[Insert campus info here]") does NOT disqualify alignment if the surrounding structure and expectations are clear and specific.
+- Information appearing in ANY accessible location (syllabus, orientation module, dedicated page, or within activities) satisfies location requirements.
+- Do NOT infer alignment from course structure alone. Explicit evidence in the text must support the rating.
+- When evidence is genuinely present and meets the stated baseline, rate "aligned." When evidence is absent or insufficient, rate lower. Do not guess or assume.
+
 RULES YOU MUST FOLLOW:
 1. Rate the element as one of: incomplete | approaching | aligned | exceptional | not_evaluable
 2. "exceptional" requires the element to FIRST satisfy everything in the "aligned" descriptor.
    Do not assign "exceptional" unless all "aligned" criteria are fully met.
-3. Every rating OTHER than "incomplete" REQUIRES at least one evidence_quote drawn VERBATIM
+3. Every rating of "aligned" or "exceptional" REQUIRES at least one evidence_quote drawn VERBATIM
    from the supplied course content. Do NOT paraphrase. Do NOT invent quotes.
-4. If you cannot find supporting evidence in the provided content, rate the element as
-   "not_evaluable" rather than guessing.
+   If you cannot find a verbatim quote to support alignment, the rating CANNOT be "aligned."
+4. If the supplied content is empty, unreadable (binary data), or wholly unrelated, rate as
+   "not_evaluable." If the content is readable but the required feature is absent, rate as
+   "incomplete" (not "not_evaluable").
 5. "suggested_fix" must be a concrete, actionable step — not a restatement of the rubric descriptor.
 6. Your entire response must be valid JSON matching the schema below. No prose outside the JSON.
 
@@ -65,6 +91,25 @@ def _build_user_prompt(
     context_text: str,
     truncation_note: str,
 ) -> str:
+    # Prefer the detailed evaluation_prompt from rubric_prompts.json
+    evaluation_prompt = element.get("evaluation_prompt")
+    if evaluation_prompt:
+        lines = [
+            evaluation_prompt,
+            "",
+        ]
+        if truncation_note:
+            lines += [f"*Note: {truncation_note}*", ""]
+        lines += [
+            "### Course Content",
+            context_text or "(no content available for this scope)",
+            "",
+            f"Evaluate element {element['id']} using only the content above. "
+            "Respond with JSON only.",
+        ]
+        return "\n".join(lines)
+
+    # Fallback: build from level descriptors (legacy path)
     levels = element.get("levels", {})
     lines = [
         f"## Rubric Element: {element['id']} — {element.get('title', '')}",
@@ -147,6 +192,10 @@ class BedrockLLMClient:
         self._retry_base_delay = retry_base_delay
         self._prompt_version = prompt_version
         self._client = boto3.client("bedrock-runtime", region_name=aws_region)
+        # Token/cost tracking
+        self._session_input_tokens = 0
+        self._session_output_tokens = 0
+        self._session_cost = 0.0
 
     def evaluate_element(
         self,
@@ -266,8 +315,13 @@ class BedrockLLMClient:
         for block in content_blocks:
             if isinstance(block, dict) and block.get("type") == "text":
                 text += block.get("text", "")
-        tokens = outer.get("usage", {}).get("input_tokens", 0) + \
-                 outer.get("usage", {}).get("output_tokens", 0)
+        input_tokens = outer.get("usage", {}).get("input_tokens", 0)
+        output_tokens = outer.get("usage", {}).get("output_tokens", 0)
+        tokens = input_tokens + output_tokens
+
+        # Log token usage and estimated cost
+        self._log_usage(input_tokens, output_tokens)
+
         # Parse JSON from model text — strip markdown fences if present
         text = text.strip()
         if text.startswith("```"):
@@ -275,6 +329,27 @@ class BedrockLLMClient:
             text = re.sub(r"\n?```$", "", text)
         parsed = json.loads(text)
         return parsed, tokens
+
+    def _log_usage(self, input_tokens: int, output_tokens: int) -> None:
+        """Print token usage and estimated cost for Claude Sonnet 4 on Bedrock."""
+        # Claude Sonnet 4 pricing (per 1K tokens)
+        INPUT_COST_PER_1K = 0.003    # $3 per 1M input tokens
+        OUTPUT_COST_PER_1K = 0.015   # $15 per 1M output tokens
+
+        input_cost = (input_tokens / 1000) * INPUT_COST_PER_1K
+        output_cost = (output_tokens / 1000) * OUTPUT_COST_PER_1K
+        total_cost = input_cost + output_cost
+
+        self._session_input_tokens += input_tokens
+        self._session_output_tokens += output_tokens
+        self._session_cost += total_cost
+
+        print(
+            f"[TOKEN USAGE] input={input_tokens:,} | output={output_tokens:,} | "
+            f"cost=${total_cost:.4f} | "
+            f"session_total: {self._session_input_tokens:,}in + "
+            f"{self._session_output_tokens:,}out = ${self._session_cost:.4f}"
+        )
 
     def _parse_response(
         self,
@@ -306,7 +381,7 @@ class BedrockLLMClient:
             q_page_title = q.get("page_title", "")
             if not quote_text:
                 continue
-            # Substring match validation
+            # Substring match validation (whitespace-normalized, with fuzzy fallback)
             verified = False
             if source_texts:
                 # Check against the specific page first, then all texts
@@ -314,10 +389,25 @@ class BedrockLLMClient:
                 if q_page_id and q_page_id in source_texts:
                     candidate_texts.append(source_texts[q_page_id])
                 candidate_texts.extend(source_texts.values())
+                # Normalize whitespace for comparison: collapse all whitespace to single space
+                norm_quote = re.sub(r'\s+', ' ', quote_text).strip()
                 for src in candidate_texts:
+                    # Try exact match first
                     if quote_text in src:
                         verified = True
                         break
+                    # Try whitespace-normalized match
+                    norm_src = re.sub(r'\s+', ' ', src)
+                    if norm_quote in norm_src:
+                        verified = True
+                        break
+                    # Try matching first 40 chars (normalized) as a fuzzy fallback
+                    # This handles cases where the LLM slightly truncates or extends quotes
+                    if len(norm_quote) > 40:
+                        prefix = norm_quote[:40]
+                        if prefix in norm_src:
+                            verified = True
+                            break
                 if not verified:
                     logger.warning(
                         "[%s] evidence quote failed substring validation, stripping: %r",

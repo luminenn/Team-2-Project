@@ -31,6 +31,19 @@ def load_rubric(rubric_path: str) -> dict:
         return json.load(f)
 
 
+def load_rubric_prompts(prompts_path: Optional[str] = None) -> dict[str, dict]:
+    """Load rubric_prompts.json and return a dict keyed by element ID."""
+    if prompts_path is None:
+        prompts_path = str(Path(__file__).parent / "rubric_prompts.json")
+    path = Path(prompts_path)
+    if not path.exists():
+        logger.warning("rubric_prompts.json not found at %s — falling back to level descriptors", prompts_path)
+        return {}
+    with open(path, encoding="utf-8") as f:
+        data = json.load(f)
+    return data.get("elements", {})
+
+
 def _all_elements(rubric: dict) -> list[tuple[dict, dict]]:
     """Returns list of (section_dict, element_dict) pairs."""
     pairs = []
@@ -52,17 +65,23 @@ def _check_requires(element: dict, course: CourseObject) -> Optional[str]:
 
 
 def _build_source_texts(course: CourseObject) -> dict[str, str]:
-    """Build {page_id: full_text} for evidence quote validation."""
+    """Build {page_id: full_text} for evidence quote validation.
+    
+    Include both the raw text and a version with the title prepended,
+    since the LLM sees content formatted as '### [id] Title\\nContent'
+    and may quote across the title/content boundary.
+    """
     texts: dict[str, str] = {}
     for p in (course.pages or []):
         if p.text:
-            texts[p.id] = p.text
+            # Include raw text and title+text for matching
+            texts[p.id] = f"{p.title} {p.text}" if p.title else p.text
     for a in (course.assignments or []):
         if a.text:
-            texts[a.id] = a.text
+            texts[a.id] = f"{a.title} {a.text}" if a.title else a.text
     for d in (course.discussions or []):
         if d.text:
-            texts[d.id] = d.text
+            texts[d.id] = f"{d.title} {d.text}" if d.title else d.text
     if course.syllabus and course.syllabus.text:
         texts["syllabus"] = course.syllabus.text
     return texts
@@ -76,12 +95,14 @@ class SemanticChecker:
         token_budget: int = 6000,
         concurrency: int = 5,
         only_element: Optional[str] = None,
+        rubric_prompts: Optional[dict[str, dict]] = None,
     ):
         self._rubric = rubric
         self._client = llm_client
         self._token_budget = token_budget
         self._concurrency = concurrency
         self._only_element = only_element
+        self._prompts = rubric_prompts or {}
 
     def dry_run(self, course: CourseObject) -> None:
         """Print token estimates for all elements without calling the LLM."""
@@ -177,6 +198,10 @@ class SemanticChecker:
     ) -> RubricFinding:
         element_id = element["id"]
         t0 = time.monotonic()
+
+        # Inject evaluation_prompt from rubric_prompts.json if available
+        if element_id in self._prompts and "evaluation_prompt" in self._prompts[element_id]:
+            element = {**element, "evaluation_prompt": self._prompts[element_id]["evaluation_prompt"]}
 
         # Check requires[] — skip LLM if required content is absent
         missing_reason = _check_requires(element, course)
