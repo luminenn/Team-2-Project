@@ -115,8 +115,8 @@ export function IngestButton() {
                 Ingest a course export
               </h2>
               <p className="mt-1 text-[13px] leading-relaxed text-muted-foreground">
-                Upload a Canvas IMSCC cartridge. Extraction and rubric
-                analysis start automatically.
+                Upload a Canvas IMSCC cartridge, up to 500 MB. Extraction and
+                rubric analysis start automatically.
               </p>
             </div>
             <button

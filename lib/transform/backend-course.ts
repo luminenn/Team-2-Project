@@ -161,12 +161,14 @@ function a11yFindingsToEvaluations(
     const pages = new Set(
       group.map((f) => f.page_title).filter((title) => title !== ""),
     );
+    const messages = Array.from(new Set(group.map((f) => f.message)));
+    const hidden = Math.max(0, messages.length - MAX_LISTED_FINDINGS);
+    /* The note about truncation belongs in the summary, not the findings
+       list, which the card counts. */
     const summary =
       group.length === 0
         ? "Automated checks found no issues in this category."
-        : `${group.length} automated ${group.length === 1 ? "finding" : "findings"} (${errors} errors, ${warnings} warnings)${pages.size > 0 ? ` across ${pages.size} ${pages.size === 1 ? "location" : "locations"}` : ""}.`;
-    const messages = Array.from(new Set(group.map((f) => f.message)));
-    const overflow = messages.length - MAX_LISTED_FINDINGS;
+        : `${group.length} automated ${group.length === 1 ? "finding" : "findings"} (${errors} errors, ${warnings} warnings)${pages.size > 0 ? ` across ${pages.size} ${pages.size === 1 ? "location" : "locations"}` : ""}.${hidden > 0 ? ` Showing the first ${MAX_LISTED_FINDINGS} of ${messages.length} distinct issues; the full set is in the exported report.` : ""}`;
 
     return {
       standardId: meta.id,
@@ -176,10 +178,7 @@ function a11yFindingsToEvaluations(
       status,
       score: STATUS_SCORE[status],
       summary,
-      findings:
-        overflow > 0
-          ? [...messages.slice(0, MAX_LISTED_FINDINGS), `${overflow} more similar findings in the exported report.`]
-          : messages,
+      findings: messages.slice(0, MAX_LISTED_FINDINGS),
       affectedItems: group.slice(0, MAX_AFFECTED_ITEMS).map((f) => ({
         title: f.page_title || "Course files",
         location: `Check ${f.check_id}`,
