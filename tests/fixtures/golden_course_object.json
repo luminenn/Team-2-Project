@@ -1,0 +1,130 @@
+{
+  "course": {
+    "title": "Introduction to Psychology",
+    "code": "PSYCH-101",
+    "term": "Fall 2027"
+  },
+  "modules": [
+    {
+      "id": "mod-0",
+      "title": "Start Here",
+      "position": 0,
+      "items": [
+        {
+          "id": "mod-0-item-1",
+          "title": "Welcome",
+          "type": "webcontent",
+          "resource_id": "page-welcome"
+        },
+        {
+          "id": "mod-0-item-2",
+          "title": "Syllabus",
+          "type": "webcontent",
+          "resource_id": "page-syllabus"
+        }
+      ]
+    },
+    {
+      "id": "mod-1",
+      "title": "Week 1",
+      "position": 1,
+      "items": [
+        {
+          "id": "mod-1-item-1",
+          "title": "Week 1 Overview",
+          "type": "webcontent",
+          "resource_id": "page-w1-overview"
+        },
+        {
+          "id": "mod-1-item-2",
+          "title": "Week 1 Discussion",
+          "type": "imsdt_xmlv1p1",
+          "resource_id": "disc-w1"
+        },
+        {
+          "id": "mod-1-item-3",
+          "title": "Week 1 Quiz",
+          "type": "imsqti_xmlv1p2/imscc_xmlv1p1/assessment",
+          "resource_id": "quiz-w1"
+        },
+        {
+          "id": "mod-1-item-4",
+          "title": "Reflection Essay",
+          "type": "associatedcontent/imscc_xmlv1p1/learning-application-resource",
+          "resource_id": "assign-essay"
+        }
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "id": "page-welcome",
+      "title": "Welcome",
+      "module_id": "mod-0",
+      "html": "<h2>Welcome!</h2><p>Welcome to Introduction to Psychology. I am Dr. Rivera. Please read the syllabus and reach out via Canvas Inbox.</p>",
+      "text": "Welcome! Welcome to Introduction to Psychology. I am Dr. Rivera. Please read the syllabus and reach out via Canvas Inbox.",
+      "path": "wiki_content/page-welcome.html"
+    },
+    {
+      "id": "page-syllabus",
+      "title": "Syllabus",
+      "module_id": "mod-0",
+      "html": "<h1>Syllabus</h1><p>Academic Honesty: All work must be your own. AI policy: disclose any AI use. Disability Services: dsp@college.edu. Counseling: counseling@college.edu.</p>",
+      "text": "Syllabus Academic Honesty: All work must be your own. AI policy: disclose any AI use. Disability Services: dsp@college.edu. Counseling: counseling@college.edu.",
+      "path": "wiki_content/page-syllabus.html"
+    },
+    {
+      "id": "page-w1-overview",
+      "title": "Week 1 Overview",
+      "module_id": "mod-1",
+      "html": "<h2>Week 1</h2><p>By the end of this module you will be able to define psychology.</p><iframe src=\"https://www.youtube.com/embed/test001\" width=\"560\"></iframe>",
+      "text": "Week 1 By the end of this module you will be able to define psychology.",
+      "path": "wiki_content/page-w1-overview.html"
+    }
+  ],
+  "assignments": [
+    {
+      "id": "assign-essay",
+      "title": "Reflection Essay",
+      "html": "<p>Write a 300-word reflection. Submit as PDF. Graded with rubric.</p>",
+      "text": "Write a 300-word reflection. Submit as PDF. Graded with rubric.",
+      "rubric_present": true,
+      "due_date": "2027-09-07"
+    }
+  ],
+  "quizzes": [
+    {
+      "id": "quiz-w1",
+      "title": "Week 1 Quiz",
+      "question_count": 5
+    }
+  ],
+  "discussions": [
+    {
+      "id": "disc-w1",
+      "title": "Week 1 Discussion",
+      "html": "<p>Introduce yourself and share one reason you are interested in psychology.</p>",
+      "text": "Introduce yourself and share one reason you are interested in psychology."
+    }
+  ],
+  "files": [
+    {
+      "name": "syllabus.pdf",
+      "path": "/web_resources/syllabus.pdf",
+      "mime": "application/pdf",
+      "size": 1024
+    }
+  ],
+  "videos": [
+    {
+      "url": "https://www.youtube.com/embed/test001",
+      "source": "youtube",
+      "page_id": "page-w1-overview",
+      "captions_declared": null
+    }
+  ],
+  "syllabus": {
+    "html": "<h1>Course Syllabus</h1><p>Welcome to PSYCH-101. Academic honesty and AI policies apply.</p>",
+    "text": "Course Syllabus Welcome to PSYCH-101. Academic honesty and AI policies apply."
+  }
+}

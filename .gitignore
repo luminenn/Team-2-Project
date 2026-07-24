@@ -1,11 +1,53 @@
+# Next.js / frontend
 /node_modules
 /.next/
 /out/
 /build
-.DS_Store
-*.pem
 npm-debug.log*
-.env*.local
-.vercel
 *.tsbuildinfo
 next-env.d.ts
+.vercel
+
+# Python / backend
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+*.whl
+.venv/
+venv/
+env/
+ENV/
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+.cache/
+backend/runs.db
+
+# Generated reports (runtime outputs — keep samples in reports/examples/)
+reports/*.json
+reports/*.md
+!reports/examples/
+
+# Secrets / credentials — never commit these
+.env
+.env.*
+!.env.example
+.env*.local
+*.pem
+*.key
+aws_credentials
+config.local.json
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
