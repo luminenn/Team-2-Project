@@ -3,11 +3,9 @@ import type { NextConfig } from "next";
 const BACKEND_URL = process.env.BACKEND_URL ?? "http://localhost:8001";
 
 const nextConfig: NextConfig = {
-  /* Course cartridges are far larger than the 10MB default the proxy allows,
-     and exceeding it kills the upload with a socket hang up. */
-  experimental: {
-    middlewareClientMaxBodySize: "512mb",
-  },
+  /* Only small JSON calls travel through this proxy; cartridge uploads go
+     directly to the backend (see uploadBase in lib/api/backend.ts), so the
+     default proxy body limit is never in play. */
   async rewrites() {
     return [
       {

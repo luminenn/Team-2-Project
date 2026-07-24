@@ -110,6 +110,17 @@ function apiBase(): string {
   return "/api/backend";
 }
 
+/* Cartridges run to hundreds of megabytes, and Next buffers a proxied body
+   in memory before forwarding it, so uploads go straight to the backend
+   (its CORS config already allows this origin). Everything else stays on
+   the same-origin proxy. */
+function uploadBase(): string {
+  if (typeof window === "undefined") {
+    return process.env.BACKEND_URL ?? "http://localhost:8001";
+  }
+  return process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:8001";
+}
+
 async function throwDetail(res: Response, fallback: string): Promise<never> {
   const detail = await res
     .json()
@@ -121,7 +132,14 @@ async function throwDetail(res: Response, fallback: string): Promise<never> {
 export async function startAudit(file: File): Promise<{ run_id: string }> {
   const form = new FormData();
   form.append("file", file);
-  const res = await fetch(`${apiBase()}/audit`, { method: "POST", body: form });
+  let res: Response;
+  try {
+    res = await fetch(`${uploadBase()}/audit`, { method: "POST", body: form });
+  } catch {
+    throw new Error(
+      "Could not reach the analysis backend. Check that it is running, then try again.",
+    );
+  }
   if (!res.ok) await throwDetail(res, "Upload failed");
   return res.json();
 }

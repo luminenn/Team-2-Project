@@ -45,13 +45,21 @@ app = FastAPI(title="CVC Course Auditor", version="0.1.0")
 # CORS — allow the React dev server
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:3000", "http://127.0.0.1:5173"],
+    allow_origins=[
+        "http://localhost:5173",
+        "http://localhost:3000",
+        "http://127.0.0.1:5173",
+        "http://127.0.0.1:3000",
+    ],
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 # Background executor — avoid blocking the event loop
 _executor = ThreadPoolExecutor(max_workers=2)
+
+# Upload streaming chunk size
+CHUNK_SIZE = 1024 * 1024
 
 
 @app.on_event("startup")
@@ -75,12 +83,13 @@ async def start_audit(file: UploadFile = File(...)) -> JSONResponse:
             detail="Only .imscc or .json files are accepted. Upload a Canvas export (.imscc) or a pre-parsed course JSON.",
         )
 
-    # Save upload to a temp file
+    # Save upload to a temp file, streamed: cartridges reach hundreds of MB
+    # and reading one whole into memory risks exhausting the process.
     tmp_dir = tempfile.mkdtemp(prefix="cvc_audit_")
     tmp_path = os.path.join(tmp_dir, filename)
-    content = await file.read()
     with open(tmp_path, "wb") as f:
-        f.write(content)
+        while chunk := await file.read(CHUNK_SIZE):
+            f.write(chunk)
 
     # Generate run
     run_id = uuid.uuid4().hex[:12]
