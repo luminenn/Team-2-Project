@@ -1,6 +1,6 @@
-# CVC Dashboard (Critique, POCR review)
+# CVC Dashboard (SONIQ, POCR review)
 
-The reviewer dashboard for the CVC@ONE POCR AI review tool: an overview of every ingested course with pipeline progress, plus a full 25-standard rubric report per course. Built standalone so it can be merged into the existing Critique login project.
+The reviewer dashboard for the CVC@ONE POCR AI review tool: an overview of every ingested course with pipeline progress, plus a full 25-standard rubric report per course. Built standalone so it can be merged into the existing SONIQ login project.
 
 ## Run
 
@@ -9,7 +9,7 @@ npm install
 npm run dev
 ```
 
-`/` redirects to `/dashboard`. Course data is display-only mock data in `lib/data/courses.ts`, shaped to match the backend's `types/pocr.ts` so swapping in real ingests later is a data-layer change only.
+`/` is the sign-in page and redirects to `/dashboard` once authenticated. Every course shown is a real audit run polled from the FastAPI backend (`lib/course-store.ts`); there is no mock data.
 
 ## Stack
 
@@ -17,7 +17,7 @@ Next.js 15 (App Router) · React 19 · TypeScript strict · Tailwind CSS v4 (CSS
 
 ## Merging into the login project
 
-The tokens, fonts, and conventions in this repo intentionally match the Critique design system (see `DESIGN.md`), so merging is mostly copying:
+The tokens, fonts, and conventions in this repo intentionally match the SONIQ design system (see `DESIGN.md`), so merging is mostly copying:
 
 1. Copy `app/dashboard/`, `components/dashboard/`, `components/report/`, `components/ui/` (animated-grid-pattern, grid-backdrop, progress-bar), and `lib/` (types, status, motion, data) into the login project.
 2. Append the additions to `app/globals.css`: the four `--status-*` tokens plus `--scrim` (both themes), their `@theme inline` color mappings, and the `shimmer` and `pulse-dot` keyframes with their reduced-motion guards. Everything else already exists there.
@@ -76,10 +76,16 @@ Open `http://localhost:3000`. The frontend is the Next.js dashboard described ab
 
 ### How it works
 
-1. Upload a `.imscc` file via the big circular button on the Home page
-2. The backend saves the file, starts the audit pipeline in a background thread, and returns immediately
-3. The frontend polls `GET /history/{run_id}` every 2 seconds until the run completes
-4. Results display: summary cards at top, then collapsible sections for rubric findings and accessibility issues
+1. Upload a `.imscc` file via "Ingest course" on the dashboard. The file posts
+   straight to the backend (not through the Next proxy, which buffers bodies in
+   memory and would cap large cartridges)
+2. The backend streams it to disk, starts the audit pipeline in a background
+   thread, and returns a `run_id` immediately
+3. The dashboard polls `GET /history` until the run leaves `processing`; an open
+   report page refreshes itself while its run is still analyzing
+4. Results render through the same report UI as every other course: score ring,
+   rubric standards by section, accessibility findings, and per-section
+   reviewer notes
 
 ### Where the pipeline is called
 

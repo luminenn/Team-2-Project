@@ -5,7 +5,6 @@ import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
   ArrowLeft,
-  Check,
   ChevronsDownUp,
   ChevronsUpDown,
   Flag,
@@ -21,7 +20,6 @@ import { SectionDiscussion } from "@/components/report/section-discussion";
 import { StandardCard } from "@/components/report/standard-card";
 import { StatusChip } from "@/components/report/status-chip";
 import { listComments, type BackendComment } from "@/lib/api/backend";
-import { requestRerun, useRerunRequested } from "@/lib/course-store";
 import { useReveal } from "@/lib/motion";
 import { STATUS_ORDER } from "@/lib/status";
 import type { Course, PocrSection } from "@/lib/types";
@@ -60,7 +58,6 @@ export function ReportView({
   const [query, setQuery] = useState("");
   const [openIds, setOpenIds] = useState<ReadonlySet<string>>(new Set());
   const [comments, setComments] = useState<BackendComment[]>([]);
-  const rerunRequested = useRerunRequested(course.id);
 
   useEffect(() => {
     if (!runId) return;
@@ -257,40 +254,8 @@ export function ReportView({
                   <Printer aria-hidden className="size-4" />
                   Export report
                 </button>
-                {/* A real run keeps no cartridge to re-analyze, so the button
-                    would queue nothing and is left out for those. */}
-                {course.source === "backend" ? null : (
-                  <>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        if (!rerunRequested) requestRerun(course.id);
-                      }}
-                      aria-disabled={rerunRequested}
-                      className={cn(
-                        "inline-flex h-11 items-center gap-2 rounded-full border border-border bg-foreground/[0.06] px-5 text-[13.5px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-                        rerunRequested
-                          ? "cursor-default text-muted-foreground"
-                          : "cursor-pointer hover:bg-foreground/[0.1]",
-                      )}
-                    >
-                      {rerunRequested ? (
-                        <Check
-                          aria-hidden
-                          className="size-4 text-status-aligned"
-                        />
-                      ) : (
-                        <RotateCcw aria-hidden className="size-4" />
-                      )}
-                      {rerunRequested ? "Re-analysis queued" : "Re-run analysis"}
-                    </button>
-                    <span role="status" className="sr-only">
-                      {rerunRequested
-                        ? `Re-analysis queued for ${course.code}. The current report stays available until the new one is ready.`
-                        : null}
-                    </span>
-                  </>
-                )}
+                {/* No re-run control: the backend keeps no cartridge after a
+                    run, so re-analysis means ingesting the file again. */}
               </div>
             </div>
             <ScoreRing

@@ -24,12 +24,12 @@ export type AccountSeed = {
 
 const DEFAULT_ACCOUNT: Account = {
   name: "Alex Rivera",
-  email: "demo@critique.app",
+  email: "demo@soniq.app",
   phone: "(408) 555-0117",
   photo: null,
 };
 
-const STORAGE_KEY = "critique.account.v2";
+const STORAGE_KEY = "soniq.account.v2";
 
 type OverridesByUser = Record<string, Partial<Account>>;
 

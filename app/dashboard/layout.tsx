@@ -25,7 +25,7 @@ export default async function DashboardLayout({
           className="rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         >
           <span className="text-[20px] font-semibold tracking-tight">
-            Critique
+            SONIQ
           </span>
           <span className="ml-2.5 hidden rounded-full border border-border bg-foreground/[0.04] px-2.5 py-1 align-[3px] text-[11px] font-medium text-muted-foreground sm:inline-block">
             POCR review

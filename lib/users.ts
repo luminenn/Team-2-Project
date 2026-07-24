@@ -4,7 +4,7 @@ export type SessionUser = { id: string; name: string; email: string }
 
 type StoredUser = SessionUser & { passwordHash: string }
 
-const DEMO_EMAIL = process.env.DEMO_EMAIL ?? "demo@critique.app"
+const DEMO_EMAIL = process.env.DEMO_EMAIL ?? "demo@soniq.app"
 const DEMO_PASSWORD = process.env.DEMO_PASSWORD ?? "password123"
 
 /**

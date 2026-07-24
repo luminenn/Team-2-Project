@@ -7,7 +7,7 @@ import { AuroraBackground } from "@/components/ui/aurora-background";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 export const metadata: Metadata = {
-  title: "Sign in | Critique",
+  title: "Sign in | SONIQ",
 };
 
 export default async function SignInPage() {

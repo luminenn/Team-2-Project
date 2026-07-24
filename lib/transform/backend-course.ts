@@ -373,7 +373,6 @@ function baseCourse(run: RunShape, report?: CourseAuditReport): Course {
     term: termFromDate(run.created_at),
     ingestedAt: formatDateTime(run.created_at),
     artifacts: { pages: 0, videos: 0, assignments: 0, discussions: 0 },
-    source: "backend" as const,
   };
 
   if (run.status === "complete") {

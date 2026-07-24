@@ -1,16 +1,10 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
-import { COURSES, getCourse } from "@/lib/data/courses";
 import { getRun } from "@/lib/api/backend";
 import { runToCourse } from "@/lib/transform/backend-course";
 import { BackendUnreachable } from "@/components/report/backend-unreachable";
 import { ReportView } from "@/components/report/report-view";
 import { RunRefresh } from "@/components/report/run-refresh";
-import type { Course } from "@/lib/types";
-
-export function generateStaticParams() {
-  return COURSES.map((course) => ({ courseId: course.id }));
-}
 
 function ReportFallback() {
   return (
@@ -37,36 +31,31 @@ export default async function CoursePage({
   params: Promise<{ courseId: string }>;
 }) {
   const { courseId } = await params;
-  let course: Course | undefined = getCourse(courseId);
-  let runId: string | undefined;
 
-  if (!course) {
-    /* Only a definitive "no such run" is a 404. A transport failure must not
-       turn a live report into a permanent not-found page, since RunRefresh
-       re-runs this every few seconds while a run is processing. */
-    let run;
-    try {
-      run = await getRun(courseId);
-    } catch {
-      return (
-        <>
-          <RunRefresh />
-          <BackendUnreachable />
-        </>
-      );
-    }
-    if (!run) notFound();
-    course = runToCourse(run);
-    runId = run.run_id;
+  /* Only a definitive "no such run" is a 404. A transport failure must not
+     turn a live report into a permanent not-found page, since RunRefresh
+     re-runs this every few seconds while a run is processing. */
+  let run;
+  try {
+    run = await getRun(courseId);
+  } catch {
+    return (
+      <>
+        <RunRefresh />
+        <BackendUnreachable />
+      </>
+    );
   }
+  if (!run) notFound();
 
+  const course = runToCourse(run);
   const isProcessing =
     course.stage !== "Report ready" && course.stage !== "Failed";
 
   return (
     <Suspense fallback={<ReportFallback />}>
-      {runId && isProcessing ? <RunRefresh /> : null}
-      <ReportView course={course} runId={runId} />
+      {isProcessing ? <RunRefresh /> : null}
+      <ReportView course={course} runId={run.run_id} />
     </Suspense>
   );
 }

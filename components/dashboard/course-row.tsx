@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import Link from "next/link";
 import gsap from "gsap";
 import {
@@ -10,28 +10,23 @@ import {
   ClipboardList,
   FileText,
   Flag,
-  RotateCcw,
   Video,
 } from "lucide-react";
 import { ProgressBar } from "@/components/ui/progress-bar";
 import { StatusChip } from "@/components/report/status-chip";
-import { retryAnalysis, useRerunRequested } from "@/lib/course-store";
 import { prefersReducedMotion, useCountUp } from "@/lib/motion";
 import { STAGE_LABELS, STATUS_META } from "@/lib/status";
 import type { Course } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 /* Stretched-link row: the wrapper carries layout and the card treatment,
-   an absolutely positioned link covers it (z-1), and secondary actions
-   (flag pill, retry) sit above it at z-2 so nothing nests inside an <a>. */
+   an absolutely positioned link covers it (z-1), and the flag pill sits
+   above it at z-2 so nothing nests inside an <a>. */
 export function CourseRow({ course }: { course: Course }) {
   const report = course.report;
   const failed = course.stage === "Failed";
   const scoreRef = useRef<HTMLSpanElement>(null);
   const sheenRef = useRef<HTMLSpanElement>(null);
-  const linkRef = useRef<HTMLAnchorElement>(null);
-  const [retried, setRetried] = useState(false);
-  const rerunRequested = useRerunRequested(course.id);
   const flags = report
     ? report.statusCounts.Approaching + report.statusCounts.Incomplete
     : null;
@@ -48,14 +43,6 @@ export function CourseRow({ course }: { course: Course }) {
     );
   };
 
-  /* Retry unmounts the button, so move focus to the row link before the
-     re-render and announce the transition through the live region. */
-  const handleRetry = () => {
-    setRetried(true);
-    linkRef.current?.focus();
-    retryAnalysis(course.id);
-  };
-
   return (
     <div
       data-reveal
@@ -68,13 +55,7 @@ export function CourseRow({ course }: { course: Course }) {
           : "border-border bg-card hover:border-foreground/15 hover:bg-[color-mix(in_oklab,var(--foreground)_3%,var(--card))]",
       )}
     >
-      <p role="status" className="sr-only">
-        {retried
-          ? `${course.code} re-queued for analysis. Waiting for a slot.`
-          : ""}
-      </p>
       <Link
-        ref={linkRef}
         href={`/dashboard/${course.id}`}
         data-row-link
         aria-label={`${course.code}: ${course.title}`}
@@ -123,22 +104,7 @@ export function CourseRow({ course }: { course: Course }) {
           {course.title}
         </h3>
         <p className="mt-1 text-[13px] text-muted-foreground">
-          {report ? (
-            <>
-              Audited {report.auditedAt}
-              {rerunRequested ? (
-                <span className="ml-2 inline-flex items-center gap-1.5 font-medium text-foreground">
-                  <span
-                    aria-hidden
-                    className="pulse-dot size-1.5 rounded-full bg-foreground"
-                  />
-                  Re-analysis queued
-                </span>
-              ) : null}
-            </>
-          ) : (
-            `Ingested ${course.ingestedAt}`
-          )}
+          {report ? `Audited ${report.auditedAt}` : `Ingested ${course.ingestedAt}`}
         </p>
       </div>
 
@@ -241,15 +207,9 @@ export function CourseRow({ course }: { course: Course }) {
               Failed while{" "}
               {STAGE_LABELS[course.failedAtStage ?? "Extracting"].toLowerCase()}
             </p>
-            <button
-              type="button"
-              onClick={handleRetry}
-              aria-label={`Retry analysis for ${course.code}`}
-              className="relative z-[2] mt-2 inline-flex h-11 cursor-pointer items-center gap-1.5 rounded-full border border-border bg-foreground/[0.06] px-4 text-[13px] font-medium transition-colors hover:bg-foreground/[0.1] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-            >
-              <RotateCcw aria-hidden className="size-4" />
-              Retry analysis
-            </button>
+            <p className="mt-1 text-[12px] leading-snug text-muted-foreground">
+              Ingest the cartridge again to retry
+            </p>
           </div>
         ) : (
           <div>

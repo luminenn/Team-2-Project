@@ -1,34 +1,26 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
-import { COURSES } from "@/lib/data/courses";
 import { listRuns } from "@/lib/api/backend";
 import { runListItemToCourse } from "@/lib/transform/backend-course";
 import type { Course } from "@/lib/types";
 
-/* Client-side pipeline state on top of the static course data, so the
-   retry and re-run affordances actually move courses through states.
-   Real audit runs from the FastAPI backend are polled into the same
-   snapshot and listed ahead of the demo courses. Server components keep
-   reading lib/data/courses; client surfaces read through this store. */
+/* Audit runs polled from the FastAPI backend. This is the only source of
+   courses in the app; server components fetch a single run directly. */
 
 const ACTIVE_POLL_MS = 4000;
 const IDLE_POLL_MS = 15000;
+const EMPTY: Course[] = [];
 
 type StoreState = {
-  overrides: Record<string, Partial<Course>>;
-  rerunRequested: Record<string, boolean>;
-  backendCourses: Course[];
-  backendReachable: boolean;
+  courses: Course[];
+  reachable: boolean;
+  /* False until the first response lands, so the dashboard can tell
+     "nothing ingested yet" apart from "still loading". */
+  loaded: boolean;
 };
 
-let state: StoreState = {
-  overrides: {},
-  rerunRequested: {},
-  backendCourses: [],
-  backendReachable: true,
-};
-let coursesSnapshot: Course[] = COURSES;
+let state: StoreState = { courses: EMPTY, reachable: true, loaded: false };
 let pollTimer: ReturnType<typeof setTimeout> | null = null;
 let latestRequest = 0;
 let lastRunsKey = "";
@@ -43,17 +35,8 @@ function subscribe(listener: () => void) {
   };
 }
 
-function applyOverride(course: Course): Course {
-  const override = state.overrides[course.id];
-  return override ? { ...course, ...override } : course;
-}
-
 function commit(next: StoreState) {
   state = next;
-  coursesSnapshot = [
-    ...state.backendCourses.map(applyOverride),
-    ...COURSES.map(applyOverride),
-  ];
   for (const listener of listeners) listener();
 }
 
@@ -65,18 +48,16 @@ export async function refreshBackendCourses(): Promise<void> {
        just-uploaded run disappears until the next poll. */
     if (requestId !== latestRequest) return;
     const key = JSON.stringify(runs);
-    if (key === lastRunsKey && state.backendReachable) return;
+    if (key === lastRunsKey && state.reachable && state.loaded) return;
     lastRunsKey = key;
     commit({
-      ...state,
-      backendCourses: runs.map(runListItemToCourse),
-      backendReachable: true,
+      courses: runs.map(runListItemToCourse),
+      reachable: true,
+      loaded: true,
     });
   } catch {
-    /* Backend not running is a supported dev state: keep the last known
-       runs and let the demo courses carry the dashboard. */
-    if (requestId === latestRequest && state.backendReachable) {
-      commit({ ...state, backendReachable: false });
+    if (requestId === latestRequest && (state.reachable || !state.loaded)) {
+      commit({ ...state, reachable: false, loaded: true });
     }
   }
 }
@@ -92,63 +73,39 @@ function ensurePolling() {
     /* Only chase a run that is genuinely progressing; a frozen snapshot from
        an unreachable backend would otherwise hammer it every 4s. */
     const active =
-      state.backendReachable &&
-      state.backendCourses.some((c) => c.stage === "Analyzing");
+      state.reachable && state.courses.some((c) => c.stage === "Analyzing");
     pollTimer = setTimeout(tick, active ? ACTIVE_POLL_MS : IDLE_POLL_MS);
   };
   pollTimer = setTimeout(tick, 0);
 }
 
-export function retryAnalysis(id: string) {
-  commit({
-    ...state,
-    overrides: {
-      ...state.overrides,
-      [id]: {
-        stage: "Queued",
-        progress: 0,
-        stageDetail: "Waiting for an analysis slot",
-        failedAtStage: undefined,
-        failureReason: undefined,
-      },
-    },
-  });
-}
-
-export function requestRerun(id: string) {
-  commit({
-    ...state,
-    rerunRequested: { ...state.rerunRequested, [id]: true },
-  });
-}
-
 export function useCourses(): Course[] {
   return useSyncExternalStore(
     subscribe,
-    () => coursesSnapshot,
-    () => COURSES,
+    () => state.courses,
+    () => EMPTY,
   );
 }
 
-/* Server components pass the static course down; this swaps in the live
-   version so client-side stage changes reflect without a reload. */
+/* The report page renders a run fetched on the server; this swaps in the
+   polled version so a processing run advances without a reload. */
 export function useLiveCourse(course: Course): Course {
   const courses = useCourses();
   return courses.find((c) => c.id === course.id) ?? course;
 }
 
-export function useRerunRequested(id: string): boolean {
-  return useSyncExternalStore(
-    subscribe,
-    () => Boolean(state.rerunRequested[id]),
-    () => false,
-  );
-}
-
 export function useBackendReachable(): boolean {
   return useSyncExternalStore(
     subscribe,
-    () => state.backendReachable,
+    () => state.reachable,
     () => true,
+  );
+}
+
+export function useCoursesLoaded(): boolean {
+  return useSyncExternalStore(
+    subscribe,
+    () => state.loaded,
+    () => false,
   );
 }

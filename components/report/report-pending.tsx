@@ -2,9 +2,9 @@
 
 import { useRef } from "react";
 import Link from "next/link";
-import { ArrowLeft, Check, CircleAlert, RotateCcw, X } from "lucide-react";
+import { ArrowLeft, Check, CircleAlert, X } from "lucide-react";
 import { ProgressBar } from "@/components/ui/progress-bar";
-import { retryAnalysis, useLiveCourse } from "@/lib/course-store";
+import { useLiveCourse } from "@/lib/course-store";
 import { useReveal } from "@/lib/motion";
 import { PIPELINE_STAGES, STAGE_LABELS } from "@/lib/status";
 import type { Course } from "@/lib/types";
@@ -17,7 +17,6 @@ export function ReportPending({ course }: { course: Course }) {
   useReveal(rootRef);
 
   const live = useLiveCourse(course);
-  const initialStage = useRef(course.stage);
   const failed = live.stage === "Failed";
   const failedIndex = failed
     ? PIPELINE_STAGES.indexOf(live.failedAtStage ?? "Extracting")
@@ -35,12 +34,6 @@ export function ReportPending({ course }: { course: Course }) {
 
   return (
     <div ref={rootRef}>
-      <p role="status" className="sr-only">
-        {initialStage.current === "Failed" && !failed
-          ? `Analysis restarted. ${live.stageDetail}.`
-          : null}
-      </p>
-
       <Link
         href="/dashboard"
         data-reveal
@@ -141,28 +134,17 @@ export function ReportPending({ course }: { course: Course }) {
               {live.failureReason}
             </p>
             <p className="mt-1.5 max-w-[68ch] text-[12.5px] leading-relaxed text-muted-foreground">
-              {live.source === "backend"
-                ? "Nothing was analyzed, and no partial report was produced. The uploaded cartridge is not retained after a run, so ingest it again to try another analysis."
-                : "Nothing was analyzed, and no partial report was produced. Retrying re-queues the same cartridge."}
+              Nothing was analyzed, and no partial report was produced. The
+              uploaded cartridge is not retained after a run, so ingest it again
+              to try another analysis.
             </p>
-            {live.source === "backend" ? (
-              <Link
-                href="/dashboard"
-                className="mt-4 inline-flex h-11 items-center gap-2 rounded-full bg-foreground px-5 text-[14px] font-semibold text-background transition-colors hover:bg-foreground/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-              >
-                <ArrowLeft aria-hidden className="size-4" />
-                Back to ingest
-              </Link>
-            ) : (
-              <button
-                type="button"
-                onClick={() => retryAnalysis(live.id)}
-                className="mt-4 inline-flex h-11 cursor-pointer items-center gap-2 rounded-full bg-foreground px-5 text-[14px] font-semibold text-background transition-colors hover:bg-foreground/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-              >
-                <RotateCcw aria-hidden className="size-4" />
-                Retry analysis
-              </button>
-            )}
+            <Link
+              href="/dashboard"
+              className="mt-4 inline-flex h-11 items-center gap-2 rounded-full bg-foreground px-5 text-[14px] font-semibold text-background transition-colors hover:bg-foreground/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            >
+              <ArrowLeft aria-hidden className="size-4" />
+              Back to ingest
+            </Link>
           </div>
         ) : (
           <div className="mt-8">

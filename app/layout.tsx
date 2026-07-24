@@ -9,7 +9,7 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Critique | Course reviews",
+  title: "SONIQ | Course reviews",
   description:
     "AI-assisted POCR review: rubric alignment reports for every ingested course, so reviewers can focus on coaching.",
 };

@@ -14,7 +14,7 @@ The dashboard is the front end of an AI-assisted POCR review tool. It shows ever
 
 ## Brand Personality
 
-Calm, precise, expensive. The product ("Critique") should feel like a careful senior colleague: confident conclusions, specific evidence, no alarm theatrics. One bold sans (Plus Jakarta Sans) carries everything, matching the login page; the working surfaces stay quiet and dense enough for real review work.
+Calm, precise, expensive. The product ("SONIQ") should feel like a careful senior colleague: confident conclusions, specific evidence, no alarm theatrics. One bold sans (Plus Jakarta Sans) carries everything, matching the login page; the working surfaces stay quiet and dense enough for real review work.
 
 ## Anti-references
 

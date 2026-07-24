@@ -1,11 +1,15 @@
 "use client";
 
 import { useRef } from "react";
-import { CircleAlert } from "lucide-react";
+import { CircleAlert, FileArchive } from "lucide-react";
 import { CourseRow } from "@/components/dashboard/course-row";
 import { DistributionBar } from "@/components/dashboard/distribution-bar";
 import { IngestButton } from "@/components/dashboard/ingest-dialog";
-import { useBackendReachable, useCourses } from "@/lib/course-store";
+import {
+  useBackendReachable,
+  useCourses,
+  useCoursesLoaded,
+} from "@/lib/course-store";
 import { useCountUp, useReveal } from "@/lib/motion";
 import { STATUS_ORDER } from "@/lib/status";
 import type { AlignmentStatus, Course } from "@/lib/types";
@@ -61,6 +65,7 @@ export function DashboardView() {
 
   const courses = useCourses();
   const backendReachable = useBackendReachable();
+  const loaded = useCoursesLoaded();
   const sorted = [...courses].sort((a, b) => {
     if (a.report && b.report) {
       return (
@@ -123,7 +128,9 @@ export function DashboardView() {
               Course reviews
             </h1>
             <p className="mt-2 text-sm text-foreground/70">
-              Fall 2026 cycle · {courses.length} courses in review
+              {courses.length === 0
+                ? "No courses ingested yet"
+                : `${courses.length} ${courses.length === 1 ? "course" : "courses"} in review`}
             </p>
             {backendReachable ? null : (
               <p
@@ -229,9 +236,33 @@ export function DashboardView() {
           ) : null}
         </div>
 
-        <CourseGroup heading="Needs attention" courses={needsAttention} />
-        <CourseGroup heading="Aligned" courses={aligned} />
-        <CourseGroup heading="In the pipeline" courses={processing} />
+        {courses.length === 0 && loaded ? (
+          <div
+            data-reveal
+            className="mt-10 rounded-2xl border border-dashed border-input bg-foreground/[0.02] px-6 py-14 text-center"
+          >
+            <FileArchive
+              aria-hidden
+              className="mx-auto size-6 text-muted-foreground"
+            />
+            <h2 className="mt-3 text-[15px] font-semibold tracking-tight">
+              {backendReachable
+                ? "No courses ingested yet"
+                : "Cannot reach the analysis backend"}
+            </h2>
+            <p className="mx-auto mt-1.5 max-w-[52ch] text-[13px] leading-relaxed text-muted-foreground">
+              {backendReachable
+                ? "Ingest a Canvas IMSCC cartridge to run it against the POCR rubric. Completed audits show up here."
+                : "Start the backend, then this list will fill in on its own."}
+            </p>
+          </div>
+        ) : (
+          <>
+            <CourseGroup heading="Needs attention" courses={needsAttention} />
+            <CourseGroup heading="Aligned" courses={aligned} />
+            <CourseGroup heading="In the pipeline" courses={processing} />
+          </>
+        )}
       </section>
     </div>
   );
