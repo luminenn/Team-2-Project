@@ -16,7 +16,7 @@ import {
 import { ProgressBar } from "@/components/ui/progress-bar";
 import { StatusChip } from "@/components/report/status-chip";
 import { prefersReducedMotion, useCountUp } from "@/lib/motion";
-import { STAGE_LABELS, STATUS_META } from "@/lib/status";
+import { STAGE_LABELS, STATUS_META, STATUS_ORDER } from "@/lib/status";
 import type { Course } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -38,6 +38,9 @@ export function CourseRow({
     ? report.statusCounts.Approaching + report.statusCounts.Incomplete
     : null;
   const hasIncomplete = (report?.statusCounts.Incomplete ?? 0) > 0;
+  const ratedStandards = report
+    ? STATUS_ORDER.reduce((sum, s) => sum + report.statusCounts[s], 0)
+    : 0;
 
   useCountUp(scoreRef, report?.overallScore ?? 0);
 
@@ -115,29 +118,21 @@ export function CourseRow({
         </p>
       </div>
 
-      {failed ? (
-        <p className="flex items-center text-[12.5px] leading-snug text-muted-foreground">
-          Nothing extracted from the cartridge yet
-        </p>
-      ) : (
-        <p className="flex items-center gap-4 text-[13px] tabular-nums text-muted-foreground">
-          <span className="inline-flex items-center gap-1.5">
-            <FileText aria-hidden className="size-3.5" />
-            {course.artifacts.pages}
-            <span className="sr-only"> pages</span>
-          </span>
-          <span className="inline-flex items-center gap-1.5">
-            <Video aria-hidden className="size-3.5" />
-            {course.artifacts.videos}
-            <span className="sr-only"> videos</span>
-          </span>
-          <span className="inline-flex items-center gap-1.5">
-            <ClipboardList aria-hidden className="size-3.5" />
-            {course.artifacts.assignments}
-            <span className="sr-only"> assignments</span>
-          </span>
-        </p>
-      )}
+      {/* The /history list carries no artifact counts, so the row reports what
+          it actually knows: how many standards the audit rated. */}
+      <p className="flex items-center gap-1.5 text-[12.5px] leading-snug text-muted-foreground">
+        {failed ? (
+          "Nothing extracted from the cartridge"
+        ) : report ? (
+          <>
+            <ClipboardList aria-hidden className="size-3.5 shrink-0" />
+            <span className="tabular-nums">{ratedStandards}</span> standards
+            rated
+          </>
+        ) : (
+          "Analyzing the cartridge"
+        )}
+      </p>
 
       <p className="flex items-center">
         {failed ? (
@@ -220,19 +215,15 @@ export function CourseRow({
           </div>
         ) : (
           <div>
-            <p className="flex items-baseline justify-between">
-              <span className="text-[12.5px] font-medium text-foreground/75">
-                {course.stage === "Queued" ? "Waiting to start" : "In progress"}
-              </span>
-              <span className="text-[12px] tabular-nums text-muted-foreground">
-                {course.progress}%
-              </span>
+            <p className="text-[12.5px] font-medium text-foreground/75">
+              In progress
             </p>
             <ProgressBar
-              value={course.progress}
-              label={`${course.code} analysis progress: ${course.progress} percent`}
+              value={40}
+              indeterminate
+              label={`${course.code} analysis in progress`}
               className="mt-2"
-              shimmer={course.stage !== "Queued"}
+              shimmer
             />
           </div>
         )}

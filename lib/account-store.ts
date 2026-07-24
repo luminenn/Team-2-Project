@@ -22,10 +22,13 @@ export type AccountSeed = {
   email?: string | null;
 };
 
+/* Fallbacks only: the signed-in session supplies name and email, and phone
+   stays empty until the reviewer sets one. Nothing here is invented data
+   that could be mistaken for a real contact detail. */
 const DEFAULT_ACCOUNT: Account = {
-  name: "Alex Rivera",
-  email: "demo@soniq.app",
-  phone: "(408) 555-0117",
+  name: "Reviewer",
+  email: "",
+  phone: "",
   photo: null,
 };
 

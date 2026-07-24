@@ -148,16 +148,16 @@ export function ReportPending({ course }: { course: Course }) {
           </div>
         ) : (
           <div className="mt-8">
+            {/* No percentage: the backend reports only that a run is in
+                flight, never how far along it is. */}
             <ProgressBar
-              value={live.progress}
-              label={`${live.code} analysis progress`}
-              shimmer={live.stage !== "Queued"}
+              value={40}
+              indeterminate
+              label={`${live.code} analysis in progress`}
+              shimmer
             />
-            <p className="mt-2.5 flex flex-wrap items-center justify-between gap-x-4 gap-y-1 text-[12.5px] text-muted-foreground">
-              <span>{live.stageDetail}</span>
-              <span className="tabular-nums font-medium text-foreground">
-                {live.progress}%
-              </span>
+            <p className="mt-2.5 text-[12.5px] text-muted-foreground">
+              {live.stageDetail}
             </p>
           </div>
         )}

@@ -121,6 +121,15 @@ function uploadBase(): string {
   return process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:8001";
 }
 
+/* A backend that accepts the connection but never answers (a deadlocked
+   worker mid-audit is the realistic case) would otherwise hang the poller
+   forever, since fetch has no default timeout. */
+const REQUEST_TIMEOUT_MS = 15000;
+
+function withTimeout(init: RequestInit = {}): RequestInit {
+  return { ...init, signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS) };
+}
+
 async function throwDetail(res: Response, fallback: string): Promise<never> {
   const detail = await res
     .json()
@@ -145,33 +154,36 @@ export async function startAudit(file: File): Promise<{ run_id: string }> {
 }
 
 export async function listRuns(): Promise<BackendRunListItem[]> {
-  const res = await fetch(`${apiBase()}/history`, { cache: "no-store" });
+  const res = await fetch(`${apiBase()}/history`, withTimeout({ cache: "no-store" }));
   if (!res.ok) await throwDetail(res, "Could not load audit history");
   return res.json();
 }
 
 export async function getRun(runId: string): Promise<BackendRun | null> {
-  const res = await fetch(`${apiBase()}/history/${runId}`, {
-    cache: "no-store",
-  });
+  const res = await fetch(
+    `${apiBase()}/history/${runId}`,
+    withTimeout({ cache: "no-store" }),
+  );
   if (res.status === 404) return null;
   if (!res.ok) await throwDetail(res, "Could not load audit run");
   return res.json();
 }
 
 export async function deleteRun(runId: string): Promise<void> {
-  const res = await fetch(`${apiBase()}/history/${runId}`, {
-    method: "DELETE",
-  });
+  const res = await fetch(
+    `${apiBase()}/history/${runId}`,
+    withTimeout({ method: "DELETE" }),
+  );
   if (!res.ok && res.status !== 404) {
     await throwDetail(res, "Could not delete this audit");
   }
 }
 
 export async function listComments(runId: string): Promise<BackendComment[]> {
-  const res = await fetch(`${apiBase()}/comments/${runId}`, {
-    cache: "no-store",
-  });
+  const res = await fetch(
+    `${apiBase()}/comments/${runId}`,
+    withTimeout({ cache: "no-store" }),
+  );
   if (!res.ok) await throwDetail(res, "Could not load comments");
   return res.json();
 }
@@ -181,11 +193,14 @@ export async function postComment(
   sectionId: string,
   text: string,
 ): Promise<BackendComment> {
-  const res = await fetch(`${apiBase()}/comments`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ run_id: runId, section_id: sectionId, text }),
-  });
+  const res = await fetch(
+    `${apiBase()}/comments`,
+    withTimeout({
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ run_id: runId, section_id: sectionId, text }),
+    }),
+  );
   if (!res.ok) await throwDetail(res, "Could not save comment");
   return res.json();
 }

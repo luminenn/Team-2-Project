@@ -12,12 +12,16 @@ export function ProgressBar({
   fillClassName,
   className,
   shimmer = false,
+  indeterminate = false,
 }: {
   value: number;
   label: string;
   fillClassName?: string;
   className?: string;
   shimmer?: boolean;
+  /* The backend reports no progress figure for a running audit, so the bar
+     says "working" without inventing a percentage. */
+  indeterminate?: boolean;
 }) {
   const fillRef = useRef<HTMLDivElement>(null);
   const clip = (pct: number) => `inset(0 ${100 - pct}% 0 0 round 999px)`;
@@ -46,7 +50,7 @@ export function ProgressBar({
   return (
     <div
       role="progressbar"
-      aria-valuenow={value}
+      aria-valuenow={indeterminate ? undefined : value}
       aria-valuemin={0}
       aria-valuemax={100}
       aria-label={label}

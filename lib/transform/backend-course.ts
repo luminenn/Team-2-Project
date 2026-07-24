@@ -397,7 +397,9 @@ function baseCourse(run: RunShape, report?: CourseAuditReport): Course {
   return {
     ...shared,
     stage: "Analyzing",
-    progress: 62,
+    /* The backend exposes no progress figure; the UI renders this run as
+       indeterminate rather than showing an invented percentage. */
+    progress: 0,
     stageDetail: "Running rubric and accessibility checks",
   };
 }

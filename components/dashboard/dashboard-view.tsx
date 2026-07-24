@@ -68,13 +68,15 @@ function CourseGroup({
 
 export function DashboardView() {
   const rootRef = useRef<HTMLDivElement>(null);
-  useReveal(rootRef);
 
   const courses = useCourses();
   const backendReachable = useBackendReachable();
   const loaded = useCoursesLoaded();
   const [pendingDelete, setPendingDelete] = useState<Course | null>(null);
   const [deletedTitle, setDeletedTitle] = useState<string | null>(null);
+  /* Rows mount only after the first poll, so the reveal has to re-run once
+     the list arrives. */
+  useReveal(rootRef, courses.map((c) => c.id).join(","));
   const sorted = [...courses].sort((a, b) => {
     if (a.report && b.report) {
       return (
@@ -137,19 +139,20 @@ export function DashboardView() {
               Course reviews
             </h1>
             <p className="mt-2 text-sm text-foreground/70">
-              {courses.length === 0
-                ? "No courses ingested yet"
-                : `${courses.length} ${courses.length === 1 ? "course" : "courses"} in review`}
+              {!loaded
+                ? "Loading audit runs"
+                : courses.length === 0
+                  ? "No courses ingested yet"
+                  : `${courses.length} ${courses.length === 1 ? "course" : "courses"} in review`}
             </p>
-            {backendReachable ? null : (
-              <p
-                role="status"
-                className="mt-2 flex items-center gap-1.5 text-[12.5px] text-destructive-ink"
-              >
+            {/* Only worth saying when there is stale data on screen; with an
+                empty list the empty state already explains the outage. */}
+            {!backendReachable && courses.length > 0 ? (
+              <p className="mt-2 flex items-center gap-1.5 text-[12.5px] text-destructive-ink">
                 <CircleAlert aria-hidden className="size-3.5 shrink-0" />
-                Analysis backend unreachable, so live runs may be out of date.
+                Analysis backend unreachable, so these runs may be out of date.
               </p>
-            )}
+            ) : null}
           </div>
           <IngestButton />
         </div>
@@ -286,7 +289,13 @@ export function DashboardView() {
         )}
 
         <p role="status" className="sr-only">
-          {deletedTitle ? `${deletedTitle} deleted.` : ""}
+          {deletedTitle
+            ? `${deletedTitle} deleted.`
+            : !loaded
+              ? "Loading audit runs."
+              : !backendReachable
+                ? "The analysis backend could not be reached."
+                : `${courses.length} ${courses.length === 1 ? "course" : "courses"} loaded.`}
         </p>
         <DeleteCourseDialog
           course={pendingDelete}

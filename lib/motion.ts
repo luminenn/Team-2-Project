@@ -35,16 +35,23 @@ export function shouldSkipEntrance() {
 }
 
 /* Staggered entrance for [data-reveal] children, with a watchdog so a
-   throttled ticker (backgrounded tab) can never leave content hidden. */
-export function useReveal(scope: RefObject<HTMLElement | null>) {
+   throttled ticker (backgrounded tab) can never leave content hidden.
+   Pass `key` when the revealed content arrives after mount (async data), or
+   the one-shot query at mount finds nothing to animate. Elements already
+   revealed are skipped so later runs only animate what is new. */
+export function useReveal(
+  scope: RefObject<HTMLElement | null>,
+  key?: unknown,
+) {
   useGSAP(
     () => {
       const root = scope.current;
       if (!root) return;
       const items = Array.from(
         root.querySelectorAll<HTMLElement>("[data-reveal]"),
-      );
+      ).filter((el) => el.dataset.revealed !== "true");
       if (!items.length) return;
+      for (const el of items) el.dataset.revealed = "true";
 
       if (shouldSkipEntrance()) {
         gsap.set(items, { opacity: 1, y: 0 });
@@ -71,7 +78,7 @@ export function useReveal(scope: RefObject<HTMLElement | null>) {
 
       return () => window.clearTimeout(watchdog);
     },
-    { scope },
+    { scope, dependencies: [key], revertOnUpdate: false },
   );
 }
 
