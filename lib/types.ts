@@ -62,13 +62,6 @@ export interface CourseAuditReport {
   topIssue: string;
 }
 
-export interface CourseArtifacts {
-  pages: number;
-  videos: number;
-  assignments: number;
-  discussions: number;
-}
-
 export interface Course {
   id: string;
   code: string;
@@ -79,7 +72,6 @@ export interface Course {
   progress: number;
   stageDetail: string;
   ingestedAt: string;
-  artifacts: CourseArtifacts;
   report?: CourseAuditReport;
   failedAtStage?: PipelineStage;
   failureReason?: string;

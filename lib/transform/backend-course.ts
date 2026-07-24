@@ -372,7 +372,6 @@ function baseCourse(run: RunShape, report?: CourseAuditReport): Course {
     instructor: "",
     term: termFromDate(run.created_at),
     ingestedAt: formatDateTime(run.created_at),
-    artifacts: { pages: 0, videos: 0, assignments: 0, discussions: 0 },
   };
 
   if (run.status === "complete") {
@@ -417,33 +416,5 @@ export function runToCourse(run: BackendRun): Course {
     run.status === "complete" && run.report
       ? reportToAuditReport(run.report)
       : undefined;
-  const course = baseCourse(run, report);
-
-  if (run.report) {
-    const pages = new Set<string>();
-    for (const f of run.report.accessibility_findings) {
-      if (f.page_id) pages.add(f.page_id);
-      for (const ap of f.affected_pages ?? []) {
-        if (ap.page_id) pages.add(ap.page_id);
-      }
-    }
-    const videos = new Set<string>();
-    for (const f of run.report.accessibility_findings) {
-      if (!VIDEO_PREFIXES.includes(f.check_id.split("-")[0])) continue;
-      for (const ap of f.affected_pages ?? []) {
-        if (ap.video_url) videos.add(ap.video_url);
-      }
-      videos.add(f.element_snippet);
-    }
-    return {
-      ...course,
-      artifacts: {
-        pages: pages.size,
-        videos: videos.size,
-        assignments: 0,
-        discussions: 0,
-      },
-    };
-  }
-  return course;
+  return baseCourse(run, report);
 }

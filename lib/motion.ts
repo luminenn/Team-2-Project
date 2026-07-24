@@ -136,6 +136,9 @@ export function useCountUp(
     }
     const state = { v: fromRef.current };
     fromRef.current = value;
+    /* React has already committed the final number as a child; paint the
+       starting value now so the delay does not flash it before counting. */
+    el.textContent = String(Math.round(state.v));
     const tween = gsap.to(state, {
       v: value,
       duration,

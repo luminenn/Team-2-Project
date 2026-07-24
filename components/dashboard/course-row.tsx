@@ -92,12 +92,7 @@ export function CourseRow({
             <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-foreground/[0.04] px-2.5 py-1 text-[11px] font-medium text-muted-foreground">
               <span
                 aria-hidden
-                className={cn(
-                  "size-2 rounded-full",
-                  course.stage === "Queued"
-                    ? "bg-muted-foreground/50"
-                    : "pulse-dot bg-foreground",
-                )}
+                className="pulse-dot size-2 rounded-full bg-foreground"
               />
               {STAGE_LABELS[course.stage]}
             </span>

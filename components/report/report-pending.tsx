@@ -25,13 +25,6 @@ export function ReportPending({ course }: { course: Course }) {
     ? failedIndex
     : PIPELINE_STAGES.indexOf(live.stage);
 
-  const artifactEntries = [
-    { label: "pages discovered", value: live.artifacts.pages },
-    { label: "videos discovered", value: live.artifacts.videos },
-    { label: "assignments discovered", value: live.artifacts.assignments },
-    { label: "discussions discovered", value: live.artifacts.discussions },
-  ];
-
   return (
     <div ref={rootRef}>
       <Link
@@ -163,31 +156,17 @@ export function ReportPending({ course }: { course: Course }) {
         )}
       </section>
 
-      {failed ? null : live.stage === "Queued" ? (
-        <p data-reveal className="mt-6 text-[13.5px] leading-relaxed text-muted-foreground">
-          The cartridge is uploaded and waiting for an analysis slot. Artifact
-          counts appear as soon as extraction begins.
-        </p>
-      ) : (
-        <dl
+      {/* The backend publishes nothing about a run until it finishes, so
+          there are no interim counts to show here. */}
+      {failed ? null : (
+        <p
           data-reveal
-          aria-label="Artifacts discovered so far"
-          className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4"
+          className="mt-6 max-w-[68ch] text-[13.5px] leading-relaxed text-muted-foreground"
         >
-          {artifactEntries.map((entry) => (
-            <div
-              key={entry.label}
-              className="flex flex-col-reverse gap-1 rounded-2xl border border-border bg-card px-5 py-4 shadow-[var(--shadow-card)]"
-            >
-              <dt className="text-[12px] text-muted-foreground">
-                {entry.label}
-              </dt>
-              <dd className="text-[24px] font-semibold leading-none tabular-nums tracking-tight">
-                {entry.value}
-              </dd>
-            </div>
-          ))}
-        </dl>
+          The cartridge is being unpacked and checked against the rubric. Page,
+          video, and finding counts appear once the audit finishes; this page
+          updates on its own.
+        </p>
       )}
 
       <section data-reveal aria-labelledby="pending-report-heading" className="mt-12">
