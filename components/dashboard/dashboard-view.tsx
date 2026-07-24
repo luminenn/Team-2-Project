@@ -1,8 +1,9 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { CircleAlert, FileArchive } from "lucide-react";
 import { CourseRow } from "@/components/dashboard/course-row";
+import { DeleteCourseDialog } from "@/components/dashboard/delete-course-dialog";
 import { DistributionBar } from "@/components/dashboard/distribution-bar";
 import { IngestButton } from "@/components/dashboard/ingest-dialog";
 import {
@@ -31,9 +32,11 @@ function StatNumber({ value }: { value: number }) {
 function CourseGroup({
   heading,
   courses,
+  onRequestDelete,
 }: {
   heading: string;
   courses: Course[];
+  onRequestDelete: (course: Course) => void;
 }) {
   if (courses.length === 0) return null;
   return (
@@ -52,7 +55,11 @@ function CourseGroup({
       </h2>
       <div className="mt-3 space-y-2.5">
         {courses.map((course) => (
-          <CourseRow key={course.id} course={course} />
+          <CourseRow
+            key={course.id}
+            course={course}
+            onRequestDelete={onRequestDelete}
+          />
         ))}
       </div>
     </div>
@@ -66,6 +73,8 @@ export function DashboardView() {
   const courses = useCourses();
   const backendReachable = useBackendReachable();
   const loaded = useCoursesLoaded();
+  const [pendingDelete, setPendingDelete] = useState<Course | null>(null);
+  const [deletedTitle, setDeletedTitle] = useState<string | null>(null);
   const sorted = [...courses].sort((a, b) => {
     if (a.report && b.report) {
       return (
@@ -258,11 +267,32 @@ export function DashboardView() {
           </div>
         ) : (
           <>
-            <CourseGroup heading="Needs attention" courses={needsAttention} />
-            <CourseGroup heading="Aligned" courses={aligned} />
-            <CourseGroup heading="In the pipeline" courses={processing} />
+            <CourseGroup
+              heading="Needs attention"
+              courses={needsAttention}
+              onRequestDelete={setPendingDelete}
+            />
+            <CourseGroup
+              heading="Aligned"
+              courses={aligned}
+              onRequestDelete={setPendingDelete}
+            />
+            <CourseGroup
+              heading="In the pipeline"
+              courses={processing}
+              onRequestDelete={setPendingDelete}
+            />
           </>
         )}
+
+        <p role="status" className="sr-only">
+          {deletedTitle ? `${deletedTitle} deleted.` : ""}
+        </p>
+        <DeleteCourseDialog
+          course={pendingDelete}
+          onClose={() => setPendingDelete(null)}
+          onDeleted={(course) => setDeletedTitle(course.title)}
+        />
       </section>
     </div>
   );

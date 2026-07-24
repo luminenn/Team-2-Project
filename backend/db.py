@@ -84,6 +84,16 @@ def get_all_runs() -> list[dict]:
     return [_row_to_dict(r) for r in rows]
 
 
+def delete_run(run_id: str) -> bool:
+    """Remove a run and its reviewer notes. False if no such run."""
+    with _conn() as conn:
+        cur = conn.execute("DELETE FROM runs WHERE run_id=?", (run_id,))
+        if cur.rowcount == 0:
+            return False
+        conn.execute("DELETE FROM comments WHERE run_id=?", (run_id,))
+    return True
+
+
 def _row_to_dict(row: sqlite3.Row) -> dict:
     d = dict(row)
     if d.get("report_json"):

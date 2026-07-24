@@ -25,6 +25,7 @@ from fastapi.responses import JSONResponse
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
 from backend.db import (
+    delete_run,
     get_all_runs,
     get_run,
     init_db,
@@ -161,6 +162,18 @@ def get_history_item(run_id: str) -> dict:
     if run is None:
         raise HTTPException(status_code=404, detail="Run not found.")
     return run
+
+
+# ---------------------------------------------------------------------------
+# DELETE /history/{run_id}
+# ---------------------------------------------------------------------------
+
+@app.delete("/history/{run_id}")
+def delete_history_item(run_id: str) -> dict:
+    """Permanently remove a run and its reviewer notes."""
+    if not delete_run(run_id):
+        raise HTTPException(status_code=404, detail="Run not found.")
+    return {"run_id": run_id, "deleted": True}
 
 
 # ---------------------------------------------------------------------------

@@ -10,6 +10,7 @@ import {
   ClipboardList,
   FileText,
   Flag,
+  Trash2,
   Video,
 } from "lucide-react";
 import { ProgressBar } from "@/components/ui/progress-bar";
@@ -22,7 +23,13 @@ import { cn } from "@/lib/utils";
 /* Stretched-link row: the wrapper carries layout and the card treatment,
    an absolutely positioned link covers it (z-1), and the flag pill sits
    above it at z-2 so nothing nests inside an <a>. */
-export function CourseRow({ course }: { course: Course }) {
+export function CourseRow({
+  course,
+  onRequestDelete,
+}: {
+  course: Course;
+  onRequestDelete: (course: Course) => void;
+}) {
   const report = course.report;
   const failed = course.stage === "Failed";
   const scoreRef = useRef<HTMLSpanElement>(null);
@@ -48,7 +55,7 @@ export function CourseRow({ course }: { course: Course }) {
       data-reveal
       onPointerEnter={sweepSheen}
       className={cn(
-        "group relative flex flex-col gap-4 rounded-2xl border px-5 shadow-[var(--shadow-card)] transition-[translate,border-color,background-color,box-shadow] duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[var(--shadow-card-hover)] has-[[data-row-link]:focus-visible]:ring-2 has-[[data-row-link]:focus-visible]:ring-ring has-[[data-row-link]:focus-visible]:ring-offset-2 has-[[data-row-link]:focus-visible]:ring-offset-background motion-reduce:transition-colors motion-reduce:hover:translate-y-0 md:px-7 lg:grid lg:grid-cols-[minmax(0,1fr)_172px_112px_172px_18px] lg:items-center lg:gap-x-8",
+        "group relative flex flex-col gap-4 rounded-2xl border px-5 shadow-[var(--shadow-card)] transition-[translate,border-color,background-color,box-shadow] duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[var(--shadow-card-hover)] has-[[data-row-link]:focus-visible]:ring-2 has-[[data-row-link]:focus-visible]:ring-ring has-[[data-row-link]:focus-visible]:ring-offset-2 has-[[data-row-link]:focus-visible]:ring-offset-background motion-reduce:transition-colors motion-reduce:hover:translate-y-0 md:px-7 lg:grid lg:grid-cols-[minmax(0,1fr)_172px_112px_172px_auto] lg:items-center lg:gap-x-8",
         report ? "py-5" : "py-4",
         hasIncomplete
           ? "border-status-incomplete/25 bg-[color-mix(in_oklab,var(--status-incomplete)_6%,var(--card))] hover:border-status-incomplete/40 hover:bg-[color-mix(in_oklab,var(--status-incomplete)_9%,var(--card))] dark:border-status-incomplete/30"
@@ -231,10 +238,20 @@ export function CourseRow({ course }: { course: Course }) {
         )}
       </div>
 
-      <ArrowRight
-        aria-hidden
-        className="hidden size-4 text-muted-foreground transition-transform duration-200 group-hover:translate-x-0.5 lg:block"
-      />
+      <div className="flex items-center justify-end gap-1">
+        <button
+          type="button"
+          onClick={() => onRequestDelete(course)}
+          aria-label={`Delete the audit for ${course.title}`}
+          className="relative z-[2] inline-flex size-11 cursor-pointer items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+        >
+          <Trash2 aria-hidden className="size-4" />
+        </button>
+        <ArrowRight
+          aria-hidden
+          className="hidden size-4 shrink-0 text-muted-foreground transition-transform duration-200 group-hover:translate-x-0.5 lg:block"
+        />
+      </div>
     </div>
   );
 }

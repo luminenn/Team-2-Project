@@ -159,6 +159,15 @@ export async function getRun(runId: string): Promise<BackendRun | null> {
   return res.json();
 }
 
+export async function deleteRun(runId: string): Promise<void> {
+  const res = await fetch(`${apiBase()}/history/${runId}`, {
+    method: "DELETE",
+  });
+  if (!res.ok && res.status !== 404) {
+    await throwDetail(res, "Could not delete this audit");
+  }
+}
+
 export async function listComments(runId: string): Promise<BackendComment[]> {
   const res = await fetch(`${apiBase()}/comments/${runId}`, {
     cache: "no-store",
