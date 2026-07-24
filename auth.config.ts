@@ -8,10 +8,18 @@ const oauthProviders: NextAuthConfig["providers"] = []
 if (process.env.AUTH_GOOGLE_ID) oauthProviders.push(Google)
 if (process.env.AUTH_MICROSOFT_ENTRA_ID_ID) oauthProviders.push(MicrosoftEntraID)
 
+// Auth.js refuses to sign anyone in without a secret. Outside production we
+// fall back to a throwaway one so a fresh clone runs before anyone has set up
+// .env.local; production still demands a real AUTH_SECRET.
+const secret =
+  process.env.AUTH_SECRET ??
+  (process.env.NODE_ENV === "production" ? undefined : "dev-only-insecure-secret")
+
 // Edge-safe config: shared with the middleware. No Credentials provider here
 // (its authorize runs bcrypt, which is Node-only) and no database access.
 export default {
   providers: oauthProviders,
+  secret,
   pages: { signIn: "/" },
   trustHost: true,
   callbacks: {

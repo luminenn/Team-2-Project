@@ -1,15 +1,63 @@
-# CVC Dashboard (SONIQ, POCR review)
+# SONIQ — CVC POCR course auditor
 
-The reviewer dashboard for the CVC@ONE POCR AI review tool: an overview of every ingested course with pipeline progress, plus a full 25-standard rubric report per course. Built standalone so it can be merged into the existing SONIQ login project.
+Upload a Canvas course export and get it audited against the 25-standard CVC
+POCR rubric: deterministic accessibility checks plus LLM rubric analysis, shown
+in a reviewer dashboard with per-standard evidence and reviewer notes.
 
-## Run
+The repo holds both halves — a Next.js frontend and a FastAPI backend with the
+Python analysis engine.
+
+## Quick start
+
+Two processes, two terminals, both from the repo root.
+
+**1. Backend** (Python 3.11+ recommended; 3.9 works for the web app):
 
 ```bash
-npm install
-npm run dev
+python3 -m venv .venv && .venv/bin/pip install -r backend/requirements.txt
 ```
 
-`/` is the sign-in page and redirects to `/dashboard` once authenticated. Every course shown is a real audit run polled from the FastAPI backend (`lib/course-store.ts`); there is no mock data.
+```bash
+.venv/bin/uvicorn backend.main:app --reload --port 8001
+```
+
+**2. Frontend:**
+
+```bash
+npm install && npm run dev
+```
+
+Open http://localhost:3000 and sign in with **demo@soniq.app / password123**.
+
+That is enough to run the app: ingest a `.imscc` cartridge and it will be
+parsed and checked for accessibility issues.
+
+### Optional: AI rubric scoring
+
+The rubric half needs AWS Bedrock. Without credentials, audits still complete
+with accessibility findings, and the report says the AI analysis was
+unavailable. To enable it, create a `.env` in the repo root:
+
+```
+AWS_ACCESS_KEY_ID=...
+AWS_SECRET_ACCESS_KEY=...
+AWS_SESSION_TOKEN=...        # only for temporary/SSO credentials
+AWS_DEFAULT_REGION=us-west-2
+```
+
+The model is set in `config.json` (`us.anthropic.claude-sonnet-4-5-...`, region
+`us-west-2`) and your account needs Bedrock access to it. Restart the backend
+after editing `.env` — it is read once at startup — then re-ingest the course.
+
+### Optional: your own auth secret
+
+Outside production the app falls back to a throwaway session secret so a fresh
+clone runs immediately. For a real deployment, copy `.env.example` to
+`.env.local` and set `AUTH_SECRET` (generate one with `npx auth secret`).
+
+Every course shown is a real audit run polled from the backend
+(`lib/course-store.ts`); there is no mock data. Audit history lives in
+`backend/runs.db`, which is local to each machine.
 
 ## Stack
 
