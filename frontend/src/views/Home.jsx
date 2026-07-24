@@ -11,8 +11,9 @@ export default function Home() {
 
   const handleFile = useCallback(async (file) => {
     if (!file) return
-    if (!file.name.toLowerCase().endsWith('.imscc')) {
-      setError('Please upload a .imscc file (Canvas Common Cartridge export).')
+    const name = file.name.toLowerCase()
+    if (!name.endsWith('.imscc') && !name.endsWith('.json')) {
+      setError('Please upload a .imscc or .json file.')
       setState('error')
       return
     }
@@ -111,7 +112,7 @@ export default function Home() {
       </div>
 
       <div className="upload-label" aria-live="polite" aria-atomic="true">
-        {state === 'idle' && <p>Upload course file</p>}
+        {state === 'idle' && <p>Upload .imscc or .json course file</p>}
         {isLoading && <p className="status-text">{statusText}</p>}
         {state === 'error' && (
           <div className="error-state">
@@ -124,7 +125,7 @@ export default function Home() {
       <input
         ref={fileInputRef}
         type="file"
-        accept=".imscc"
+        accept=".imscc,.json"
         onChange={handleInputChange}
         className="visually-hidden"
         aria-hidden="true"

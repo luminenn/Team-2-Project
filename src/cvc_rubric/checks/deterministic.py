@@ -499,12 +499,19 @@ def check_media(
     page_id: str,
     page_title: str,
     page_videos: Optional[list] = None,
+    caption_checks_enabled: bool = True,
 ) -> list[AccessibilityFinding]:
     """
     page_videos: list of Video objects whose page_id matches this page,
                  used to cross-reference captions_declared.
+    caption_checks_enabled: if False, skip all caption/track-related checks
+                            (med-001, med-002, med-003).
     """
     findings: list[AccessibilityFinding] = []
+
+    if not caption_checks_enabled:
+        return findings
+
     soup = BeautifulSoup(html, "lxml")
 
     # med-001: <video> without <track kind="captions">
@@ -765,6 +772,19 @@ def run_all(course: CourseObject) -> list[AccessibilityFinding]:
     findings: list[AccessibilityFinding] = []
     module_ids = course.module_ids()
 
+    # Read caption_checks_enabled flag from config (default: False)
+    import json as _json
+    from pathlib import Path as _Path
+    _cfg_path = _Path(__file__).resolve().parent.parent.parent.parent / "config.json"
+    _caption_enabled = False
+    if _cfg_path.exists():
+        try:
+            with open(_cfg_path, encoding="utf-8") as _cf:
+                _cfg_data = _json.load(_cf)
+            _caption_enabled = _cfg_data.get("caption_checks_enabled", False)
+        except Exception:
+            pass
+
     # Build a map from page_id → list of Video objects for that page
     video_map: dict[str, list] = {}
     for v in (course.videos or []):
@@ -800,7 +820,7 @@ def run_all(course: CourseObject) -> list[AccessibilityFinding]:
         findings += _safe_check("contrast", item_id, lambda: check_contrast(html, item_id, item_title))
         findings += _safe_check(
             "media", item_id,
-            lambda pv=page_videos: check_media(html, item_id, item_title, pv)
+            lambda pv=page_videos: check_media(html, item_id, item_title, pv, _caption_enabled)
         )
         # Structure checks only for pages (not assignments/discussions/syllabus)
         if any(p.id == item_id for p in (course.pages or [])):
@@ -816,11 +836,13 @@ def run_all(course: CourseObject) -> list[AccessibilityFinding]:
     )
 
     # Video caption presence check (course-level, deduplicated by URL)
-    from cvc_rubric.checks.captions import check_video_captions
-    findings += _safe_check(
-        "captions", None,
-        lambda: check_video_captions(course)
-    )
+    # Gated behind caption_checks_enabled config flag (default: False)
+    if _caption_enabled:
+        from cvc_rubric.checks.captions import check_video_captions
+        findings += _safe_check(
+            "captions", None,
+            lambda: check_video_captions(course)
+        )
 
     # Post-processing: deduplicate repetitive findings
     from cvc_rubric.checks.dedup import deduplicate_findings

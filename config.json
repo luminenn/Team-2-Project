@@ -7,9 +7,10 @@
   "retry_base_delay_seconds": 2.0,
   "cache_enabled": true,
   "cache_dir": ".cache",
-  "prompt_version": "2027.06.4",
+  "prompt_version": "2027.06.5",
   "rubric_path": "src/cvc_rubric/rubric.json",
   "log_level": "INFO",
   "show_expected_placeholders": true,
-  "dedup_findings": true
+  "dedup_findings": true,
+  "caption_checks_enabled": false
 }

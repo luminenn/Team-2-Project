@@ -136,6 +136,45 @@ def run_audit(imscc_path: str) -> dict:
     return report.model_dump()
 
 
+def run_audit_json(json_path: str) -> dict:
+    """
+    Run the full audit pipeline on a pre-parsed course object JSON file.
+
+    This skips the IMSCC parsing step — the file is already a course object.
+    Runs BOTH deterministic accessibility checks AND LLM semantic rubric checks.
+    """
+    from cvc_rubric.loader import load_course_object
+    from cvc_rubric.checks.deterministic import run_all
+    from cvc_rubric.report_builder import build_report
+
+    start = time.monotonic()
+
+    # Load course object directly (no IMSCC parsing needed)
+    course, load_warnings = load_course_object(json_path)
+
+    # Run deterministic accessibility checks
+    accessibility_findings = run_all(course)
+
+    # Run LLM semantic rubric checks
+    rubric_findings, report_errors = _run_semantic_checks(course)
+
+    # Build report
+    cfg = _load_audit_config()
+    duration = time.monotonic() - start
+
+    report = build_report(
+        course_title=course.get_title(),
+        rubric_version="2027.06",
+        prompt_version=cfg.get("prompt_version", "2027.06.5"),
+        duration_seconds=duration,
+        rubric_findings=rubric_findings,
+        accessibility_findings=accessibility_findings,
+        errors=report_errors,
+    )
+
+    return report.model_dump()
+
+
 def _run_semantic_checks(course) -> tuple[list, list]:
     """
     Attempt to run LLM-based semantic rubric checks.

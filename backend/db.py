@@ -18,6 +18,14 @@ CREATE TABLE IF NOT EXISTS runs (
     error        TEXT,
     report_json  TEXT
 );
+
+CREATE TABLE IF NOT EXISTS comments (
+    id           INTEGER PRIMARY KEY AUTOINCREMENT,
+    run_id       TEXT NOT NULL,
+    section_id   TEXT NOT NULL,
+    text         TEXT NOT NULL,
+    created_at   TEXT NOT NULL
+);
 """
 
 
@@ -84,3 +92,31 @@ def _row_to_dict(row: sqlite3.Row) -> dict:
         d["report"] = None
     del d["report_json"]
     return d
+
+
+# ---------------------------------------------------------------------------
+# Comments
+# ---------------------------------------------------------------------------
+
+def insert_comment(run_id: str, section_id: str, text: str, created_at: str) -> dict:
+    with _conn() as conn:
+        cursor = conn.execute(
+            "INSERT INTO comments (run_id, section_id, text, created_at) VALUES (?, ?, ?, ?)",
+            (run_id, section_id, text, created_at),
+        )
+        return {
+            "id": cursor.lastrowid,
+            "run_id": run_id,
+            "section_id": section_id,
+            "text": text,
+            "created_at": created_at,
+        }
+
+
+def get_comments_for_run(run_id: str) -> list[dict]:
+    with _conn() as conn:
+        rows = conn.execute(
+            "SELECT id, run_id, section_id, text, created_at FROM comments WHERE run_id=? ORDER BY created_at",
+            (run_id,),
+        ).fetchall()
+    return [dict(r) for r in rows]

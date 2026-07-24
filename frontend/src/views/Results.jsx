@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { getRunStatus } from '../api'
+import { getRunStatus, getComments, postComment } from '../api'
 
 const SECTION_MAP = {
   '1': 'Policies & Support',
@@ -28,6 +28,7 @@ export default function Results() {
   const [run, setRun] = useState(null)
   const [loading, setLoading] = useState(true)
   const [expandedSections, setExpandedSections] = useState({})
+  const [comments, setComments] = useState({})
 
   useEffect(() => {
     let interval
@@ -47,6 +48,28 @@ export default function Results() {
     interval = setInterval(fetchRun, 2000)
     return () => clearInterval(interval)
   }, [runId])
+
+  // Load existing comments
+  useEffect(() => {
+    if (!runId) return
+    getComments(runId)
+      .then((data) => {
+        const grouped = {}
+        for (const c of data) {
+          if (!grouped[c.section_id]) grouped[c.section_id] = []
+          grouped[c.section_id].push(c)
+        }
+        setComments(grouped)
+      })
+      .catch(() => {})
+  }, [runId])
+
+  const handleCommentAdded = useCallback((sectionId, comment) => {
+    setComments((prev) => ({
+      ...prev,
+      [sectionId]: [...(prev[sectionId] || []), comment],
+    }))
+  }, [])
 
   const toggleSection = (key) => {
     setExpandedSections((prev) => ({ ...prev, [key]: !prev[key] }))
@@ -102,47 +125,53 @@ export default function Results() {
         </p>
       </header>
 
-      {/* Summary Cards */}
-      <section className="summary-cards" aria-label="Results summary">
-        {summary && (
-          <>
-            {rubric_findings.length > 0 && (
-              <>
-                <SummaryCard label="Aligned" count={summary.aligned_count || 0} type="success" />
-                <SummaryCard label="Approaching" count={summary.approaching_count || 0} type="warn" />
-                <SummaryCard label="Incomplete" count={summary.incomplete_count || 0} type="danger" />
-                <SummaryCard label="Not Evaluable" count={summary.not_evaluable_count || 0} type="muted" />
-              </>
-            )}
-            <SummaryCard label="A11y Errors" count={summary.accessibility_errors || 0} type="danger" />
-            <SummaryCard label="A11y Warnings" count={summary.accessibility_warnings || 0} type="warn" />
-          </>
-        )}
-      </section>
+      {/* Alignment Score Circle */}
+      {summary && <ScoreCircle score={summary.alignment_score} />}
+
+      {/* Rubric Summary Cards */}
+      {summary && rubric_findings.length > 0 && (
+        <section className="summary-cards" aria-label="Rubric summary">
+          <SummaryCard label="Aligned" count={(summary.aligned_count || 0) + (summary.exceptional_count || 0)} type="success" />
+          <SummaryCard label="Approaching" count={summary.approaching_count || 0} type="warn" />
+          <SummaryCard label="Incomplete" count={summary.incomplete_count || 0} type="danger" />
+          <SummaryCard label="Not Evaluable" count={summary.not_evaluable_count || 0} type="muted" />
+        </section>
+      )}
 
       {/* Rubric Findings by Section */}
       {rubric_findings.length > 0 && (
         <section className="findings-section">
           <h2>Rubric Findings</h2>
           {Object.entries(rubricBySections).sort(([a], [b]) => a.localeCompare(b)).map(([sectionId, findings]) => (
-            <CollapsibleSection
-              key={sectionId}
-              title={SECTION_MAP[sectionId] || `Section ${sectionId}`}
-              expanded={expandedSections[`rubric-${sectionId}`] !== false}
-              onToggle={() => toggleSection(`rubric-${sectionId}`)}
-            >
-              {findings.map((f) => (
-                <RubricFindingCard key={f.element_id} finding={f} />
-              ))}
-            </CollapsibleSection>
+            <div key={sectionId}>
+              <CollapsibleSection
+                title={SECTION_MAP[sectionId] || `Section ${sectionId}`}
+                expanded={expandedSections[`rubric-${sectionId}`] !== false}
+                onToggle={() => toggleSection(`rubric-${sectionId}`)}
+              >
+                {findings.map((f) => (
+                  <RubricFindingCard key={f.element_id} finding={f} />
+                ))}
+              </CollapsibleSection>
+              <CommentBox
+                runId={runId}
+                sectionId={sectionId}
+                comments={comments[sectionId] || []}
+                onCommentAdded={handleCommentAdded}
+              />
+            </div>
           ))}
         </section>
       )}
 
-      {/* Accessibility Findings */}
+      {/* Accessibility Features Section */}
       {accessibility_findings.length > 0 && (
         <section className="findings-section">
-          <h2>Accessibility Findings</h2>
+          <h2>Accessibility Features</h2>
+          <div className="summary-cards a11y-summary" aria-label="Accessibility summary">
+            <SummaryCard label="A11y Errors" count={summary?.accessibility_errors || 0} type="danger" />
+            <SummaryCard label="A11y Warnings" count={summary?.accessibility_warnings || 0} type="warn" />
+          </div>
           {a11yErrors.length > 0 && (
             <CollapsibleSection
               title={`Errors (${a11yErrors.length})`}
@@ -179,6 +208,132 @@ export default function Results() {
     </div>
   )
 }
+
+/* ---------- Score Circle ---------- */
+
+function ScoreCircle({ score }) {
+  const isNA = score === null || score === undefined
+  const displayText = isNA ? 'N/A' : `${score}%`
+  const ariaLabel = isNA
+    ? 'Course alignment score: not available'
+    : `Course alignment score: ${score} percent`
+
+  let colorClass = 'score-muted'
+  if (!isNA) {
+    if (score >= 80) colorClass = 'score-green'
+    else if (score >= 50) colorClass = 'score-amber'
+    else colorClass = 'score-red'
+  }
+
+  // SVG circle params
+  const radius = 70
+  const circumference = 2 * Math.PI * radius
+  const progress = isNA ? 0 : score / 100
+  const offset = circumference * (1 - progress)
+
+  return (
+    <div className="score-circle-wrapper" aria-label={ariaLabel} role="img">
+      <svg className="score-circle-svg" viewBox="0 0 180 180" width="180" height="180">
+        <circle
+          className="score-circle-bg"
+          cx="90" cy="90" r={radius}
+          fill="none" strokeWidth="12"
+        />
+        {!isNA && (
+          <circle
+            className={`score-circle-fg ${colorClass}`}
+            cx="90" cy="90" r={radius}
+            fill="none" strokeWidth="12"
+            strokeLinecap="round"
+            strokeDasharray={circumference}
+            strokeDashoffset={offset}
+            transform="rotate(-90 90 90)"
+          />
+        )}
+      </svg>
+      <div className={`score-circle-text ${colorClass}`}>
+        <span className="score-value">{displayText}</span>
+      </div>
+      <p className="score-label">Course Alignment</p>
+    </div>
+  )
+}
+
+/* ---------- Comment Box ---------- */
+
+function CommentBox({ runId, sectionId, comments, onCommentAdded }) {
+  const [text, setText] = useState('')
+  const [sending, setSending] = useState(false)
+  const [error, setError] = useState('')
+
+  const handleSubmit = async (e) => {
+    e?.preventDefault()
+    const trimmed = text.trim()
+    if (!trimmed) return
+    setSending(true)
+    setError('')
+    try {
+      const saved = await postComment(runId, sectionId, trimmed)
+      onCommentAdded(sectionId, saved)
+      setText('')
+    } catch (err) {
+      setError(err.message || 'Failed to send. Try again.')
+    } finally {
+      setSending(false)
+    }
+  }
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault()
+      handleSubmit()
+    }
+  }
+
+  return (
+    <div className="comment-box">
+      {comments.length > 0 && (
+        <div className="comment-list">
+          {comments.map((c) => (
+            <div key={c.id} className="comment-item">
+              <p className="comment-text">{c.text}</p>
+              <span className="comment-time">{new Date(c.created_at).toLocaleString()}</span>
+            </div>
+          ))}
+        </div>
+      )}
+      <form className="comment-input-row" onSubmit={handleSubmit}>
+        <label htmlFor={`comment-${sectionId}`} className="visually-hidden">
+          Add a comment for {SECTION_MAP[sectionId] || `Section ${sectionId}`}
+        </label>
+        <input
+          id={`comment-${sectionId}`}
+          type="text"
+          className="comment-input"
+          placeholder="Add a note about this section…"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          onKeyDown={handleKeyDown}
+          disabled={sending}
+        />
+        <button
+          type="submit"
+          className="comment-send-btn"
+          aria-label="Send comment"
+          disabled={sending || !text.trim()}
+        >
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13" />
+            <polygon points="22 2 15 22 11 13 2 9 22 2" />
+          </svg>
+        </button>
+      </form>
+      {error && <p className="comment-error">{error}</p>}
+    </div>
+  )
+}
+
+/* ---------- Shared components ---------- */
 
 function SummaryCard({ label, count, type }) {
   return (
@@ -259,10 +414,17 @@ function A11yFindingCard({ finding }) {
           <strong>Fix:</strong> {finding.remediation}
         </div>
       )}
-      {finding.element_snippet && (
-        <details className="snippet-details">
-          <summary>Code snippet</summary>
-          <code className="snippet">{finding.element_snippet}</code>
+      {finding.occurrences && (
+        <p className="finding-occurrences">{finding.occurrences} occurrences</p>
+      )}
+      {finding.affected_pages?.length > 0 && (
+        <details className="affected-details">
+          <summary>Affected items ({finding.affected_pages.length})</summary>
+          <ul>
+            {finding.affected_pages.map((ap, i) => (
+              <li key={i}>{ap.page_title || ap.video_url || ap.page_id}</li>
+            ))}
+          </ul>
         </details>
       )}
     </div>

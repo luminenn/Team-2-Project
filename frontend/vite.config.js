@@ -8,6 +8,7 @@ export default defineConfig({
     proxy: {
       '/audit': 'http://localhost:8001',
       '/history': 'http://localhost:8001',
+      '/comments': 'http://localhost:8001',
     },
   },
 })

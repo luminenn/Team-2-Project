@@ -29,10 +29,12 @@ from backend.db import (
     get_run,
     init_db,
     insert_run,
+    insert_comment,
+    get_comments_for_run,
     update_run_complete,
     update_run_error,
 )
-from backend.audit_runner import run_audit
+from backend.audit_runner import run_audit, run_audit_json
 
 # ---------------------------------------------------------------------------
 # App setup
@@ -63,13 +65,14 @@ def _startup() -> None:
 
 @app.post("/audit")
 async def start_audit(file: UploadFile = File(...)) -> JSONResponse:
-    """Accept a .imscc upload, kick off background audit, return run_id."""
+    """Accept a .imscc or .json course export, kick off background audit, return run_id."""
     # Validate file type
     filename = file.filename or ""
-    if not filename.lower().endswith(".imscc"):
+    lower_name = filename.lower()
+    if not (lower_name.endswith(".imscc") or lower_name.endswith(".json")):
         raise HTTPException(
             status_code=400,
-            detail="Only .imscc files are accepted. Please upload a Canvas Common Cartridge export.",
+            detail="Only .imscc or .json files are accepted. Upload a Canvas export (.imscc) or a pre-parsed course JSON.",
         )
 
     # Save upload to a temp file
@@ -96,7 +99,10 @@ async def start_audit(file: UploadFile = File(...)) -> JSONResponse:
 def _run_audit_task(run_id: str, imscc_path: str) -> None:
     """Execute the audit pipeline in a background thread."""
     try:
-        report = run_audit(imscc_path)
+        if imscc_path.lower().endswith(".json"):
+            report = run_audit_json(imscc_path)
+        else:
+            report = run_audit(imscc_path)
         course_title = report.get("meta", {}).get("course_title", "Unknown Course")
         update_run_complete(run_id, course_title, report)
     except Exception as exc:
@@ -149,5 +155,39 @@ def get_history_item(run_id: str) -> dict:
 
 
 # ---------------------------------------------------------------------------
-# Run with: uvicorn backend.main:app --reload --port 8000
+# POST /comments
+# ---------------------------------------------------------------------------
+
+from pydantic import BaseModel as _BaseModel
+
+
+class CommentRequest(_BaseModel):
+    run_id: str
+    section_id: str
+    text: str
+
+
+@app.post("/comments")
+def post_comment(req: CommentRequest) -> dict:
+    """Store a comment for a rubric section within a run."""
+    text = req.text.strip()
+    if not text:
+        raise HTTPException(status_code=400, detail="Comment text cannot be empty.")
+    created_at = datetime.now(timezone.utc).isoformat()
+    comment = insert_comment(req.run_id, req.section_id, text, created_at)
+    return comment
+
+
+# ---------------------------------------------------------------------------
+# GET /comments/{run_id}
+# ---------------------------------------------------------------------------
+
+@app.get("/comments/{run_id}")
+def get_comments(run_id: str) -> list[dict]:
+    """Return all comments for a given run."""
+    return get_comments_for_run(run_id)
+
+
+# ---------------------------------------------------------------------------
+# Run with: uvicorn backend.main:app --reload --port 8001
 # ---------------------------------------------------------------------------

@@ -65,17 +65,23 @@ def _check_requires(element: dict, course: CourseObject) -> Optional[str]:
 
 
 def _build_source_texts(course: CourseObject) -> dict[str, str]:
-    """Build {page_id: full_text} for evidence quote validation."""
+    """Build {page_id: full_text} for evidence quote validation.
+    
+    Include both the raw text and a version with the title prepended,
+    since the LLM sees content formatted as '### [id] Title\\nContent'
+    and may quote across the title/content boundary.
+    """
     texts: dict[str, str] = {}
     for p in (course.pages or []):
         if p.text:
-            texts[p.id] = p.text
+            # Include raw text and title+text for matching
+            texts[p.id] = f"{p.title} {p.text}" if p.title else p.text
     for a in (course.assignments or []):
         if a.text:
-            texts[a.id] = a.text
+            texts[a.id] = f"{a.title} {a.text}" if a.title else a.text
     for d in (course.discussions or []):
         if d.text:
-            texts[d.id] = d.text
+            texts[d.id] = f"{d.title} {d.text}" if d.title else d.text
     if course.syllabus and course.syllabus.text:
         texts["syllabus"] = course.syllabus.text
     return texts

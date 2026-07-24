@@ -43,29 +43,31 @@ logger = logging.getLogger(__name__)
 # Prompt construction
 # ---------------------------------------------------------------------------
 
-PROMPT_VERSION = "2027.06.4"
+PROMPT_VERSION = "2027.06.5"
 
 _SYSTEM_PROMPT = """\
 You are an expert peer reviewer for the California Virtual Campus (CVC) Online Course Design Rubric (June 2027 edition).
 You will be given excerpts from an online course and asked to evaluate one rubric element.
 
 EVALUATION PHILOSOPHY:
-- Apply the rubric with a GENEROUS, benefit-of-the-doubt interpretation.
-- The rubric is designed to recognize well-designed courses, not to penalize minor gaps or stylistic differences.
-- If the INTENT and SUBSTANCE of a criterion is met, even if the exact phrasing or placement differs from a textbook example, rate it as "aligned."
-- Placeholder text (e.g., "[Insert campus info here]", "Add your specific...") in a template course does NOT disqualify alignment if the surrounding structure and intent are clear.
-- Policies, guidance, or information that appears in ANY accessible location (syllabus, orientation module, dedicated page, or within activities) satisfies location requirements — it does NOT need to appear in multiple places.
-- Do NOT require explicit statements about things that are implied by course design (e.g., using Canvas implies accessibility compliance; having weekly modules implies regular structure).
-- When in doubt between "approaching" and "aligned," choose "aligned" if the core intent of the criterion is satisfied with at least some evidence.
+- Apply the rubric based on EVIDENCE present in the supplied content.
+- "Aligned" means the rubric's baseline requirement is demonstrably met with locatable evidence. Absence of evidence is NOT alignment.
+- The bar for "aligned" is the rubric's stated baseline — meets the requirement with evidence present — not exceptional-level richness.
+- Placeholder text (e.g., "[Insert campus info here]") does NOT disqualify alignment if the surrounding structure and expectations are clear and specific.
+- Information appearing in ANY accessible location (syllabus, orientation module, dedicated page, or within activities) satisfies location requirements.
+- Do NOT infer alignment from course structure alone. Explicit evidence in the text must support the rating.
+- When evidence is genuinely present and meets the stated baseline, rate "aligned." When evidence is absent or insufficient, rate lower. Do not guess or assume.
 
 RULES YOU MUST FOLLOW:
 1. Rate the element as one of: incomplete | approaching | aligned | exceptional | not_evaluable
 2. "exceptional" requires the element to FIRST satisfy everything in the "aligned" descriptor.
    Do not assign "exceptional" unless all "aligned" criteria are fully met.
-3. Every rating OTHER than "incomplete" REQUIRES at least one evidence_quote drawn VERBATIM
+3. Every rating of "aligned" or "exceptional" REQUIRES at least one evidence_quote drawn VERBATIM
    from the supplied course content. Do NOT paraphrase. Do NOT invent quotes.
-4. If you cannot find supporting evidence in the provided content, rate the element as
-   "not_evaluable" rather than guessing.
+   If you cannot find a verbatim quote to support alignment, the rating CANNOT be "aligned."
+4. If the supplied content is empty, unreadable (binary data), or wholly unrelated, rate as
+   "not_evaluable." If the content is readable but the required feature is absent, rate as
+   "incomplete" (not "not_evaluable").
 5. "suggested_fix" must be a concrete, actionable step — not a restatement of the rubric descriptor.
 6. Your entire response must be valid JSON matching the schema below. No prose outside the JSON.
 
@@ -379,7 +381,7 @@ class BedrockLLMClient:
             q_page_title = q.get("page_title", "")
             if not quote_text:
                 continue
-            # Substring match validation
+            # Substring match validation (whitespace-normalized, with fuzzy fallback)
             verified = False
             if source_texts:
                 # Check against the specific page first, then all texts
@@ -387,10 +389,25 @@ class BedrockLLMClient:
                 if q_page_id and q_page_id in source_texts:
                     candidate_texts.append(source_texts[q_page_id])
                 candidate_texts.extend(source_texts.values())
+                # Normalize whitespace for comparison: collapse all whitespace to single space
+                norm_quote = re.sub(r'\s+', ' ', quote_text).strip()
                 for src in candidate_texts:
+                    # Try exact match first
                     if quote_text in src:
                         verified = True
                         break
+                    # Try whitespace-normalized match
+                    norm_src = re.sub(r'\s+', ' ', src)
+                    if norm_quote in norm_src:
+                        verified = True
+                        break
+                    # Try matching first 40 chars (normalized) as a fuzzy fallback
+                    # This handles cases where the LLM slightly truncates or extends quotes
+                    if len(norm_quote) > 40:
+                        prefix = norm_quote[:40]
+                        if prefix in norm_src:
+                            verified = True
+                            break
                 if not verified:
                     logger.warning(
                         "[%s] evidence quote failed substring validation, stripping: %r",

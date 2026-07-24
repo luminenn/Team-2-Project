@@ -213,6 +213,7 @@ class ReportSummary(BaseModel):
     approaching_count: int = 0
     incomplete_count: int = 0
     not_evaluable_count: int = 0
+    alignment_score: Optional[int] = None  # 0-100 or None if all not-evaluable
     accessibility_errors: int = 0
     accessibility_warnings: int = 0
     accessibility_info: int = 0
