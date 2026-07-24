@@ -1,10 +1,11 @@
 "use client";
 
 import { useRef } from "react";
+import { CircleAlert } from "lucide-react";
 import { CourseRow } from "@/components/dashboard/course-row";
 import { DistributionBar } from "@/components/dashboard/distribution-bar";
 import { IngestButton } from "@/components/dashboard/ingest-dialog";
-import { useCourses } from "@/lib/course-store";
+import { useBackendReachable, useCourses } from "@/lib/course-store";
 import { useCountUp, useReveal } from "@/lib/motion";
 import { STATUS_ORDER } from "@/lib/status";
 import type { AlignmentStatus, Course } from "@/lib/types";
@@ -59,6 +60,7 @@ export function DashboardView() {
   useReveal(rootRef);
 
   const courses = useCourses();
+  const backendReachable = useBackendReachable();
   const sorted = [...courses].sort((a, b) => {
     if (a.report && b.report) {
       return (
@@ -123,6 +125,15 @@ export function DashboardView() {
             <p className="mt-2 text-sm text-foreground/70">
               Fall 2026 cycle · {courses.length} courses in review
             </p>
+            {backendReachable ? null : (
+              <p
+                role="status"
+                className="mt-2 flex items-center gap-1.5 text-[12.5px] text-destructive-ink"
+              >
+                <CircleAlert aria-hidden className="size-3.5 shrink-0" />
+                Analysis backend unreachable, so live runs may be out of date.
+              </p>
+            )}
           </div>
           <IngestButton />
         </div>

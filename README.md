@@ -48,14 +48,22 @@ A browser-based interface for uploading `.imscc` files and viewing audit results
 **1. Start the backend** (from repo root):
 
 ```bash
-pip install -r backend/requirements.txt
-uvicorn backend.main:app --reload --port 8000
+python3 -m venv .venv
+.venv/bin/pip install -r backend/requirements.txt
+.venv/bin/uvicorn backend.main:app --reload --port 8001
 ```
 
-The API will be available at `http://localhost:8000`. Endpoints:
-- `POST /audit` — upload `.imscc`, returns `{ run_id, status: "processing" }`
+The API will be available at `http://localhost:8001` (the Next.js app proxies
+`/api/backend/*` there; override with `BACKEND_URL` in `.env.local`). Endpoints:
+- `POST /audit` — upload `.imscc` or pre-parsed `.json`, returns `{ run_id, status: "processing" }`
 - `GET /history` — list all past runs
 - `GET /history/{run_id}` — get full report or current status for one run
+- `POST /comments` / `GET /comments/{run_id}` — reviewer notes per rubric section
+
+AWS Bedrock credentials for the LLM rubric checks load from a repo-root `.env`
+(`AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, optional `AWS_SESSION_TOKEN`).
+Without credentials, runs still complete with the deterministic accessibility
+checks only.
 
 **2. Start the frontend** (in a second terminal, from repo root):
 

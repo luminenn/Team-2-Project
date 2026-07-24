@@ -108,9 +108,9 @@ export function StandardCard({
 
             {evaluation.findings.length > 0 ? (
               <ul className="space-y-1.5">
-                {evaluation.findings.map((finding) => (
+                {evaluation.findings.map((finding, index) => (
                   <li
-                    key={finding}
+                    key={`${index}-${finding}`}
                     className="flex gap-2.5 text-[13px] leading-relaxed text-muted-foreground"
                   >
                     <span
@@ -128,9 +128,9 @@ export function StandardCard({
                 <h4 className="text-[12px] font-semibold text-muted-foreground">
                   Affected content
                 </h4>
-                {evaluation.affectedItems.map((item) => (
+                {evaluation.affectedItems.map((item, index) => (
                   <div
-                    key={item.title}
+                    key={`${index}-${item.title}`}
                     className="rounded-xl border border-border bg-foreground/[0.03] px-3.5 py-2.5"
                   >
                     <p className="flex items-center gap-1.5 text-[13px] font-medium">

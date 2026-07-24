@@ -141,17 +141,28 @@ export function ReportPending({ course }: { course: Course }) {
               {live.failureReason}
             </p>
             <p className="mt-1.5 max-w-[68ch] text-[12.5px] leading-relaxed text-muted-foreground">
-              Nothing was analyzed, and no partial report was produced. Retrying
-              re-queues the same cartridge.
+              {live.source === "backend"
+                ? "Nothing was analyzed, and no partial report was produced. The uploaded cartridge is not retained after a run, so ingest it again to try another analysis."
+                : "Nothing was analyzed, and no partial report was produced. Retrying re-queues the same cartridge."}
             </p>
-            <button
-              type="button"
-              onClick={() => retryAnalysis(live.id)}
-              className="mt-4 inline-flex h-11 cursor-pointer items-center gap-2 rounded-full bg-foreground px-5 text-[14px] font-semibold text-background transition-colors hover:bg-foreground/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-            >
-              <RotateCcw aria-hidden className="size-4" />
-              Retry analysis
-            </button>
+            {live.source === "backend" ? (
+              <Link
+                href="/dashboard"
+                className="mt-4 inline-flex h-11 items-center gap-2 rounded-full bg-foreground px-5 text-[14px] font-semibold text-background transition-colors hover:bg-foreground/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              >
+                <ArrowLeft aria-hidden className="size-4" />
+                Back to ingest
+              </Link>
+            ) : (
+              <button
+                type="button"
+                onClick={() => retryAnalysis(live.id)}
+                className="mt-4 inline-flex h-11 cursor-pointer items-center gap-2 rounded-full bg-foreground px-5 text-[14px] font-semibold text-background transition-colors hover:bg-foreground/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              >
+                <RotateCcw aria-hidden className="size-4" />
+                Retry analysis
+              </button>
+            )}
           </div>
         ) : (
           <div className="mt-8">

@@ -83,4 +83,8 @@ export interface Course {
   report?: CourseAuditReport;
   failedAtStage?: PipelineStage;
   failureReason?: string;
+  /* Set on courses backed by a real audit run, whose affordances differ:
+     the backend keeps no cartridge after a run, so nothing can be re-queued
+     in place. */
+  source?: "backend";
 }

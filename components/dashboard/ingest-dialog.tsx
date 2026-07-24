@@ -2,22 +2,33 @@
 
 import { useRef, useState } from "react";
 import gsap from "gsap";
-import { FileArchive, Upload, X } from "lucide-react";
+import { FileArchive, Loader2, Upload, X } from "lucide-react";
+import { startAudit } from "@/lib/api/backend";
+import { refreshBackendCourses } from "@/lib/course-store";
 import { pressable, shouldSkipEntrance, useMagnetic } from "@/lib/motion";
 import { cn } from "@/lib/utils";
+
+function isSupported(file: File): boolean {
+  const name = file.name.toLowerCase();
+  return name.endsWith(".imscc") || name.endsWith(".json");
+}
 
 export function IngestButton() {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const pressStartedOnBackdrop = useRef(false);
-  const [fileName, setFileName] = useState<string | null>(null);
+  const [file, setFile] = useState<File | null>(null);
   const [dragOver, setDragOver] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useMagnetic(triggerRef);
 
   const reset = () => {
-    setFileName(null);
+    setFile(null);
     setDragOver(false);
+    setIsUploading(false);
+    setError(null);
   };
   const open = () => {
     reset();
@@ -35,6 +46,37 @@ export function IngestButton() {
     }
   };
   const close = () => dialogRef.current?.close();
+
+  const acceptFile = (candidate: File | undefined) => {
+    if (!candidate) return;
+    if (!isSupported(candidate)) {
+      setFile(null);
+      setError(
+        "That file type is not supported. Upload a .imscc cartridge or a pre-parsed .json course export.",
+      );
+      return;
+    }
+    setError(null);
+    setFile(candidate);
+  };
+
+  const submit = async () => {
+    if (!file || isUploading) return;
+    setIsUploading(true);
+    setError(null);
+    try {
+      await startAudit(file);
+      await refreshBackendCourses();
+      close();
+    } catch (submitError: unknown) {
+      setIsUploading(false);
+      setError(
+        submitError instanceof Error && submitError.message
+          ? submitError.message
+          : "Could not reach the analysis backend. Make sure it is running, then try again.",
+      );
+    }
+  };
 
   return (
     <>
@@ -73,8 +115,8 @@ export function IngestButton() {
                 Ingest a course export
               </h2>
               <p className="mt-1 text-[13px] leading-relaxed text-muted-foreground">
-                Upload a Canvas IMSCC cartridge, up to 500 MB. Extraction and
-                rubric analysis start automatically.
+                Upload a Canvas IMSCC cartridge. Extraction and rubric
+                analysis start automatically.
               </p>
             </div>
             <button
@@ -96,8 +138,7 @@ export function IngestButton() {
             onDrop={(e) => {
               e.preventDefault();
               setDragOver(false);
-              const name = e.dataTransfer.files[0]?.name;
-              if (name) setFileName(name);
+              acceptFile(e.dataTransfer.files[0]);
             }}
             className={cn(
               "mt-5 flex cursor-pointer flex-col items-center justify-center gap-2.5 rounded-xl border border-dashed px-6 py-10 text-center transition-colors has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-ring has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-offset-card",
@@ -111,30 +152,51 @@ export function IngestButton() {
               Drop a .imscc file here
             </span>
             <span className="text-[12px] text-muted-foreground">
-              or browse from your computer
+              or browse from your computer (.imscc or .json)
             </span>
             <input
               type="file"
-              accept=".imscc,.zip"
+              accept=".imscc,.json"
               className="sr-only"
               aria-label="Choose an IMSCC course export"
               onChange={(e) => {
-                const name = e.target.files?.[0]?.name;
-                if (name) setFileName(name);
+                acceptFile(e.target.files?.[0]);
                 e.target.value = "";
               }}
             />
           </label>
 
           <p aria-live="polite" className="mt-4 min-h-5 text-[13px] leading-relaxed">
-            {fileName ? (
+            {error ? (
+              <span className="text-destructive-ink">{error}</span>
+            ) : isUploading ? (
+              <span className="text-muted-foreground">
+                Uploading and starting analysis. This course will appear in
+                the queue in a moment.
+              </span>
+            ) : file ? (
               <span>
-                <span className="font-medium">{fileName}</span> received. Live
-                parsing runs in the analysis backend; connect it and this
-                cartridge will enter the queue automatically.
+                <span className="font-medium">{file.name}</span> is ready to
+                ingest.
               </span>
             ) : null}
           </p>
+
+          <div className="mt-4 flex justify-end">
+            <button
+              type="button"
+              onClick={submit}
+              aria-disabled={!file || isUploading}
+              className="inline-flex h-11 cursor-pointer items-center gap-2 rounded-full bg-foreground px-5 text-[14px] font-semibold text-background shadow-sm transition-colors hover:bg-foreground/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card aria-disabled:cursor-default aria-disabled:opacity-50 aria-disabled:hover:bg-foreground"
+            >
+              {isUploading ? (
+                <Loader2 aria-hidden className="size-4 animate-spin" />
+              ) : (
+                <Upload aria-hidden className="size-4" />
+              )}
+              {isUploading ? "Starting analysis" : "Start analysis"}
+            </button>
+          </div>
         </div>
       </dialog>
     </>

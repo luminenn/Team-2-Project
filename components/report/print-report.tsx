@@ -65,9 +65,9 @@ function PrintStandard({ evaluation }: { evaluation: EvaluationResult }) {
 
       {evaluation.findings.length > 0 ? (
         <ul className="mt-2 space-y-1">
-          {evaluation.findings.map((finding) => (
+          {evaluation.findings.map((finding, index) => (
             <li
-              key={finding}
+              key={`${index}-${finding}`}
               className="flex gap-2 text-[12px] leading-relaxed text-muted-foreground"
             >
               <span
@@ -82,8 +82,8 @@ function PrintStandard({ evaluation }: { evaluation: EvaluationResult }) {
 
       {evaluation.affectedItems.length > 0 ? (
         <div className="mt-2.5 space-y-1.5">
-          {evaluation.affectedItems.map((item) => (
-            <div key={item.title} className="rounded-lg border border-border px-3 py-2">
+          {evaluation.affectedItems.map((item, index) => (
+            <div key={`${index}-${item.title}`} className="rounded-lg border border-border px-3 py-2">
               <p className="flex items-center gap-1.5 text-[12px] font-medium">
                 <MapPin aria-hidden className="size-3 shrink-0 text-muted-foreground" />
                 {item.title}
